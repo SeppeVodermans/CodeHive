@@ -13,35 +13,37 @@ body {
 }
 /*Main*/
 main {
-  flex: 1;
-  padding: 20px;
+  flex: 1 1;
   text-align: center;
 }
-/*Nav-bar*/
-.nav-bar {
-  padding: 20px;
+nav {
+  border-bottom: 2px solid black;
+  background-color: white;
+  height: 80px;
   display: flex;
   align-items: center;
-  background-image: url(/Assets/nav-bar\ background.jpg);
-  background-size: 50%;
-  background-position: center;
+  padding-top: 25px;
 }
 
-.nav-bar a {
-  margin-right: auto;
+nav a img {
+  height: 120px;
+  width: auto;
+  transition: 0.3s ease;
 }
-
-.nav-bar a {
-  text-decoration: none;
-  color: inherit;
+nav a img:hover {
+  scale: 1.11;
 }
-
-.nav-bar a:hover {
-  text-decoration: underline;
+/*Form*/
+.Form-Container {
+  background-image: url(/Project-Page/Assets/nav-bar\ background.jpg);
+  width: 100%;
+  padding: 50px;
+  margin-bottom: 20px;
 }
 main form {
-  border: black 2px solid;
   background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   max-width: 70vw;
   margin: auto;
   text-align: left;
@@ -170,7 +172,7 @@ footer {
   width: 100%;
   display: flex;
   align-items: center;
-  background-image: url(/Assets/nav-bar\ background.jpg);
+  background-image: url(/Project-Page/Assets/nav-bar\ background.jpg);
   background-size: cover;
   background-position: center;
   padding: 20px;
