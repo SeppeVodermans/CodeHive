@@ -35,7 +35,7 @@ nav a img:hover {
 }
 /*Form*/
 .Form-Container {
-  background-image: url(/Project-Page/Assets/nav-bar\ background.jpg);
+  background-image: url(/Pokemon/Assets/nav-bar\ background.jpg);
   width: 100%;
   padding: 50px;
   margin-bottom: 20px;
@@ -167,7 +167,7 @@ footer {
   width: 100%;
   display: flex;
   align-items: center;
-  background-image: url(/Project-Page/Assets/nav-bar\ background.jpg);
+  background-image: url(/Pokemon/Assets/nav-bar\ background.jpg);
   background-size: cover;
   background-position: center;
   padding: 20px;
