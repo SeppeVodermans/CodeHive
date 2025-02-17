@@ -36,7 +36,7 @@ nav a img:hover {
 /*Form*/
 .Form-Container {
   background-image: url(/Project-Page/Assets/nav-bar\ background.jpg);
-  width: 100vw;
+  width: 100%;
   padding: 50px;
   margin-bottom: 20px;
 }
