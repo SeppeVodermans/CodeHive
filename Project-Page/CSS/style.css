@@ -100,11 +100,6 @@ main form {
   border-top: 2px solid lightskyblue;
   margin-top: 10px;
 }
-main h1 {
-  font-size: 2rem;
-  font-weight: bolder;
-  margin-bottom: 20px;
-}
 
 /*Image*/
 main ul {
