@@ -34,6 +34,8 @@ cursor: pointer;
 .pokemon-list{
     text-align: center;
     padding: 20px;
+    display: block;
+    margin: auto;
 }
 .pokemon-grid{
     display: grid;
