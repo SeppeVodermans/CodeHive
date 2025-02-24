@@ -1,0 +1,78 @@
+/*Buttons*/
+.searchbar {
+  background: #ededed;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  margin: 20px auto;
+  padding: 20px;
+  min-width: 250px;
+}
+.searchbar input {
+  border: 2px solid black;
+  width: 100%;
+  padding: 10px;
+}
+.typeOfPokemon {
+  background: #ededed;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  min-width: 200px;
+  padding: 20px;
+  display: block;
+  margin: 10px auto 40px auto;
+}
+.typeOfPokemon option {
+  border: 2px solid black;
+}
+
+/*Images*/
+main ul {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  list-style: none;
+  padding: 10px;
+}
+
+main ul li {
+  flex: 1 1 300px;
+  max-width: 300px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.3s ease;
+}
+
+main ul li:hover {
+  transform: scale(1.05);
+}
+
+main ul li img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+/* Media */
+@media (max-width: 1024px) {
+  main ul li {
+    flex: 1 1 30vw;
+  }
+}
+
+@media (max-width: 768px) {
+  main ul li {
+    flex: 1 1 45vw;
+  }
+}
+
+@media (max-width: 480px) {
+  main ul li {
+    flex: 1 1 90vw;
+  }
+}
