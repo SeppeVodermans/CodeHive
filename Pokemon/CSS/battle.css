@@ -1,39 +1,48 @@
-.battle-container{
-    margin: 20px;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.trainer-info img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
 }
-.battle-field{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
+.battle-container {
+  margin: 20px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.pokemon-card{
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.battle-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
 }
-.pokemon-card img{
-    width: 300px;
-    height: 300px;
+.pokemon-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.generate-btn{
-    display: flex;
-    margin-left: 42%;
+.pokemon-card img {
+  width: 300px;
+  height: 300px;
 }
-.battle-btn, .generate-btn, .stats-btn{
-    margin-top: 20px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #ff4500;
-    color: white;
-    cursor: pointer;
+.generate-btn {
+  display: flex;
+  margin-left: 42%;
 }
-.battle-btn:hover, .generate-btn:hover, .stats-btn:hover{
-background-color: #e63e00;
+.battle-btn,
+.generate-btn,
+.stats-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff4500;
+  color: white;
+  cursor: pointer;
+}
+.battle-btn:hover,
+.generate-btn:hover,
+.stats-btn:hover {
+  background-color: #e63e00;
 }
