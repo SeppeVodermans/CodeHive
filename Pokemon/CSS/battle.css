@@ -21,19 +21,6 @@
     width: 300px;
     height: 300px;
 }
-.bar{
-    width: 100px;
-    height: 10px;
-    background: #ddd;
-    margin: 5px 0;
-    border-radius: 5px;
-    overflow: hidden;
-}
-.bar span{
-    display: block;
-    height: 100%;
-    background: #4CAF50;
-}
 .generate-btn{
     display: flex;
     margin-left: 42%;
