@@ -200,24 +200,24 @@
     <script>
       let loggedIn = false;
 
-      // function toggleLogin() {
-      //     loggedIn = !loggedIn;
-      //     const loginButton = document.getElementById('loginBtn');
-      //     const loginIcon = document.getElementById('loginIcon');
+      function toggleLogin() {
+          loggedIn = !loggedIn;
+          const loginButton = document.getElementById('loginBtn');
+          const loginIcon = document.getElementById('loginIcon');
 
-      //     if (loggedIn) {
-      //         loginButton.innerHTML = <i class="fas fa-user"></i> Logout;
-      //     } else {
-      //         loginButton.innerHTML = <i class="fas fa-sign-in-alt"></i> Login;
-      //     }
-      // }
+          if (loggedIn) {
+              loginButton.innerHTML = <i class="fas fa-user"></i> Logout;
+          } else {
+              loginButton.innerHTML = <i class="fas fa-sign-in-alt"></i> Login;
+          }
+      }
 
       function newGame() {
-        window.location.href = "new-game.html";
+          window.location.href = 'new_game.html';
       }
 
       function loadGame() {
-        window.location.href = "team.html";
+          window.location.href = 'load_game.html';
       }
     </script>
   </body>
