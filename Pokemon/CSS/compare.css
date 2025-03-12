@@ -3,7 +3,7 @@
 .main-content {
     max-width: 1100px;
     margin: 30px auto;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.808);
     border-radius: 15px;
     padding: 30px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 30px;
-    background-color: rgba(58, 113, 153, 0.1);
+    background-color: rgb(61, 139, 204);
     padding: 20px;
     border-radius: 10px;
     border: 2px solid #ffcc00;
@@ -98,12 +98,12 @@
 }
 
 .pokemon-container:first-child {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(240, 240, 240, 0.7) 100%);
+    background: linear-gradient(135deg, rgba(37, 36, 36, 0.7) 0%, rgba(12, 1, 1, 0.932) 100%);
     border-top: 5px solid var(--fire-type);
 }
 
 .pokemon-container:last-child {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(240, 240, 240, 0.7) 100%);
+    background: linear-gradient(135deg, rgba(37, 36, 36, 0.7) 0%, rgba(12, 1, 1, 0.932) 100%);
     border-top: 5px solid var(--water-type);
 }
 
