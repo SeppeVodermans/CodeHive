@@ -1,80 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/reset.css" />
-    <link rel="stylesheet" href="../CSS/battle.css" />
+    <link rel="stylesheet" href="../CSS/compare.css" />
     <link rel="stylesheet" href="../CSS/base.css" />
-    <title>Document</title>
-  </head>
-  <body>
-    <header>
-      <div class="logo"></div>
-      <nav>
-        <ul>
-          <li><a href="team.html">Home</a></li>
-          <li><a href="#">Pokémons</a></li>
-          <li><a href="battler.html">Battles</a></li>
-          <li><a href="quize.html">Quiz</a></li>
+    <title>Pokémon Battle Comparison</title>
+</head>
+<body>
+  
+    <div class="background"></div>
+    </div>
+    
+    <button class="menu-button">
+        <img src="../Assets/menu-icon.webp"> 
+    </button>
+<!-- Add this right after your menu button -->
+<div class="menu-overlay">
+    <div class="menu-content">
+        <div class="close-button">x</div>
+        <div class="menu-header">Menu</div>
+        <ul class="menu-items">
+            <li class="menu-item"><a href="homepage.html">Home</a></li>
+            <li class="menu-item"><a href="">Pokédex</a></li>
+            <li class="menu-item"><a href="team.html">Team</a></li>
+            <li class="menu-item"><a href="battler.html">Gevecht</a></li>
+            <li class="menu-item"><a href="catch.html">Vang Pokémons</a></li>
+            <li class="menu-item"><a href="compare.html">Vergelijk Pokémons</a></li>
+            <li class="menu-item"><a href="pokemonevolution.html">Pokémon evoluties</a></li>
+            <li class="menu-item"><a href="quize.html">Quiz</a></li>
         </ul>
-      </nav>
-    </header>
-    <main>
-      <section class="battle-container">
-        <div class="trainer-info">
-          <img src="#" alt="Trainer Profile" />
-          <h2>Trainer Name</h2>
-          <input type="text" placeholder="Search..." />
-        </div>
-        <div class="battle-field">
-          <div class="pokemon-card">
-            <h3>Pokémon Name</h3>
-            <img
-              src="../Assets/Generation 1 Pokémon/0066 Machop.png"
-              alt="Pokémon"
-            />
-            <button class="stats-btn">Stats</button>
-            <div class="stats">
-              <p>HP</p>
-              <div class="bar"><span style="width: 100%"></span></div>
-              <p>Attack</p>
-              <div class="bar"><span style="width: 60%"></span></div>
-              <p>Defense</p>
-              <div class="bar"><span style="width: 40%"></span></div>
-              <p>Speed</p>
-              <div class="bar"><span style="width: 90%"></span></div>
+    </div>
+</div>
+    <div class="main-content">
+        <div class="trainer-section">
+            <div class="trainer-image">
+                <img src="../Assets/Player/female.png">
             </div>
-          </div>
-          <div class="pokemon-card">
-            <h3>Pokémon Name</h3>
-            <img
-              src="../Assets/Generation 1 Pokémon/0007 Squirtle.png"
-              alt="Pokémon"
-            />
-            <button class="stats-btn">Stats</button>
-            <div class="stats">
-              <p>HP</p>
-              <div class="bar"><span style="width: 100%"></span></div>
-              <p>Attack</p>
-              <div class="bar"><span style="width: 90%"></span></div>
-              <p>Defense</p>
-              <div class="bar"><span style="width: 70%"></span></div>
-              <p>Speed</p>
-              <div class="bar"><span style="width: 90%"></span></div>
+            <div class="searchbar-box">
+                <input type="text" class="search-bar" placeholder="Search for a Pokémon...">
+                <button class="generate-button">Vergelijk Pokémons</button>
             </div>
-          </div>
         </div>
-      </section>
-    </main>
-    <footer>
-      <p>&copy; CodeHive</p>
-      <div class="social-icons">
-        <img src="" alt="" />
-        <img src="" alt="" />
-        <img src="" alt="" />
-        <img src="" alt="" />
-      </div>
-    </footer>
-  </body>
+        
+        <div class="battle-section">
+            <div class="pokemon-container">
+                <div>
+                    <img src="../Assets/Generation 1 Pokémon/0006 Charizard.png">
+                </div>
+                <div class="pokemon-name">CHARIZARD</div>
+                <div>
+                    <span class="type-badge type-fire">FIRE</span>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-row">
+                        <div class="stat-label">HP</div>
+                        <div class="stat-bar-container">
+                            <div class="stat-bar" style="width: 78%;"></div>
+                        </div>
+                    </div>
+                    <div class="stat-row">
+                        <div class="stat-label">ATTACK</div>
+                        <div class="stat-bar-container">
+                            <div class="stat-bar" style="width: 84%;"></div>
+                        </div>
+                    </div>
+                    <div class="stat-row">
+                        <div class="stat-label">DEFENSE</div>
+                        <div class="stat-bar-container">
+                            <div class="stat-bar" style="width: 78%;"></div>
+                        </div>
+                    </div>
+                    <div class="stat-row">
+                        <div class="stat-label">SPEED</div>
+                        <div class="stat-bar-container">
+                            <div class="stat-bar" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="vs-circle">VS</div>
+            
+            <div class="pokemon-container">
+                <div>
+                    <img src="../Assets/Generation 1 Pokémon/0009 Blastoise.png">
+                </div>
+                <div class="pokemon-name">BLASTOISE</div>
+                <div>
+                    <span class="type-badge type-water">WATER</span>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-row">
+                        <div class="stat-label">HP</div>
+                        <div class="stat-bar-container">
+                            <div class="stat-bar" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div class="stat-row">
+                        <div class="stat-label">ATTACK</div>
+                        <div class="stat-bar-container">
+                            <div class="stat-bar" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                    <div class="stat-row">
+                        <div class="stat-label">DEFENSE</div>
+                        <div class="stat-bar-container">
+                            <div class="stat-bar" style="width: 95%;"></div>
+                        </div>
+                    </div>
+                    <div class="stat-row">
+                        <div class="stat-label">SPEED</div>
+                        <div class="stat-bar-container">
+                            <div class="stat-bar" style="width: 72%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const menuButton = document.querySelector('.menu-button');
+    const mainContent = document.querySelector('.main-content');
+    const menuOverlay = document.querySelector('.menu-overlay');
+    const closeButton = document.querySelector('.close-button');
+    const body = document.body;
+
+    function openMenu() {
+        menuOverlay.classList.add('active');
+        mainContent.classList.add('behind-menu');
+        body.classList.add('menu-open');
+        menuButton.style.display = 'none';
+    }
+
+    function closeMenu() {
+        menuOverlay.classList.remove('active');
+        mainContent.classList.remove('behind-menu');
+        body.classList.remove('menu-open');
+        menuButton.style.display = 'flex';
+    }
+
+    menuButton.addEventListener('click', openMenu);
+
+    // Close menu when clicking on the X button
+    closeButton.addEventListener('click', closeMenu);
+
+    // Close menu when clicking on a menu item
+    const menuItems = document.querySelectorAll('.menu-item');
+    menuItems.forEach(item => {
+        item.addEventListener('click', closeMenu);
+    });
+});
+
+
+</script>
+</body>
 </html>

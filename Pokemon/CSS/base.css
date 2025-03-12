@@ -1,4 +1,122 @@
 /* Algemene stijlen voor de Pokémon game */
+:root {
+  /* colors for every pokémon type */
+  --grass-type: #78c850;
+  --water-type: #6890f0;
+  --fire-type: #f08030;
+  --electric-type: #f8d030;
+}
+  /* Menu Button Styles */
+  .menu-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 100px;
+    height: 100px;
+    background-color: #ffcc00;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 100;
+    border: 2px solid white;
+}
+
+.menu-button:hover {
+    background-color: #ffcc00;
+    border: 2px solid rgb(104, 95, 95);
+}
+
+/* Menu Overlay Styles */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  right: -300px; /* Start off-screen */
+  width: 300px;
+  height: 100%;
+  background-color: #3a4a58;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+  transition: right 0.3s ease;
+  z-index: 90;
+  overflow-y: auto;
+}
+
+.menu-overlay.active {
+  right: 0; /* Slide in from right */
+}
+
+.menu-content {
+  padding: 100px 30px 30px 30px;
+}
+
+.menu-header {
+  color: #ffcc00;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+  text-transform: uppercase;
+  border-bottom: 2px solid #ffcc00;
+  padding-bottom: 10px;
+}
+
+.menu-items {
+  list-style: none;
+}
+
+.menu-item {
+  color: white;
+  padding: 15px 0;
+  font-size: 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.menu-item:hover {
+  color: #ffcc00;
+  padding-left: 10px;
+}
+
+/* Add these classes to handle the main content transition */
+.main-content {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.main-content.behind-menu {
+  transform: translateX(-150px) scale(0.9);
+  filter: blur(3px);
+}
+
+body {
+  overflow-x: hidden; /* Prevent horizontal scrollbar during animation */
+}
+
+/* Prevent scrolling when menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 40px;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  color: #ffcc00;
+}
 
 /* Basisinstellingen */
 body {
