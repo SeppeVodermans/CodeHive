@@ -6,15 +6,15 @@
     <link rel="stylesheet" href="../CSS/reset.css" />
     <link rel="stylesheet" href="../CSS/global.css" />
     <link rel="stylesheet" href="../CSS/team.css" />
-
-    <title>team</title>
+    <script src="../JS/team.js" defer></script>
+    <title>Team</title>
   </head>
   <body>
     <header>
       <nav>
-        <a href="../index.html"
-          ><img src="../Assets/CodeHive-Logo.png" alt="CodeHive Logo"
-        /></a>
+        <a href="../index.html">
+          <img src="../Assets/CodeHive-Logo.png" alt="CodeHive Logo" />
+        </a>
         <ul>
           <li><a href="team.html">Home</a></li>
           <li><a href="pokemon-search.html">Pokémons</a></li>
@@ -23,6 +23,7 @@
         </ul>
       </nav>
     </header>
+    
     <main>
       <section class="trainer-section">
         <div class="trainer-info">
@@ -30,90 +31,25 @@
           <h2>Trainer Name</h2>
         </div>
         <div class="main-pokemon">
-          <img
-            src="../Assets/Generation 1 Pokémon/0004 Charmander.png"
-            alt="Main Pokémon"
-          />
-          <h3>Main Pokémon</h3>
-          <p>Type: Fire</p>
+          <h2>Main Pokemon</h2>
+          <img src="../Assets/Generation 1 Pokémon/0004 Charmander.png" alt="Main Pokémon" />
+          <h3>Name</h3>
+          <p>Type</p>
           <div class="stats">
             <span>Won</span><span>Lost</span><span>Draw</span>
           </div>
           <button>View More Details</button>
         </div>
       </section>
+
       <section class="pokemon-list">
         <h2>Your Pokémons</h2>
         <div class="pokemon-grid">
-          <!-- Dit stuk moet herhaald worden-->
-          <div class="pokemon-card">
-            <img
-              src="../Assets/Generation 1 Pokémon/0060 Poliwag.png"
-              alt="Pokémon"
-            />
-            <h3>Pokémon Name</h3>
-            <p>Type: Water</p>
-            <button>View More Details</button>
-            <div class="stats">
-              <span>W</span> <span>L</span> <span>D</span>
-            </div>
-            <!-- Dit stuk moet herhaald worden-->
-          </div>
-          <div class="pokemon-card">
-            <img
-              src="../Assets/Generation 1 Pokémon/0117 Seadra.png"
-              alt="Pokémon"
-            />
-            <h3>Pokémon Name</h3>
-            <p>Type: Water</p>
-            <button>View More Details</button>
-            <div class="stats">
-              <span>W</span> <span>L</span> <span>D</span>
-            </div>
-            <!-- Dit stuk moet herhaald worden-->
-          </div>
-          <div class="pokemon-card">
-            <img
-              src="../Assets/Generation 1 Pokémon/0134 Vaporeon.png"
-              alt="Pokémon"
-            />
-            <h3>Pokémon Name</h3>
-            <p>Type: Water</p>
-            <button>View More Details</button>
-            <div class="stats">
-              <span>W</span> <span>L</span> <span>D</span>
-            </div>
-            <!-- Dit stuk moet herhaald worden-->
-          </div>
-          <div class="pokemon-card">
-            <img
-              src="../Assets/Generation 1 Pokémon/0118 Goldeen.png"
-              alt="Pokémon"
-            />
-            <h3>Pokémon Name</h3>
-            <p>Type: Water</p>
-            <button>View More Details</button>
-            <div class="stats">
-              <span>W</span> <span>L</span> <span>D</span>
-            </div>
-            <!-- Dit stuk moet herhaald worden-->
-          </div>
-          <div class="pokemon-card">
-            <img
-              src="../Assets/Generation 1 Pokémon/0003 Venusaur.png"
-              alt="Pokémon"
-            />
-            <h3>Pokémon Name</h3>
-            <p>Type: Water</p>
-            <button>View More Details</button>
-            <div class="stats">
-              <span>W</span> <span>L</span> <span>D</span>
-            </div>
-            <!-- Dit stuk moet herhaald worden-->
-          </div>
+          <!-- Pokémon-kaarten worden hier dynamisch toegevoegd via JavaScript -->
         </div>
       </section>
     </main>
+
     <footer>&copy; 2025 | CodeHive | All Rights Reserved.</footer>
   </body>
 </html>
