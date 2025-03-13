@@ -1,4 +1,5 @@
-// Functie om Pokémon gegevens op te halen
+"use strict";
+/*Fetch Pokemon Data*/
 async function getPokemonData(pokemonNameOrId) {
   try {
     const response = await fetch(
@@ -14,12 +15,12 @@ async function getPokemonData(pokemonNameOrId) {
   }
 }
 
-// Functie om de hoofd-Pokémon te updaten
+/*Update Main Pokemon*/
 async function updateMainPokemon(pokemonName) {
   const pokemonData = await getPokemonData(pokemonName);
   if (!pokemonData) return;
 
-  // Update de hoofd-Pokémon sectie
+  /*Update Info Main Pokemon*/
   document.querySelector(".main-pokemon img").src =
     pokemonData.sprites.front_default;
   document.querySelector(".main-pokemon h3").innerText = pokemonData.name;
@@ -28,10 +29,10 @@ async function updateMainPokemon(pokemonName) {
   ).innerText = `Type: ${pokemonData.types.map((t) => t.type.name).join(", ")}`;
 }
 
-// Functie om de lijst met Pokémon te vullen
+/*Update Pokemon List*/
 async function updatePokemonList(pokemonNames) {
   const pokemonGrid = document.querySelector(".pokemon-grid");
-  pokemonGrid.innerHTML = ""; // Leegmaken voor nieuwe Pokémon
+  pokemonGrid.innerHTML = "";
 
   for (let name of pokemonNames) {
     const pokemonData = await getPokemonData(name);
@@ -56,14 +57,14 @@ async function updatePokemonList(pokemonNames) {
   }
 }
 
-// **Voer de functies uit met een standaardlijst**
+/*Test Pokemons*/
 document.addEventListener("DOMContentLoaded", () => {
-  updateMainPokemon("gengar"); // Hoofd Pokémon instellen
+  updateMainPokemon("gengar");
   updatePokemonList([
     "bulbasaur",
     "squirtle",
     "pikachu",
     "jigglypuff",
     "eevee",
-  ]); // Lijst genereren
+  ]);
 });

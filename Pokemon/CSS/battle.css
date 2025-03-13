@@ -1,7 +1,7 @@
-.trainer-info img{
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+.trainer-info img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
 .battle-container {
   margin: 20px;
@@ -45,4 +45,16 @@
 .generate-btn:hover,
 .stats-btn:hover {
   background-color: #e63e00;
+}
+
+.battle-log {
+  background: #fff;
+  border: 2px solid grey;
+  padding: 10px;
+  margin-top: 10px;
+  max-height: 200px;
+}
+.battle-log p {
+  font-size: 14px;
+  margin: 5px 0;
 }
