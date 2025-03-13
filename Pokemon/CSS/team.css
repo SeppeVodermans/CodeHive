@@ -1,66 +1,87 @@
 /*General Styles*/
 
 /*Trainer*/
-.trainer-section{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 20px;
+.trainer-section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
 }
-.trainer-info img{
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+.trainer-info img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
-.main-pokemon{
+.main-pokemon {
     text-align: center;
+    padding: 15px;
+    border: 3px solid #ffc107;
+    border-radius: 10px;
+    background: #ffe082;
+    font-weight: bold;
+    display: inline-block;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .main-pokemon:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+.main-pokemon img {
+  width: 120px;
+  height: 120px;
 }
-.main-pokemon img{
-    width: 120px;
-    height: 120px;
-}
+
 .stats {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
-button{
-background-color: #ffc107;
-border: none;
-padding: 10px;
-cursor: pointer;
+button {
+  background-color: #ffc107;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
 }
 /*Pokémon List*/
-.pokemon-list{
-    text-align: center;
-    padding: 20px;
+.pokemon-list {
+  text-align: center;
+  padding: 20px;
 }
-.pokemon-grid{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    justify-content: center;
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  justify-content: center;
+  place-items: center;
 }
-.pokemon-card{
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgb(0, 0, 0,0.1);
-    width: 150px;
+.pokemon-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgb(0, 0, 0, 0.1);
+  width: 150px;
 }
-.pokemon-card img{
-    width: 100px;
-    height: 100px;
+.pokemon-card img {
+  width: 100px;
+  height: 100px;
 }
-.social-icons img{
-    width: 24px;
-    margin-left: 10px;
+.pokemon-card img:nth-child(4),
+.pokemon-card img:nth-child(5) {
+  grid-column: span 3;
+  width: 100%;
+  height: auto;
+}
+.social-icons img {
+  width: 24px;
+  margin-left: 10px;
 }
 @media (max-width: 768px) {
-    .trainer-section{
-        flex-direction: column;
-    }
-    .pokemon-grid{
-        grid-template-columns: repeat(2, 1fr);
-    }
+  .trainer-section {
+    flex-direction: column;
+  }
+  .pokemon-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
