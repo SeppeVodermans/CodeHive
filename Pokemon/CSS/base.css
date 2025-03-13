@@ -1,12 +1,12 @@
 /* Algemene stijlen voor de Pokémon game */
 :root {
-  /* colors for every pokémon type */
+  /* kleuren voor elk type */
   --grass-type: #78c850;
   --water-type: #6890f0;
   --fire-type: #f08030;
   --electric-type: #f8d030;
 }
-  /* Menu Button Styles */
+
   .menu-button {
     position: absolute;
     top: 20px;
@@ -29,11 +29,10 @@
     border: 2px solid rgb(104, 95, 95);
 }
 
-/* Menu Overlay Styles */
 .menu-overlay {
   position: fixed;
   top: 0;
-  right: -300px; /* Start off-screen */
+  right: -300px;
   width: 300px;
   height: 100%;
   background-color: #3a4a58;
@@ -44,7 +43,7 @@
 }
 
 .menu-overlay.active {
-  right: 0; /* Slide in from right */
+  right: 0; 
 }
 
 .menu-content {
@@ -80,7 +79,18 @@
   padding-left: 10px;
 }
 
-/* Add these classes to handle the main content transition */
+.main-content {
+  max-width: 1100px;
+  margin: 30px auto;
+  background-color: rgba(255, 255, 255, 0.808);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #ffcc00;
+}
+
 .main-content {
   transition: transform 0.3s ease, filter 0.3s ease;
 }
@@ -91,10 +101,11 @@
 }
 
 body {
-  overflow-x: hidden; /* Prevent horizontal scrollbar during animation */
+/* geen scrollbar */
+  overflow-x: hidden;
 }
 
-/* Prevent scrolling when menu is open */
+/* Zorgt ervoor dat je niet kan scrollen met open menu */
 body.menu-open {
   overflow: hidden;
 }
@@ -158,6 +169,10 @@ nav ul{
     font-size: 2.5rem;
     color: #ffcc00;
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  }
+
+  h2{
+    margin: 5px;
   }
   
   /* Formulier stijlen */

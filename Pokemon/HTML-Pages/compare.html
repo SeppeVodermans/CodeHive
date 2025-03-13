@@ -16,7 +16,7 @@
     <button class="menu-button">
         <img src="../Assets/menu-icon.webp"> 
     </button>
-<!-- Add this right after your menu button -->
+
 <div class="menu-overlay">
     <div class="menu-content">
         <div class="close-button">x</div>
@@ -38,6 +38,7 @@
             <div class="trainer-image">
                 <img src="../Assets/Player/female.png">
             </div>
+            <h2>Trainer Name</h2>
             <div class="searchbar-box">
                 <input type="text" class="search-bar" placeholder="Search for a Pokémon...">
                 <button class="generate-button">Vergelijk Pokémons</button>
@@ -145,11 +146,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     menuButton.addEventListener('click', openMenu);
-
-    // Close menu when clicking on the X button
     closeButton.addEventListener('click', closeMenu);
 
-    // Close menu when clicking on a menu item
     const menuItems = document.querySelectorAll('.menu-item');
     menuItems.forEach(item => {
         item.addEventListener('click', closeMenu);
