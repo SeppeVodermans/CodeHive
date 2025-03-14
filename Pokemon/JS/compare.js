@@ -1,24 +1,22 @@
 "use strict";
 
-/*Fetch Pokemon Data*/
 document.addEventListener("DOMContentLoaded", () => {
-  async function getPokemonData(pokemonNameOrId) {
+  const generateButton = document.querySelector(".generate-button");
+  const searchBar = document.querySelector(".search-bar");
+
+  async function getPokemonData(pokemonName) {
     try {
       const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${pokemonNameOrId.toLowerCase()}`
+        `https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`
       );
-      if (!response.ok) throw new Error("Pokémon niet gevonden!");
-
-      const data = await response.json();
-      return data;
+      if (!response.ok)
+        throw new Error(`Pokémon ${pokemonName} niet gevonden!`);
+      return await response.json();
     } catch (error) {
       console.error(error.message);
       return null;
     }
   }
-
-  const generateButton = document.querySelector(".generate-button");
-  const searchBar = document.querySelector(".search-bar");
 
   async function updatePokemonDisplay(pokemonData, containerSelector) {
     if (!pokemonData) return;
@@ -49,19 +47,13 @@ document.addEventListener("DOMContentLoaded", () => {
       speed: pokemonData.stats[5].base_stat,
     };
 
-    const maxStatValue = 150; // Voor schaaldoeleinden
-    container.querySelector(
-      ".stat-bar-container:nth-child(1) .stat-bar"
-    ).style.width = `${(stats.hp / maxStatValue) * 100}%`;
-    container.querySelector(
-      ".stat-bar-container:nth-child(2) .stat-bar"
-    ).style.width = `${(stats.attack / maxStatValue) * 100}%`;
-    container.querySelector(
-      ".stat-bar-container:nth-child(3) .stat-bar"
-    ).style.width = `${(stats.defense / maxStatValue) * 100}%`;
-    container.querySelector(
-      ".stat-bar-container:nth-child(4) .stat-bar"
-    ).style.width = `${(stats.speed / maxStatValue) * 100}%`;
+    const statSpans = container.querySelectorAll(".stat-row .stat-label span");
+    if (statSpans.length === 4) {
+      statSpans[0].textContent = stats.hp;
+      statSpans[1].textContent = stats.attack;
+      statSpans[2].textContent = stats.defense;
+      statSpans[3].textContent = stats.speed;
+    }
   }
 
   async function updateBattleComparison(pokemon1, pokemon2) {
@@ -90,5 +82,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Standaardwaarden bij het laden
-  updateBattleComparison("squirtle", "blastoise");
+  updateBattleComparison("sandile", "blastoise");
 });
