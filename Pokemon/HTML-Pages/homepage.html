@@ -184,6 +184,25 @@
         }
       }
     </style>
+    <script>
+      let loggedIn = false;
+
+      /*function toggleLogin() {
+          loggedIn = !loggedIn;
+          const loginButton = document.getElementById('loginBtn');
+          const loginIcon = document.getElementById('loginIcon');
+
+          if (loggedIn) {
+              loginButton.innerHTML = <i class="fas fa-user"></i> Logout;
+          } else {
+              loginButton.innerHTML = <i class="fas fa-sign-in-alt"></i> Login;
+          }
+      }
+
+     function loadGame() {
+          window.location.href = 'load_game.html';
+      }*/
+    </script>
   </head>
   <body>
     <div class="background"></div>
@@ -193,31 +212,10 @@
     <h1>Welcome to the Pokémon World</h1>
     <p class="subtitle">Are you ready to catch them all?</p>
     <div class="button-container">
-      <button class="button" onclick="newGame()">New Game</button>
+      <button class="button" button onclick="window.location.href='new-game.html'">New Game</button>
       <button class="button" onclick="loadGame()">Load Game</button>
     </div>
 
-    <script>
-      let loggedIn = false;
-
-      /*function toggleLogin() {
-            loggedIn = !loggedIn;
-            const loginButton = document.getElementById('loginBtn');
-            const loginIcon = document.getElementById('loginIcon');
-
-            if (loggedIn) {
-                loginButton.innerHTML = <i class="fas fa-user"></i> Logout;
-            } else {
-                loginButton.innerHTML = <i class="fas fa-sign-in-alt"></i> Login;
-            }
-        };*/
-      function newGame() {
-        window.location.href = "team.html";
-      }
-
-      function loadGame() {
-        window.location.href = "load_game.html";
-      }
-    </script>
+    
   </body>
 </html>

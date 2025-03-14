@@ -4,52 +4,174 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../CSS/reset.css" />
-    <link rel="stylesheet" href="../CSS/global.css" />
     <link rel="stylesheet" href="../CSS/team.css" />
-    <script src="../JS/team.js" defer></script>
-    <title>Team</title>
+    <link rel="stylesheet" href="../CSS/base.css" />
+
+    <title>team</title>
   </head>
   <body>
-    <header>
-      <nav>
-        <a href="../index.html">
-          <img src="../Assets/CodeHive-Logo.png" alt="CodeHive Logo" />
-        </a>
-        <ul>
-          <li><a href="team.html">Home</a></li>
-          <li><a href="pokemon-search.html">Pokémons</a></li>
-          <li><a href="battler.html">Battles</a></li>
-          <li><a href="quize.html">Quiz</a></li>
-        </ul>
-      </nav>
-    </header>
     
-    <main>
-      <section class="trainer-section">
-        <div class="trainer-info">
-          <img src="../Assets/icon.jpg" alt="Trainer Profile" />
-          <h2>Trainer Name</h2>
-        </div>
-        <div class="main-pokemon">
-          <h2>Main Pokemon</h2>
-          <img src="../Assets/Generation 1 Pokémon/0004 Charmander.png" alt="Main Pokémon" />
-          <h3>Name</h3>
-          <p>Type</p>
-          <div class="stats">
-            <span>Won</span><span>Lost</span><span>Draw</span>
-          </div>
+    <div class="background"></div>
+    </div>
+    
+    <button class="menu-button">
+        <img src="../Assets/menu-icon.webp"> 
+    </button>
+
+<div class="menu-overlay">
+    <div class="menu-content">
+        <div class="close-button">x</div>
+        <div class="menu-header">Menu</div>
+        <ul class="menu-items">
+            <li class="menu-item"><a href="homepage.html">Home</a></li>
+            <li class="menu-item"><a href="">Pokédex</a></li>
+            <li class="menu-item"><a href="team.html">Team</a></li>
+            <li class="menu-item"><a href="battler.html">Gevecht</a></li>
+            <li class="menu-item"><a href="catch.html">Vang Pokémons</a></li>
+            <li class="menu-item"><a href="compare.html">Vergelijk Pokémons</a></li>
+            <li class="menu-item"><a href="pokemonevolution.html">Pokémon evoluties</a></li>
+            <li class="menu-item"><a href="quize.html">Quiz</a></li>
+        </ul>
+    </div>
+</div>
+<div class="main-content">
+  <div class="trainer-section">
+    <div class="trainer-image">
+        <img src="../Assets/Player/female.png">
+    </div>
+    <h2>Trainer Naam</h2>
+    </div>
+    <h2 class="your-pokemon">Huidige Pokémon</h2>
+    <div class="main-pokemon">
+      <img
+        src="../Assets/Generation 1 Pokémon/0023 Ekans.png"
+        alt="Main Pokémon"
+      />
+      <h3>Main Pokémon</h3>
+      <p>Type: Fire</p>
+      <div class="stats">
+        <span>Won</span><span>Lost</span><span>Draw</span>
+      </div>
+      <button>View More Details</button>
+    </div>
+    <h2 class="your-pokemon">Jouw Pokémons</h2>
+    <section class="pokemon-list">
+      <div class="pokemon-grid">
+        <!-- Dit stuk moet herhaald worden-->
+        <div class="pokemon-card">
+          <img
+            src="../Assets/Generation 1 Pokémon/0025 Pikachu.png"
+            alt="Pokémon"
+          />
+          <h3>Pokémon Name</h3>
+          <p>Type: Water</p>
           <button>View More Details</button>
+          <div class="stats">
+            <span>W</span> <span>L</span> <span>D</span>
+          </div>
+          <!-- Dit stuk moet herhaald worden-->
         </div>
-      </section>
-
-      <section class="pokemon-list">
-        <h2>Your Pokémons</h2>
-        <div class="pokemon-grid">
-          <!-- Pokémon-kaarten worden hier dynamisch toegevoegd via JavaScript -->
+        <div class="pokemon-card">
+          <img
+            src="../Assets/Generation 1 Pokémon/0060 Poliwag.png"
+            alt="Pokémon"
+          />
+          <h3>Pokémon Name</h3>
+          <p>Type: Water</p>
+          <button>View More Details</button>
+          <div class="stats">
+            <span>W</span> <span>L</span> <span>D</span>
+          </div>
+          <!-- Dit stuk moet herhaald worden-->
         </div>
-      </section>
-    </main>
-
-    <footer>&copy; 2025 | CodeHive | All Rights Reserved.</footer>
+        <div class="pokemon-card">
+          <img
+            src="../Assets/Generation 1 Pokémon/0004 Charmander.png"
+            alt="Pokémon"
+          />
+          <h3>Pokémon Name</h3>
+          <p>Type: Water</p>
+          <button>View More Details</button>
+          <div class="stats">
+            <span>W</span> <span>L</span> <span>D</span>
+          </div>
+          <!-- Dit stuk moet herhaald worden-->
+        </div>
+        <div class="pokemon-card">
+          <img
+            src="../Assets/Generation 1 Pokémon/0117 Seadra.png"
+            alt="Pokémon"
+          />
+          <h3>Pokémon Name</h3>
+          <p>Type: Water</p>
+          <button>View More Details</button>
+          <div class="stats">
+            <span>W</span> <span>L</span> <span>D</span>
+          </div>
+          <!-- Dit stuk moet herhaald worden-->
+        </div>
+        <div class="pokemon-card">
+          <img
+            src="../Assets/Generation 1 Pokémon/0134 Vaporeon.png"
+            alt="Pokémon"
+          />
+          <h3>Pokémon Name</h3>
+          <p>Type: Water</p>
+          <button>View More Details</button>
+          <div class="stats">
+            <span>W</span> <span>L</span> <span>D</span>
+          </div>
+          <!-- Dit stuk moet herhaald worden-->
+        </div>
+        <div class="pokemon-card">
+          <img
+            src="../Assets/Generation 1 Pokémon/0118 Goldeen.png"
+            alt="Pokémon"
+          />
+          <h3>Pokémon Name</h3>
+          <p>Type: Water</p>
+          <button>View More Details</button>
+          <div class="stats">
+            <span>W</span> <span>L</span> <span>D</span>
+          </div>
+          <!-- Dit stuk moet herhaald worden-->
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const menuButton = document.querySelector('.menu-button');
+          const mainContent = document.querySelector('.main-content');
+          const menuOverlay = document.querySelector('.menu-overlay');
+          const closeButton = document.querySelector('.close-button');
+          const body = document.body;
+      
+          function openMenu() {
+              menuOverlay.classList.add('active');
+              mainContent.classList.add('behind-menu');
+              body.classList.add('menu-open');
+              menuButton.style.display = 'none';
+          }
+      
+          function closeMenu() {
+              menuOverlay.classList.remove('active');
+              mainContent.classList.remove('behind-menu');
+              body.classList.remove('menu-open');
+              menuButton.style.display = 'flex';
+          }
+      
+          menuButton.addEventListener('click', openMenu);
+          closeButton.addEventListener('click', closeMenu);
+      
+          const menuItems = document.querySelectorAll('.menu-item');
+          menuItems.forEach(item => {
+              item.addEventListener('click', closeMenu);
+          });
+      });
+      
+      
+      </script>
   </body>
 </html>

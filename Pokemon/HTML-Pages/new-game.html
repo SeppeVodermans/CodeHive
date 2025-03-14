@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../CSS/reset.css" />
+    <link rel="stylesheet" href="../CSS/base.css" />
+    <title>New Game</title>
+  </head>
+  <body>
+   <!-- <audio
+     autoplay
+      src="../Assets/song/ENFANT-DU-GHETTO-GENEZIO-feat.-LANDY.mp3"
+      type="mp3"
+    ></audio>-->
+    <div class="background"></div>
+    <main>
+      <section class="trainer-section">
+        <div class="trainer-info">
+          <img src="../Assets/Player/female.png" alt="Trainer Profile" />
+          <div>
+            <input
+              type="text"
+              name="trainer-name"
+              id="trainer-name"
+              placeholder="Enter Your Name"
+            />
+          </div>
+          <div class="gender-selection">
+            <label><input type="radio" name="gender" value="M" /> M</label>
+            <label><input type="radio" name="gender" value="F" /> F</label>
+          </div>
+        </div>
+      </section>
+
+      <h2>Choose an element</h2>
+      <div id="pokemon-element">
+        <form>
+          <select name="element" id="element-select">
+            <option value="">-- Select an Element --</option>
+            <option value="Fire">Fire</option>
+            <option value="Water">Water</option>
+            <option value="Grass">Grass</option>
+            <option value="Electric">Electric</option>
+          </select>
+        </form>
+      </div>
+      <section class="pokemon-list">
+        <!-- Dit stuk moet herhaald worden-->
+        <div class="pokemon-grid">
+          <div class="pokemon-card">
+            <img
+              src="../Assets/Generation 1 Pokémon/0005 Charmeleon.png"
+              alt="Pokémon"
+            />
+            <h3>Pokémon Name</h3>
+          </div>
+        </div>
+        <!-- Dit stuk moet herhaald worden-->
+      </section>
+    </main>
+  </body>
+</html>
