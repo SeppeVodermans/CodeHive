@@ -47,6 +47,9 @@
         max-width: 50px;
         height: auto;
       }
+      .pokeball:hover {
+        transform: scale(1.1);
+      }
     </style>
   </head>
   <body>
@@ -104,5 +107,37 @@
       </div>
       <div class="counter">Kansen: <span id="chances">3</span></div>
     </main>
+    <script>
+      let chances = 3;
+      const pokemonNumber = Math.floor(Math.random() * 10) + 1;
+
+      function updateChances() {
+        chances--;
+
+        const playerNumber = Math.floor(Math.random() * 10) + 1;
+
+        document.getElementById("chances").textContent = chances;
+        if (pokemonNumber === playerNumber) {
+          alert("You have succefully caught the pokemon!");
+          disabllePokeballs();
+        } else if (chances === 0) {
+          alert("You have no more chances!");
+        }
+      }
+      function disabllePokeballs() {
+        document.querySelectorAll(".pokeball").forEach((pokeball) => {
+          pokeball.style.opacity = "0.5";
+          pokeball.style.opacity = "none";
+        });
+      }
+      const pokeballs = document.querySelectorAll(".pokeball");
+      pokeballs.forEach((pokeball) => {
+        pokeball.addEventListener("click", () => {
+          if (chances > 0) {
+            updateChances();
+          }
+        });
+      });
+    </script>
   </body>
 </html>
