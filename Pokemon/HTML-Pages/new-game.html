@@ -6,6 +6,40 @@
     <link rel="stylesheet" href="../CSS/reset.css" />
     <link rel="stylesheet" href="../CSS/base.css" />
     <title>New Game</title>
+    <style>
+        .trainer-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .trainer-info img {
+    max-width: 100px;
+    border-radius: 50%;
+    border: 2px solid #ffcc00;
+  }
+    /* Pokémon lijst */
+    .pokemon-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+  }
+  .pokemon-card-new-game {
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 204, 0, 0.7);
+    padding: 15px;
+    border-radius: 15px;
+    text-align: center;
+  }
+  
+  .pokemon-card-new-game img {
+    max-width: 120px;
+    height: auto;
+  }
+    </style>
   </head>
   <body>
    <!-- <audio
@@ -15,7 +49,6 @@
     ></audio>-->
     <div class="background"></div>
     <main>
-      <section class="trainer-section">
         <div class="trainer-info">
           <img src="../Assets/Player/female.png" alt="Trainer Profile" />
           <div>
@@ -31,7 +64,7 @@
             <label><input type="radio" name="gender" value="F" /> F</label>
           </div>
         </div>
-      </section>
+     
 
       <h2>Choose an element</h2>
       <div id="pokemon-element">
@@ -48,7 +81,7 @@
       <section class="pokemon-list">
         <!-- Dit stuk moet herhaald worden-->
         <div class="pokemon-grid">
-          <div class="pokemon-card">
+          <div class="pokemon-card-new-game">
             <img
               src="../Assets/Generation 1 Pokémon/0005 Charmeleon.png"
               alt="Pokémon"
