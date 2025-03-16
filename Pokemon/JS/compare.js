@@ -60,14 +60,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const data1 = await getPokemonData(pokemon1);
     const data2 = await getPokemonData(pokemon2);
 
-    updatePokemonDisplay(
-      data1,
-      ".battle-section .pokemon-container:nth-child(1)"
-    );
-    updatePokemonDisplay(
-      data2,
-      ".battle-section .pokemon-container:nth-child(3)"
-    );
+    if (data1 && data2) {
+      updatePokemonDisplay(
+        data1,
+        ".battle-section .pokemon-container:nth-child(1)"
+      );
+      updatePokemonDisplay(
+        data2,
+        ".battle-section .pokemon-container:nth-child(3)"
+      );
+
+      // **Vergelijk de stats nadat beide Pokémon zijn opgehaald**
+      comparePokemonStats(data1, data2);
+    }
   }
 
   generateButton.addEventListener("click", () => {
@@ -80,6 +85,29 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
   });
+
+  function comparePokemonStats(pokemon1, pokemon2) {
+    const stats1 = pokemon1.stats;
+    const stats2 = pokemon2.stats;
+
+    let comparisonHTML = `<h3>${pokemon1.name} vs ${pokemon2.name}</h3><table border='1'><tr><th>Stat</th><th>${pokemon1.name}</th><th>${pokemon2.name}</th></tr>`;
+
+    stats1.forEach((stat, index) => {
+      comparisonHTML += updateColorStats(stat, stats2[index]);
+    });
+
+    comparisonHTML += "</table>";
+    document.getElementById("comparison-container").innerHTML = comparisonHTML;
+  }
+
+  function updateColorStats(stat1, stat2) {
+    const value1 = stat1.base_stat;
+    const value2 = stat2.base_stat;
+    const color1 = value1 > value2 ? "style='color: green;'" : "";
+    const color2 = value2 > value1 ? "style='color: green;'" : "";
+
+    return `<tr><td>${stat1.stat.name}</td><td ${color1}>${value1}</td><td ${color2}>${value2}</td></tr>`;
+  }
 
   // Standaardwaarden bij het laden
   updateBattleComparison("sandile", "blastoise");

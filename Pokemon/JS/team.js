@@ -68,3 +68,16 @@ document.addEventListener("DOMContentLoaded", () => {
     "eevee",
   ]);
 });
+
+/* Gegevens ophalen van uit localStorage van new game */
+let trainerName = localStorage.getItem("trainerName");
+let pokemonNickname = localStorage.getItem("pokemonNickname");
+let profielImageSrc = localStorage.getItem("profileImage");
+
+document.getElementById("trainer-name").textContent = trainerName;
+document.getElementById("pokemonNickname").textContent = pokemonNickname;
+
+let profielImage = document.getElementById("trainer-image");
+if (profielImageSrc) {
+  profielImage.src = profielImageSrc;
+}

@@ -6,13 +6,31 @@
     <link rel="stylesheet" href="../CSS/reset.css" />
     <link rel="stylesheet" href="../CSS/base.css" />
     <title>New Game</title>
+    <style>
+      .pokemon-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      .pokemon-card {
+        background-color: #f8f8f8;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease-in-out;
+      }
+      .pokemon-card:hover {
+        transform: scale(1.05);
+      }
+      .trainer-info img {
+        transition: opacity 0.3s ease-in-out;
+      }
+    </style>
   </head>
   <body>
-   <!-- <audio
-     autoplay
-      src="../Assets/song/ENFANT-DU-GHETTO-GENEZIO-feat.-LANDY.mp3"
-      type="mp3"
-    ></audio>-->
     <div class="background"></div>
     <main>
       <section class="trainer-section">
@@ -36,7 +54,7 @@
       <h2>Choose an element</h2>
       <div id="pokemon-element">
         <form>
-          <select name="element" id="element-select">
+          <select id="starter-pokemon">
             <option value="">-- Select an Element --</option>
             <option value="Fire">Fire</option>
             <option value="Water">Water</option>
@@ -46,18 +64,16 @@
         </form>
       </div>
       <section class="pokemon-list">
-        <!-- Dit stuk moet herhaald worden-->
-        <div class="pokemon-grid">
-          <div class="pokemon-card">
-            <img
-              src="../Assets/Generation 1 Pokémon/0005 Charmeleon.png"
-              alt="Pokémon"
-            />
-            <h3>Pokémon Name</h3>
-          </div>
-        </div>
-        <!-- Dit stuk moet herhaald worden-->
+        <div class="pokemon-grid" id="pokemon-grid"></div>
       </section>
+      <div id="name-section" style="display: none">
+        <h3>Name your Pokémon:</h3>
+        <input type="text" id="pokemon-name" placeholder="Enter a name" />
+        <button onclick="savePokemonName()">Confirm Name</button>
+      </div>
+      <button onclick="saveTrainer()">Confirm Selection</button>
+      <h3 id="output"></h3>
     </main>
   </body>
+  <script src="../JS/new-game.js"></script>
 </html>
