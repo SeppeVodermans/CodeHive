@@ -1,16 +1,56 @@
 /*General Styles*/
-.main-pokemon{
-    text-align: center;
-}
-.main-pokemon img{
-    width: 120px;
-    height: 120px;
-}
-.stats {
+
+
+/*Trainer*/
+.trainer-section {
     display: flex;
-    justify-content: center;
-    gap: 10px;
+    align-items: center;
+    margin-bottom: 30px;
+    background-color: rgb(61, 139, 204);
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #ffcc00;
 }
+
+.trainer-section img {
+    max-width: 100px;
+    border-radius: 50%;
+    border: 2px solid #ffcc00;
+}
+.trainer-info img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+.main-pokemon {
+  text-align: center;
+  color: gray;
+  padding: 15px;
+  border: 3px solid #ffc107;
+  border-radius: 10px;
+  background: #ffe082;
+  font-weight: bold;
+  display: inline-block;
+  transition: transform 0.2s ease-in-out;
+}
+
+.main-pokemon:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+
+}
+
+.main-pokemon img {
+  width: 120px;
+  height: 120px;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
 .view-details-button{
 background-color: #ffc107;
 border: none;
@@ -19,6 +59,13 @@ color: rgba(22, 22, 22, 0.842);
 padding: 10px;
 cursor: pointer;
 margin-top: 10px;
+
+button {
+  background-color: #ffc107;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+
 }
 .your-pokemon{
     color: black;

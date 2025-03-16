@@ -212,6 +212,21 @@
     background-color: var(--water-type);
 }
 
+/*StatsColors aanpassen*/
+.stat-higher {
+    color: green;
+    font-weight: bold;
+  }
+  
+.stat-lower {
+    color: black;
+  }
+  
+.stat-equal {
+    color: orange;
+  }
+  
+
 @media (max-width: 768px) {
     .battle-section {
         flex-direction: column;

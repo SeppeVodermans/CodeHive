@@ -4,61 +4,86 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../CSS/reset.css" />
-    <link rel="stylesheet" href="../CSS/global.css" />
+    <link rel="stylesheet" href="../CSS/base.css" />
     <link rel="stylesheet" href="../CSS/pokemon-search.css" />
+    <script defer src="../JS/pokemon-search.js"></script>
     <title>Pokemon-search</title>
   </head>
   <body>
+    <nav>
     <header>
-      <nav>
-        <a href="../index.html"
-          ><img src="../Assets/CodeHive-Logo.png" alt="CodeHive Logo"
-        /></a>
+      <div class="background"></div>
+    
+    <button class="menu-button">
+        <img src="../Assets/menu-icon.webp"> 
+    </button>
+
+<div class="menu-overlay">
+    <div class="menu-content">
+        <div class="close-button">x</div>
+        <div class="menu-header">Menu</div>
+        <ul class="menu-items">
+            <li class="menu-item"><a href="homepage.html">Home</a></li>
+            <li class="menu-item"><a href="pokemon-search.html">Pokédex</a></li>
+            <li class="menu-item"><a href="team.html">Team</a></li>
+            <li class="menu-item"><a href="battler.html">Gevecht</a></li>
+            <li class="menu-item"><a href="catch.html">Vang Pokémons</a></li>
+            <li class="menu-item"><a href="compare.html">Vergelijk Pokémons</a></li>
+            <li class="menu-item"><a href="pokemonevolution.html">Pokémon evoluties</a></li>
+            <li class="menu-item"><a href="quize.html">Quiz</a></li>
+        </ul>
+     </div>
+  </div>
       </nav>
     </header>
     <main>
-      <div class="searchbar">
-        <input type="search" placeholder="Search..." name="searchbar" />
+
+      <h1>Pokédex</h1>
+      
+      <div id="search-container">
+          <input type="text" id="search-bar" placeholder="Zoek een Pokémon...">
+          <select id="type-filter">
+              <option value="all">Alle typen</option>
+              <option value="fire">Fire</option>
+              <option value="grass">Grass</option>
+              <option value="water">Water</option>
+          </select>
       </div>
-      <select class="typeOfPokemon" name="type" id="">
-        <option value="choose" disabled selected>Kies een element...</option>
-        <option value="fire">Fire</option>
-        <option value="water">Water</option>
-        <option value="grass">Grass</option>
-      </select>
-      <div class="Image-Container">
-        <ul>
-          <li>
-            <a href=""
-              ><img src="../Assets/nav-bar background.jpg" alt="Fifa"
-            /></a>
-          </li>
-          <li>
-            <a href=""
-              ><img src="../Assets/nav-bar background.jpg" alt="Fortnite"
-            /></a>
-          </li>
-          <li>
-            <a href=""
-              ><img src="../Assets/nav-bar background.jpg" alt="LegoMasters"
-            /></a>
-          </li>
-          <li>
-            <a href=""
-              ><img src="../Assets/nav-bar background.jpg" alt="LOTR"
-            /></a>
-          </li>
-          <li>
-            <a href=""><img src="../Assets/nav-bar background.jpg" alt="MTG" /></a>
-          </li>
-          <li>
-            <a href=""
-              ><img src="../Assets/nav-bar background.jpg" alt="Pokemon"
-            /></a>
-          </li>
-        </ul>
-      </div>
+  
+      <div id="pokemon-container"></div>
     </main>
-    <footer>&copy; 2025 | CodeHive | All Rights Reserved.</footer>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const menuButton = document.querySelector('.menu-button');
+          const mainContent = document.querySelector('.main-content');
+          const menuOverlay = document.querySelector('.menu-overlay');
+          const closeButton = document.querySelector('.close-button');
+          const body = document.body;
+      
+          function openMenu() {
+              menuOverlay.classList.add('active');
+              mainContent.classList.add('behind-menu');
+              body.classList.add('menu-open');
+              menuButton.style.display = 'none';
+          }
+      
+          function closeMenu() {
+              menuOverlay.classList.remove('active');
+              mainContent.classList.remove('behind-menu');
+              body.classList.remove('menu-open');
+              menuButton.style.display = 'flex';
+          }
+      
+          menuButton.addEventListener('click', openMenu);
+          closeButton.addEventListener('click', closeMenu);
+      
+          const menuItems = document.querySelectorAll('.menu-item');
+          menuItems.forEach(item => {
+              item.addEventListener('click', closeMenu);
+          });
+      });
+      
+      
+      </script>
   </body>
 </html>
