@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../CSS/reset.css" />
     <link rel="stylesheet" href="../CSS/base.css" />
-    <title>Catch a Pokemon</title>
-    <style>
+    <title>Vang Pokémon</title>
+    </head>
+    <!--<style>
       body {
         font-family: Arial, sans-serif;
         text-align: center;
@@ -43,6 +44,9 @@
         margin-top: 20px;
         font-size: 24px;
       }
+
+    </style>-->
+
       .trainer-section img {
         max-width: 50px;
         height: auto;
@@ -52,19 +56,40 @@
       }
     </style>
   </head>
+
   <body>
-    <header>
-      <div class="logo"></div>
-      <nav>
-        <ul>
-          <li><a href="team.html">Home</a></li>
-          <li><a href="#">Pokémons</a></li>
-          <li><a href="battler.html">Battles</a></li>
-          <li><a href="quize.html">Quiz</a></li>
+    <div class="background"></div>
+    </div>
+    
+    <button class="menu-button">
+        <img src="../Assets/menu-icon.webp"> 
+    </button>
+
+<div class="menu-overlay">
+    <div class="menu-content">
+        <div class="close-button">x</div>
+        <div class="menu-header">Menu</div>
+        <ul class="menu-items">
+            <li class="menu-item"><a href="homepage.html">Home</a></li>
+            <li class="menu-item"><a href="">Pokédex</a></li>
+            <li class="menu-item"><a href="team.html">Team</a></li>
+            <li class="menu-item"><a href="battler.html">Gevecht</a></li>
+            <li class="menu-item"><a href="catch.html">Vang Pokémons</a></li>
+            <li class="menu-item"><a href="compare.html">Vergelijk Pokémons</a></li>
+            <li class="menu-item"><a href="pokemonevolution.html">Pokémon evoluties</a></li>
+            <li class="menu-item"><a href="quize.html">Quiz</a></li>
         </ul>
-      </nav>
-    </header>
-    <main>
+    </div>
+</div>
+<div class="main-content">
+  <div class="trainer-section">
+    <div class="trainer-image">
+        <img src="../Assets/Player/female.png">
+    </div>
+    <h2 class="trainer-name">Trainer Naam</h2>
+  </div>
+</div>
+    <!--<main>
       <section class="trainer-section">
         <div class="trainer-info">
           <img src="../Assets/Player/male.png" alt="Trainer Profile" />
@@ -106,7 +131,40 @@
         <div class="pokeball">🎱</div>
       </div>
       <div class="counter">Kansen: <span id="chances">3</span></div>
-    </main>
+
+    </main>-->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const menuButton = document.querySelector('.menu-button');
+          const mainContent = document.querySelector('.main-content');
+          const menuOverlay = document.querySelector('.menu-overlay');
+          const closeButton = document.querySelector('.close-button');
+          const body = document.body;
+      
+          function openMenu() {
+              menuOverlay.classList.add('active');
+              mainContent.classList.add('behind-menu');
+              body.classList.add('menu-open');
+              menuButton.style.display = 'none';
+          }
+      
+          function closeMenu() {
+              menuOverlay.classList.remove('active');
+              mainContent.classList.remove('behind-menu');
+              body.classList.remove('menu-open');
+              menuButton.style.display = 'flex';
+          }
+      
+          menuButton.addEventListener('click', openMenu);
+          closeButton.addEventListener('click', closeMenu);
+      
+          const menuItems = document.querySelectorAll('.menu-item');
+          menuItems.forEach(item => {
+              item.addEventListener('click', closeMenu);
+          });
+      });
+      
+
     <script>
       let chances = 3;
       const pokemonNumber = Math.floor(Math.random() * 10) + 1;
@@ -139,5 +197,6 @@
         });
       });
     </script>
+
   </body>
 </html>
