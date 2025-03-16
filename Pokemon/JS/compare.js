@@ -18,28 +18,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  async function updatePokemonDisplay(pokemonData, containerSelector) {
+  async function updatePokemonDisplay(pokemonData, container) {
     if (!pokemonData) return;
 
-    const container = document.querySelector(containerSelector);
-    if (!container) return;
-
-    // Update afbeelding
     const imgElement = container.querySelector("img");
+    const nameElement = container.querySelector(".pokemon-name");
+    const typeBadge = container.querySelector(".type-badge");
+    const statSpans = container.querySelectorAll(".stat-row .stat-label span");
+
+    // Update de Pokémon-afbeelding
     imgElement.src = pokemonData.sprites.front_default;
 
-    // Update naam
-    const nameElement = container.querySelector(".pokemon-name");
+    // Update de naam
     nameElement.textContent = pokemonData.name.toUpperCase();
 
-    // Update type
-    const typeBadge = container.querySelector(".type-badge");
+    // Update het type en voeg een CSS-klasse toe voor styling
     typeBadge.textContent = pokemonData.types
       .map((t) => t.type.name.toUpperCase())
       .join(", ");
     typeBadge.className = `type-badge type-${pokemonData.types[0].type.name.toLowerCase()}`;
 
-    // Update stats
+    // Update de stats (HP, Attack, Defense, Speed)
     const stats = {
       hp: pokemonData.stats[0].base_stat,
       attack: pokemonData.stats[1].base_stat,
@@ -47,32 +46,65 @@ document.addEventListener("DOMContentLoaded", () => {
       speed: pokemonData.stats[5].base_stat,
     };
 
-    const statSpans = container.querySelectorAll(".stat-row .stat-label span");
-    if (statSpans.length === 4) {
-      statSpans[0].textContent = stats.hp;
-      statSpans[1].textContent = stats.attack;
-      statSpans[2].textContent = stats.defense;
-      statSpans[3].textContent = stats.speed;
-    }
+    const statKeys = Object.keys(stats);
+    statSpans.forEach((span, index) => {
+      span.textContent = stats[statKeys[index]];
+    });
+
+    return stats;
   }
 
   async function updateBattleComparison(pokemon1, pokemon2) {
+    const container1 = document.querySelector(
+      ".battle-section .pokemon-container:nth-child(1)"
+    );
+    const container2 = document.querySelector(
+      ".battle-section .pokemon-container:nth-child(3)"
+    );
+
     const data1 = await getPokemonData(pokemon1);
     const data2 = await getPokemonData(pokemon2);
 
     if (data1 && data2) {
-      updatePokemonDisplay(
-        data1,
-        ".battle-section .pokemon-container:nth-child(1)"
+      const stats1 = await updatePokemonDisplay(data1, container1);
+      const stats2 = await updatePokemonDisplay(data2, container2);
+
+      comparePokemonStats(stats1, stats2, container1, container2);
+    }
+  }
+
+  function comparePokemonStats(stats1, stats2, container1, container2) {
+    const statRows1 = container1.querySelectorAll(".stat-row .stat-label span");
+    const statRows2 = container2.querySelectorAll(".stat-row .stat-label span");
+
+    Object.keys(stats1).forEach((stat, index) => {
+      const value1 = stats1[stat];
+      const value2 = stats2[stat];
+
+      // Reset alle klassen eerst
+      statRows1[index].classList.remove(
+        "stat-higher",
+        "stat-lower",
+        "stat-equal"
       );
-      updatePokemonDisplay(
-        data2,
-        ".battle-section .pokemon-container:nth-child(3)"
+      statRows2[index].classList.remove(
+        "stat-higher",
+        "stat-lower",
+        "stat-equal"
       );
 
-      // **Vergelijk de stats nadat beide Pokémon zijn opgehaald**
-      comparePokemonStats(data1, data2);
-    }
+      // Vergelijk de stats en voeg de juiste klasse toe
+      if (value1 > value2) {
+        statRows1[index].classList.add("stat-higher");
+        statRows2[index].classList.add("stat-lower");
+      } else if (value2 > value1) {
+        statRows2[index].classList.add("stat-higher");
+        statRows1[index].classList.add("stat-lower");
+      } else {
+        statRows1[index].classList.add("stat-equal");
+        statRows2[index].classList.add("stat-equal");
+      }
+    });
   }
 
   generateButton.addEventListener("click", () => {
@@ -86,56 +118,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  function comparePokemonStats(pokemon1, pokemon2) {
-    const stats1 = {
-      hp: pokemon1.stats[0].base_stat,
-      attack: pokemon1.stats[1].base_stat,
-      defense: pokemon1.stats[2].base_stat,
-      speed: pokemon1.stats[5].base_stat,
-    };
-
-    const stats2 = {
-      hp: pokemon2.stats[0].base_stat,
-      attack: pokemon2.stats[1].base_stat,
-      defense: pokemon2.stats[2].base_stat,
-      speed: pokemon2.stats[5].base_stat,
-    };
-
-    let comparisonHTML = `<h3>${pokemon1.name.toUpperCase()} vs ${pokemon2.name.toUpperCase()}</h3>
-                          <table border='1'>
-                            <tr>
-                              <th>Stat</th>
-                              <th>${pokemon1.name.toUpperCase()}</th>
-                              <th>${pokemon2.name.toUpperCase()}</th>
-                            </tr>`;
-
-    Object.keys(stats1).forEach((stat) => {
-      const value1 = stats1[stat];
-      const value2 = stats2[stat];
-
-      // Bepaal de juiste CSS-klasse
-      let class1 = "stat-lower";
-      let class2 = "stat-lower";
-
-      if (value1 > value2) {
-        class1 = "stat-higher";
-      } else if (value2 > value1) {
-        class2 = "stat-higher";
-      } else {
-        class1 = class2 = "stat-equal";
-      }
-
-      comparisonHTML += `<tr>
-                          <td>${stat.toUpperCase()}</td>
-                          <td class="${class1}">${value1}</td>
-                          <td class="${class2}">${value2}</td>
-                        </tr>`;
-    });
-
-    comparisonHTML += "</table>";
-    document.getElementById("comparison-container").innerHTML = comparisonHTML;
-  }
-
-  // Standaardwaarden bij het laden
-  updateBattleComparison("sandile", "blastoise");
+  // Standaard vergelijking bij het laden
+  updateBattleComparison("charizard", "blastoise");
 });
