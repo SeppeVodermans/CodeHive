@@ -87,26 +87,53 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function comparePokemonStats(pokemon1, pokemon2) {
-    const stats1 = pokemon1.stats;
-    const stats2 = pokemon2.stats;
+    const stats1 = {
+      hp: pokemon1.stats[0].base_stat,
+      attack: pokemon1.stats[1].base_stat,
+      defense: pokemon1.stats[2].base_stat,
+      speed: pokemon1.stats[5].base_stat,
+    };
 
-    let comparisonHTML = `<h3>${pokemon1.name} vs ${pokemon2.name}</h3><table border='1'><tr><th>Stat</th><th>${pokemon1.name}</th><th>${pokemon2.name}</th></tr>`;
+    const stats2 = {
+      hp: pokemon2.stats[0].base_stat,
+      attack: pokemon2.stats[1].base_stat,
+      defense: pokemon2.stats[2].base_stat,
+      speed: pokemon2.stats[5].base_stat,
+    };
 
-    stats1.forEach((stat, index) => {
-      comparisonHTML += updateColorStats(stat, stats2[index]);
+    let comparisonHTML = `<h3>${pokemon1.name.toUpperCase()} vs ${pokemon2.name.toUpperCase()}</h3>
+                          <table border='1'>
+                            <tr>
+                              <th>Stat</th>
+                              <th>${pokemon1.name.toUpperCase()}</th>
+                              <th>${pokemon2.name.toUpperCase()}</th>
+                            </tr>`;
+
+    Object.keys(stats1).forEach((stat) => {
+      const value1 = stats1[stat];
+      const value2 = stats2[stat];
+
+      // Bepaal de juiste CSS-klasse
+      let class1 = "stat-lower";
+      let class2 = "stat-lower";
+
+      if (value1 > value2) {
+        class1 = "stat-higher";
+      } else if (value2 > value1) {
+        class2 = "stat-higher";
+      } else {
+        class1 = class2 = "stat-equal";
+      }
+
+      comparisonHTML += `<tr>
+                          <td>${stat.toUpperCase()}</td>
+                          <td class="${class1}">${value1}</td>
+                          <td class="${class2}">${value2}</td>
+                        </tr>`;
     });
 
     comparisonHTML += "</table>";
     document.getElementById("comparison-container").innerHTML = comparisonHTML;
-  }
-
-  function updateColorStats(stat1, stat2) {
-    const value1 = stat1.base_stat;
-    const value2 = stat2.base_stat;
-    const color1 = value1 > value2 ? "style='color: green;'" : "";
-    const color2 = value2 > value1 ? "style='color: green;'" : "";
-
-    return `<tr><td>${stat1.stat.name}</td><td ${color1}>${value1}</td><td ${color2}>${value2}</td></tr>`;
   }
 
   // Standaardwaarden bij het laden
