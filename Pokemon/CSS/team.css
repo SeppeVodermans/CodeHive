@@ -59,14 +59,15 @@ color: rgba(22, 22, 22, 0.842);
 padding: 10px;
 cursor: pointer;
 margin-top: 10px;
+}
 
-button {
+*/*button {
   background-color: #ffc107;
   border: none;
   padding: 10px;
   cursor: pointer;
 
-}
+}*/
 .your-pokemon{
     color: black;
     font-size: 30px;
