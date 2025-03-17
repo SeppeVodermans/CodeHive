@@ -9,18 +9,38 @@
     <title>Pokemon-Evolutie</title>
   </head>
   <body>
-    <header>
-      <div class="logo"></div>
-      <nav>
-        <ul>
-          <li><a href="team.html">Home</a></li>
-          <li><a href="#">Pokémons</a></li>
-          <li><a href="battler.html">Battles</a></li>
-          <li><a href="quize.html">Quiz</a></li>
+    <div class="background"></div>
+    </div>
+    
+    <button class="menu-button">
+        <img src="../Assets/menu-icon.webp"> 
+    </button>
+
+<div class="menu-overlay">
+    <div class="menu-content">
+        <div class="close-button">x</div>
+        <div class="menu-header">Menu</div>
+        <ul class="menu-items">
+            <li class="menu-item"><a href="homepage.html">Home</a></li>
+            <li class="menu-item"><a href="">Pokédex</a></li>
+            <li class="menu-item"><a href="team.html">Team</a></li>
+            <li class="menu-item"><a href="battler.html">Gevecht</a></li>
+            <li class="menu-item"><a href="catch.html">Vang Pokémons</a></li>
+            <li class="menu-item"><a href="compare.html">Vergelijk Pokémons</a></li>
+            <li class="menu-item"><a href="pokemonevolution.html">Pokémon evoluties</a></li>
+            <li class="menu-item"><a href="quize.html">Quiz</a></li>
         </ul>
-      </nav>
-    </header>
-    <main>
+    </div>
+</div>
+<div class="main-content">
+  <div class="trainer-section">
+    <div class="trainer-image">
+        <img src="../Assets/Player/female.png">
+    </div>
+    <h2 class="trainer-name">Trainer Naam</h2>
+  </div>
+</div>
+    <!--<main>
       <section class="trainer-section">
         <div class="trainer-info">
           <img src="#" alt="Trainer Profile" />
@@ -39,15 +59,39 @@
         <span>→</span>
         <img src="#" alt="Evolution 3" />
       </div>
-    </main>
-    <footer>
-      <p>&copy; CodeHive</p>
-      <div class="social-icons">
-        <img src="" alt="" />
-        <img src="" alt="" />
-        <img src="" alt="" />
-        <img src="" alt="" />
-      </div>
-    </footer>
+    </main>-->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const menuButton = document.querySelector('.menu-button');
+          const mainContent = document.querySelector('.main-content');
+          const menuOverlay = document.querySelector('.menu-overlay');
+          const closeButton = document.querySelector('.close-button');
+          const body = document.body;
+      
+          function openMenu() {
+              menuOverlay.classList.add('active');
+              mainContent.classList.add('behind-menu');
+              body.classList.add('menu-open');
+              menuButton.style.display = 'none';
+          }
+      
+          function closeMenu() {
+              menuOverlay.classList.remove('active');
+              mainContent.classList.remove('behind-menu');
+              body.classList.remove('menu-open');
+              menuButton.style.display = 'flex';
+          }
+      
+          menuButton.addEventListener('click', openMenu);
+          closeButton.addEventListener('click', closeMenu);
+      
+          const menuItems = document.querySelectorAll('.menu-item');
+          menuItems.forEach(item => {
+              item.addEventListener('click', closeMenu);
+          });
+      });
+      
+      
+      </script>
   </body>
 </html>
