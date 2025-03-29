@@ -5,198 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../CSS/reset.css" />
     <link rel="stylesheet" href="../CSS/base.css" />
+    <link rel="stylesheet" href="../CSS/catch.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <title>Vang Pokémon</title>
-    </head>
-    <!--<style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-      }
-
-      .pokeballs-container {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        margin-top: 50px;
-      }
-
-      .pokeball {
-        width: 80px;
-        height: 80px;
-        background-color: red;
-        border-radius: 50%;
-        border: 5px solid white;
-        position: relative;
-      }
-
-      .pokeball::before {
-        content: "";
-        position: absolute;
-        bottom: 5px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60%;
-        height: 8px;
-        background-color: white;
-      }
-
-      .counter {
-        margin-top: 20px;
-        font-size: 24px;
-      }
-
-    </style>-->
-
-      .trainer-section img {
-        max-width: 50px;
-        height: auto;
-      }
-      .pokeball:hover {
-        transform: scale(1.1);
-      }
-    </style>
   </head>
-
   <body>
     <div class="background"></div>
-    </div>
-    
     <button class="menu-button">
-        <img src="../Assets/menu-icon.webp"> 
+      <img src="../Assets/menu-icon.webp" />
     </button>
-
-<div class="menu-overlay">
-    <div class="menu-content">
+    <div class="menu-overlay">
+      <div class="menu-content">
         <div class="close-button">x</div>
         <div class="menu-header">Menu</div>
         <ul class="menu-items">
-            <li class="menu-item"><a href="homepage.html">Home</a></li>
-            <li class="menu-item"><a href="">Pokédex</a></li>
-            <li class="menu-item"><a href="team.html">Team</a></li>
-            <li class="menu-item"><a href="battler.html">Gevecht</a></li>
-            <li class="menu-item"><a href="catch.html">Vang Pokémons</a></li>
-            <li class="menu-item"><a href="compare.html">Vergelijk Pokémons</a></li>
-            <li class="menu-item"><a href="pokemonevolution.html">Pokémon evoluties</a></li>
-            <li class="menu-item"><a href="quize.html">Quiz</a></li>
+          <li class="menu-item"><a href="homepage.html">Home</a></li>
+          <li class="menu-item"><a href="">Pokédex</a></li>
+          <li class="menu-item"><a href="team.html">Team</a></li>
+          <li class="menu-item"><a href="battler.html">Gevecht</a></li>
+          <li class="menu-item"><a href="catch.html">Vang Pokémons</a></li>
+          <li class="menu-item">
+            <a href="compare.html">Vergelijk Pokémons</a>
+          </li>
+          <li class="menu-item">
+            <a href="pokemonevolution.html">Pokémon evoluties</a>
+          </li>
+          <li class="menu-item"><a href="quize.html">Quiz</a></li>
         </ul>
+      </div>
     </div>
-</div>
-<div class="main-content">
-  <div class="trainer-section">
-    <div class="trainer-image">
-        <img src="../Assets/Player/female.png">
-    </div>
-    <h2 class="trainer-name">Trainer Naam</h2>
-  </div>
-</div>
-    <!--<main>
+    <main class="main-content">
       <section class="trainer-section">
-        <div class="trainer-info">
-          <img src="../Assets/Player/male.png" alt="Trainer Profile" />
-          <h2>Trainer Name</h2>
+        <div class="trainer-image">
+          <img src="../Assets/Player/female.png" />
         </div>
-        <div class="main-pokemon">
-          <img
-            src="../Assets/Pokemons/Bug/Scyther/Scyther.png"
-            alt="Main Pokémon"
-          />
-          <h3>Main Pokémon</h3>
-        </div>
-        <input type="text" placeholder="Search..." />
+        <h2 class="trainer-name">Trainer Naam</h2>
       </section>
-      <div class="pokemon-box">
-        <div class="pokemon-img">IMAGE</div>
-      </div>
       <div class="pokemon-card">
-        <h3>Pokémon Name</h3>
-        <img
-          src="../Assets/Generation 1 Pokémon/0008 Wartortle.png"
-          alt="Pokémon"
-        />
-        <button class="stats-btn">Stats</button>
-        <div class="stats">
-          <p>HP</p>
-          <div class="bar"><span style="width: 100%"></span></div>
-          <p>Attack</p>
-          <div class="bar"><span style="width: 90%"></span></div>
-          <p>Defense</p>
-          <div class="bar"><span style="width: 70%"></span></div>
-          <p>Speed</p>
-          <div class="bar"><span style="width: 90%"></span></div>
+        <h2 id="pokemonName">Een wilde Pokémon duikt op!</h2>
+        <img id="pokemonImage" src="" alt="Wilde Pokémon!" width="200" />
+      </div>
+      <aside class="pokeballs">
+        <div id="rare-pokeball">
+          <img
+            src="../Assets/pokeballs/rare-pokeball.png"
+            alt="Rare Pokéball"
+            width="120"
+          />
+          <p>Rare Pokéball</p>
         </div>
+        <div id="normal-pokeball">
+          <img
+            src="../Assets/pokeballs/pokeball.png"
+            alt="Pokéball"
+            width="120"
+          />
+          <p>Normaal Pokéball</p>
+        </div>
+        <div id="epic-pokeball">
+          <img
+            src="../Assets/pokeballs/epik-pokeball.png"
+            alt="Epik Pokéball"
+            width="120"
+          />
+          <p>Epic Pokéball</p>
+        </div>
+      </aside>
+      <div id="status">
+        <p>Resterende pogingen:</p>
+        <p>Rare Pokéball: <span id="rare-attempts">2</span></p>
+        <p>Normaal Pokéball: <span id="normal-attempts">3</span></p>
+        <p>Epic Pokéball: <span id="epic-attempts">1</span></p>
+        <p id="catch-status"></p>
       </div>
-      <div class="pokeballs-container">
-        <div class="pokeball">🎱</div>
-        <div class="pokeball">🎱</div>
-        <div class="pokeball">🎱</div>
-      </div>
-      <div class="counter">Kansen: <span id="chances">3</span></div>
-
-    </main>-->
+    </main>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          const menuButton = document.querySelector('.menu-button');
-          const mainContent = document.querySelector('.main-content');
-          const menuOverlay = document.querySelector('.menu-overlay');
-          const closeButton = document.querySelector('.close-button');
-          const body = document.body;
-      
-          function openMenu() {
-              menuOverlay.classList.add('active');
-              mainContent.classList.add('behind-menu');
-              body.classList.add('menu-open');
-              menuButton.style.display = 'none';
-          }
-      
-          function closeMenu() {
-              menuOverlay.classList.remove('active');
-              mainContent.classList.remove('behind-menu');
-              body.classList.remove('menu-open');
-              menuButton.style.display = 'flex';
-          }
-      
-          menuButton.addEventListener('click', openMenu);
-          closeButton.addEventListener('click', closeMenu);
-      
-          const menuItems = document.querySelectorAll('.menu-item');
-          menuItems.forEach(item => {
-              item.addEventListener('click', closeMenu);
-          });
-      });
-      
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuButton = document.querySelector(".menu-button");
+        const mainContent = document.querySelector(".main-content");
+        const menuOverlay = document.querySelector(".menu-overlay");
+        const closeButton = document.querySelector(".close-button");
+        const body = document.body;
 
-   
-      let chances = 3;
-      const pokemonNumber = Math.floor(Math.random() * 10) + 1;
-
-      function updateChances() {
-        chances--;
-
-        const playerNumber = Math.floor(Math.random() * 10) + 1;
-
-        document.getElementById("chances").textContent = chances;
-        if (pokemonNumber === playerNumber) {
-          alert("You have succefully caught the pokemon!");
-          disabllePokeballs();
-        } else if (chances === 0) {
-          alert("You have no more chances!");
+        function openMenu() {
+          menuOverlay.classList.add("active");
+          mainContent.classList.add("behind-menu");
+          body.classList.add("menu-open");
+          menuButton.style.display = "none";
         }
-      }
-      function disabllePokeballs() {
-        document.querySelectorAll(".pokeball").forEach((pokeball) => {
-          pokeball.style.opacity = "0.5";
-          pokeball.style.opacity = "none";
-        });
-      }
-      const pokeballs = document.querySelectorAll(".pokeball");
-      pokeballs.forEach((pokeball) => {
-        pokeball.addEventListener("click", () => {
-          if (chances > 0) {
-            updateChances();
-          }
+
+        function closeMenu() {
+          menuOverlay.classList.remove("active");
+          mainContent.classList.remove("behind-menu");
+          body.classList.remove("menu-open");
+          menuButton.style.display = "flex";
+        }
+
+        menuButton.addEventListener("click", openMenu);
+        closeButton.addEventListener("click", closeMenu);
+
+        const menuItems = document.querySelectorAll(".menu-item");
+        menuItems.forEach((item) => {
+          item.addEventListener("click", closeMenu);
         });
       });
     </script>
-
+    <script src="../JS/catch.js"></script>
   </body>
 </html>
