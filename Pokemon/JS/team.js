@@ -59,14 +59,8 @@ async function updatePokemonList(pokemonNames) {
 
 /*Test Pokemons*/
 document.addEventListener("DOMContentLoaded", () => {
-  updateMainPokemon("gengar");
-  updatePokemonList([
-    "bulbasaur",
-    "squirtle",
-    "pikachu",
-    "jigglypuff",
-    "eevee",
-  ]);
+  // Laad wat extra Pokémons om de grid te vullen
+  updatePokemonList(["eevee", "jigglypuff", "vulpix", "oddish"]);
 });
 
 /* Gegevens ophalen van uit localStorage van new game */
@@ -79,14 +73,39 @@ document.addEventListener("DOMContentLoaded", () => {
   outputElement.textContent = "Welcome to your Pokémon adventure!";
 });
 
-let trainerName = localStorage.getItem("trainerName");
-let pokemonNickname = localStorage.getItem("pokemonNickname");
-let profielImageSrc = localStorage.getItem("profileImage");
+document.addEventListener("DOMContentLoaded", async () => {
+  const trainerName = localStorage.getItem("trainerName");
+  const pokemonNickname = localStorage.getItem("pokemonNickname");
+  const selectedPokemon = localStorage.getItem("selectedPokemon");
+  const selectedGender = localStorage.getItem("selectedGender");
 
-document.getElementById("trainer-name").textContent = trainerName;
-document.getElementById("pokemonNickname").textContent = pokemonNickname;
+  // Trainer naam invullen
+  const trainerNameEl = document.querySelector(".trainer-name");
+  if (trainerName && trainerNameEl) {
+    trainerNameEl.textContent = trainerName;
+  }
 
-let profielImage = document.getElementById("trainer-image");
-if (profielImageSrc) {
-  profielImage.src = profielImageSrc;
-}
+  // Profielfoto aanpassen op basis van gender
+  const profileImageEl = document.querySelector(".trainer-image img");
+  if (profileImageEl && selectedGender) {
+    profileImageEl.src =
+      selectedGender === "M"
+        ? "../Assets/Player/male.png"
+        : "../Assets/Player/female.png";
+  }
+
+  // Main Pokémon (nickname en afbeelding/type ophalen via API)
+  if (selectedPokemon) {
+    const data = await getPokemonData(selectedPokemon);
+    if (data) {
+      document.querySelector(".main-pokemon img").src =
+        data.sprites.front_default;
+      document.querySelector(".main-pokemon h3").textContent =
+        pokemonNickname || data.name;
+      document.querySelector(".main-pokemon p").textContent =
+        "Type: " + data.types.map((t) => t.type.name).join(", ");
+    }
+  }
+
+  // Voeg eventueel hier meer toe om andere teamleden te tonen
+});

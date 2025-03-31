@@ -88,7 +88,9 @@ function saveTrainer() {
   let trainerName = document.getElementById("trainer-name").value.trim();
   let selectedPokemon = localStorage.getItem("selectedPokemon") || "";
   let pokemonNickname = localStorage.getItem("pokemonNickname") || "";
-  let selectedGender = document.getElementById('input[name="gender"]: checked');
+  let selectedGender = document.querySelector(
+    'input[name="gender"]:checked'
+  )?.value;
 
   console.log("Trainer Name:", trainerName);
   console.log("Selected Pokémon:", selectedPokemon);
