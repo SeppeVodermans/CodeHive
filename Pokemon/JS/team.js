@@ -14,6 +14,7 @@ async function getPokemonData(pokemonNameOrId) {
   }
 }
 
+/*Team renderen*/
 async function renderTeam() {
   const team = JSON.parse(localStorage.getItem("trainerTeam") || "[]");
   const grid = document.querySelector(".pokemon-grid");
@@ -45,7 +46,7 @@ async function renderTeam() {
   }
 }
 
-/* Trainer info laden vanuit localStorage */
+/*Trainer info vanuit localStorage halen*/
 function loadTrainerInfo() {
   const trainerName = localStorage.getItem("trainerName");
   const selectedGender = localStorage.getItem("selectedGender");
@@ -62,12 +63,11 @@ function loadTrainerInfo() {
   }
 }
 
-/* Team in localStorage opslaan */
+/*Team in localStorage opslaan*/
 function setTrainerTeam(pokemonArray) {
   const uniqueTeam = [];
 
   for (const pokemon of pokemonArray) {
-    // Stop als team al 6 bereikt heeft
     if (uniqueTeam.length >= 6) {
       console.warn(
         "⚠️ Teamlimiet van 6 bereikt. Extra Pokémon worden genegeerd."
@@ -94,7 +94,7 @@ function setTrainerTeam(pokemonArray) {
   localStorage.setItem("trainerTeam", JSON.stringify(uniqueTeam));
 }
 
-/* INIT */
+/*INIT*/
 document.addEventListener("DOMContentLoaded", async () => {
   loadTrainerInfo();
 
