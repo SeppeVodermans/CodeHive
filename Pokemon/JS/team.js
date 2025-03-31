@@ -14,7 +14,6 @@ async function getPokemonData(pokemonNameOrId) {
   }
 }
 
-/* Team renderen in de .pokemon-grid container */
 async function renderTeam() {
   const team = JSON.parse(localStorage.getItem("trainerTeam") || "[]");
   const grid = document.querySelector(".pokemon-grid");
