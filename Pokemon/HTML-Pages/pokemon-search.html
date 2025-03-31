@@ -10,11 +10,11 @@
     <title>Pokemon-search</title>
   </head>
   <body>
-    <nav>
-    <header>
+
+   
       <div class="background"></div>
     
-    <button class="menu-button">
+      <button class="menu-button">
         <img src="../Assets/menu-icon.webp"> 
     </button>
 
@@ -32,10 +32,10 @@
             <li class="menu-item"><a href="pokemonevolution.html">Pokémon evoluties</a></li>
             <li class="menu-item"><a href="quize.html">Quiz</a></li>
         </ul>
-     </div>
-  </div>
-      </nav>
-    </header>
+    </div>
+</div>
+  
+ 
     <main>
 
       <h1>Pokédex</h1>
@@ -54,34 +54,34 @@
     </main>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-          const menuButton = document.querySelector('.menu-button');
-          const mainContent = document.querySelector('.main-content');
-          const menuOverlay = document.querySelector('.menu-overlay');
-          const closeButton = document.querySelector('.close-button');
-          const body = document.body;
-      
-          function openMenu() {
-              menuOverlay.classList.add('active');
-              mainContent.classList.add('behind-menu');
-              body.classList.add('menu-open');
-              menuButton.style.display = 'none';
-          }
-      
-          function closeMenu() {
-              menuOverlay.classList.remove('active');
-              mainContent.classList.remove('behind-menu');
-              body.classList.remove('menu-open');
-              menuButton.style.display = 'flex';
-          }
-      
-          menuButton.addEventListener('click', openMenu);
-          closeButton.addEventListener('click', closeMenu);
-      
-          const menuItems = document.querySelectorAll('.menu-item');
-          menuItems.forEach(item => {
-              item.addEventListener('click', closeMenu);
-          });
-      });
+    const menuButton = document.querySelector('.menu-button');
+    const mainContent = document.querySelector('.main-content');
+    const menuOverlay = document.querySelector('.menu-overlay');
+    const closeButton = document.querySelector('.close-button');
+    const body = document.body;
+
+    function openMenu() {
+        menuOverlay.classList.add('active');
+        mainContent.classList.add('behind-menu');
+        body.classList.add('menu-open');
+        menuButton.style.display = 'none';
+    }
+
+    function closeMenu() {
+        menuOverlay.classList.remove('active');
+        mainContent.classList.remove('behind-menu');
+        body.classList.remove('menu-open');
+        menuButton.style.display = 'flex';
+    }
+
+    menuButton.addEventListener('click', openMenu);
+    closeButton.addEventListener('click', closeMenu);
+
+    const menuItems = document.querySelectorAll('.menu-item');
+    menuItems.forEach(item => {
+        item.addEventListener('click', closeMenu);
+    });
+});
       
       
       </script>

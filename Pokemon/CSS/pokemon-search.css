@@ -27,7 +27,7 @@
 }
 
 /*Images*/
-main ul {
+/*main ul {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -56,13 +56,13 @@ main ul li img {
   height: 100%;
   border-radius: 8px;
 }
-
+*/
 /* Media */
-@media (max-width: 1024px) {
+/*@media (max-width: 1024px) {
   main ul li {
     flex: 1 1 30vw;
   }
-}
+}*/
 
 @media (max-width: 768px) {
   main ul li {

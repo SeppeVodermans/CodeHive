@@ -22,12 +22,14 @@ const pokemonTypes = {
   Electric: ["pikachu", "mareep", "electrike"],
 };
 
+let pokemonLoadedData = false;
 async function fetchPokemonOptions() {
   for (const type in pokemonTypes) {
     pokemonTypes[type] = await Promise.all(
       pokemonTypes[type].map(async (name) => await getPokemonData(name))
     );
   }
+  pokemonLoadedData = true;
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -60,7 +62,10 @@ document
   .addEventListener("change", updatePokemonList);
 
 function selectPokemon(pokemonName) {
+  console.log("Pokémon Selected:", pokemonName);
+
   localStorage.setItem("selectedPokemon", pokemonName);
+
   document.getElementById(
     "output"
   ).innerHTML = `You selected <strong>${pokemonName}</strong>!`;
@@ -70,7 +75,7 @@ function selectPokemon(pokemonName) {
 function savePokemonName() {
   let pokemonName = document.getElementById("pokemon-name").value;
 
-  if (pokemonName.trim() === "") {
+  if (!pokemonName) {
     alert("Please enter a valid name!");
     return;
   }
@@ -80,12 +85,17 @@ function savePokemonName() {
 }
 
 function saveTrainer() {
-  let trainerName = document.getElementById("trainer-name").value;
-  let selectedPokemon = localStorage.getItem("selectedPokemon");
-  let pokemonNickname = localStorage.getItem("pokemonNickname");
-  let selectedGender = localStorage.getItem("selectedGender");
+  let trainerName = document.getElementById("trainer-name").value.trim();
+  let selectedPokemon = localStorage.getItem("selectedPokemon") || "";
+  let pokemonNickname = localStorage.getItem("pokemonNickname") || "";
+  let selectedGender = document.getElementById('input[name="gender"]: checked');
 
-  if (!trainerName.trim()) {
+  console.log("Trainer Name:", trainerName);
+  console.log("Selected Pokémon:", selectedPokemon);
+  console.log("Pokémon nickname:", pokemonNickname);
+  console.log("Selected Gender:", selectedGender);
+
+  if (!trainerName) {
     alert("Please enter your name!");
     return;
   }
@@ -99,14 +109,22 @@ function saveTrainer() {
     alert("Please name your Pokémon before continuing!");
     return;
   }
+  //   if (!selectedGender) {
+  //     alert("Please select a gender!");
+  //     return;
+  //   }
 
   localStorage.setItem("trainerName", trainerName);
-  localStorage.setItem("pockemonNickName", pokemonNickname);
+  localStorage.setItem("selectedPokemon", selectedPokemon);
+  localStorage.setItem("pokemonNickName", pokemonNickname);
   localStorage.setItem("selectedGender", selectedGender);
   document.getElementById(
     "output"
   ).innerHTML = `Welcome <strong>${trainerName}</strong>! You chose <strong>${selectedPokemon}</strong> and named it <strong>${pokemonNickname}</strong>! 🎉`;
-  window.location.href = "team.html";
+  output.classList.add("fade-out");
+  setTimeout(() => {
+    window.location.href = "team.html";
+  }, 3000);
 }
 function updateProfileImage() {
   let selectedGender = document.querySelector(
@@ -118,7 +136,17 @@ function updateProfileImage() {
   } else {
     profileImage.src = "../Assets/Player/female.png";
   }
+  localStorage.setItem("selectedGender", selectedGender);
 }
 document.querySelectorAll('input[name="gender"]').forEach((radio) => {
   radio.addEventListener("change", updateProfileImage);
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("clearing previous data...");
+  localStorage.removeItem("selectedPokemon");
+  localStorage.removeItem("pokemonNickname");
+  localStorage.removeItem("trainerName");
+});
+// localStorage.setItem("selectedPokemon", "pikachu");
+// console.log(localStorage.getItem("selectedPokemon"));

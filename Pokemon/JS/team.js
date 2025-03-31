@@ -70,6 +70,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* Gegevens ophalen van uit localStorage van new game */
+document.addEventListener("DOMContentLoaded", () => {
+  let outputElement = document.getElementById("output");
+  if (!outputElement) {
+    alert("Element with ID 'output' not found!");
+    return;
+  }
+  outputElement.textContent = "Welcome to your Pokémon adventure!";
+});
+
 let trainerName = localStorage.getItem("trainerName");
 let pokemonNickname = localStorage.getItem("pokemonNickname");
 let profielImageSrc = localStorage.getItem("profileImage");

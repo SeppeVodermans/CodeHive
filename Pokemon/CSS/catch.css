@@ -1,0 +1,185 @@
+
+body {
+    font-family: 'Poppins', sans-serif; 
+    background-color: #f0f8ff; 
+    color: #333; 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  
+h1, h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    color: #2c3e50;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 20px;
+}
+  
+
+#pokemonName {
+    font-size: 24px;
+    font-weight: 600;
+    color: #e74c3c; 
+    text-align: center;
+    text-transform: capitalize; 
+    margin-top: 10px;
+  }
+  
+
+#catch-status {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    color: #3498db; 
+    margin-top: 20px;
+    font-style: italic;
+}
+  
+
+#status p {
+    font-size: 18px;
+    font-weight: 500;
+    color: #34495e;
+    text-align: center;
+    margin: 10px 0;
+}
+
+/* .pokemon-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    position: relative;
+}
+   */
+#pokemonImage {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: auto;
+    transition: transform 0.5s ease-in-out;
+}
+  
+
+.pokeballs {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+  
+.pokeballs div {
+    text-align: center;
+}
+  
+.pokeballs img {
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+}
+  
+.pokeballs img:hover {
+    transform: scale(1.1);
+}
+  
+.pokeballs p {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2ecc71;
+    margin-top: 5px;
+}
+  
+
+.menu-item a {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #2c3e50;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+  
+.menu-item a:hover {
+    color: #e74c3c;
+}
+  
+
+.trainer-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+@keyframes jumpTowardsPokemon {
+    0% {
+      transform: translateY(0);
+    }
+    30% {
+      transform: translateY(-40px);
+    }
+    50% {
+      transform: translateY(0);
+    }
+}
+  
+@keyframes shakeBall {
+    0% {
+      transform: rotate(0);
+    }
+    25% {
+      transform: rotate(10deg);
+    }
+    50% {
+      transform: rotate(-10deg);
+    }
+    75% {
+      transform: rotate(10deg);
+    }
+    100% {
+      transform: rotate(0);
+    }
+}
+  
+
+.pokeballs div {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+  
+.pokeballs img {
+    transition: transform 0.3s ease-in-out;
+}
+  
+.pokeballs img.active {
+    animation: jumpTowardsPokemon 0.5s ease-in-out;
+}
+  
+.pokeballs img.shake {
+    animation: shakeBall 0.5s ease-in-out infinite;
+}
+  
+.pokemon-card img.catch {
+    opacity: 0;
+    animation: disappearIntoBall 0.5s forwards;
+}
+  
+
+@keyframes disappearIntoBall {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0);
+    }
+}
+  
+  
