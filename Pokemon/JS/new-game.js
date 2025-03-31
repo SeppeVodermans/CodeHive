@@ -118,7 +118,7 @@ function saveTrainer() {
 
   localStorage.setItem("trainerName", trainerName);
   localStorage.setItem("selectedPokemon", selectedPokemon);
-  localStorage.setItem("pokemonNickName", pokemonNickname);
+  localStorage.setItem("pokemonNickname", pokemonNickname);
   localStorage.setItem("selectedGender", selectedGender);
   document.getElementById(
     "output"
@@ -127,6 +127,16 @@ function saveTrainer() {
   setTimeout(() => {
     window.location.href = "team.html";
   }, 3000);
+
+  const team = [
+    {
+      name: selectedPokemon,
+      nickname: pokemonNickname,
+      isMain: true,
+    },
+  ];
+
+  localStorage.setItem("trainerTeam", JSON.stringify(team));
 }
 function updateProfileImage() {
   let selectedGender = document.querySelector(
