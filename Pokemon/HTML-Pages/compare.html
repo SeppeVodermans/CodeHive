@@ -13,6 +13,16 @@
 
 </head>
 <body>
+    <div class="exit-menu-overlay">
+        <div class="exit-menu-content">
+          <div class="exit-menu-header">Pokémon</div>
+          <ul class="exit-menu-items">
+            <li class="exit-menu-item"><a href="#" id="continue-btn">Speel verder</a></li>
+            <li class="exit-menu-item"><a href="#" id="save-btn">Spel opslaan</a></li>
+            <li class="exit-menu-item"><a href="#" id="quit-btn">Spel verlaten</a></li>
+          </ul>
+        </div>
+      </div>
   
     <div class="background"></div>
     
@@ -36,6 +46,7 @@
         </ul>
     </div>
 </div>
+
     <div class="main-content">
         <div class="trainer-section">
             <div class="trainer-image">
@@ -103,6 +114,7 @@
         </div>
     </div>
     <script>
+/*js voor menu rechts*/
 document.addEventListener('DOMContentLoaded', function() {
     const menuButton = document.querySelector('.menu-button');
     const mainContent = document.querySelector('.main-content');
@@ -132,7 +144,50 @@ document.addEventListener('DOMContentLoaded', function() {
         item.addEventListener('click', closeMenu);
     });
 });
+/*js voor exit menu*/
+document.addEventListener('DOMContentLoaded', function() {
+  const mainContent = document.querySelector('.main-content');
+  const exitMenuOverlay = document.querySelector('.exit-menu-overlay');
+  const body = document.body;
+  
+  const continueBtn = document.getElementById('continue-btn');
+  const saveBtn = document.getElementById('save-btn');
+  const quitBtn = document.getElementById('quit-btn');
 
+  function openExitMenu() {
+    exitMenuOverlay.classList.add('active');
+  }
+
+  function closeExitMenu() {
+    exitMenuOverlay.classList.remove('active');
+  }
+
+  /*esc knop drukken*/
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      if (exitMenuOverlay.classList.contains('active')) {
+        closeExitMenu();
+      } else {
+        openExitMenu();
+      }
+    }
+  });
+
+  //speel verder 
+  continueBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    closeExitMenu();
+  });
+//spel opslaan
+  saveBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+  });
+//spel verlaten
+  quitBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.location.href = '../index.html';
+  });
+});
 
 </script>
 </body>
