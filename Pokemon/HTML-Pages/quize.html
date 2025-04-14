@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../CSS/reset.css" />
     <link rel="stylesheet" href="../CSS/base.css" />
-    <link rel="stylesheet" href="../CSS/style.css" />
+    <!--<link rel="stylesheet" href="../CSS/style.css" />-->
     <link rel="stylesheet" href="../CSS/quiz.css" />
     <!-- <link rel="stylesheet" href="../CSS/quiz.css" /> -->
+    <script src="../JS/quiz.js"></script>
+    <script src="../JS/menu.js"></script>
+
     <title>Who's That Pokémon?</title>
   </head>
   <body>
@@ -59,89 +62,13 @@
       <div class="pokemon-card">
         <img id="pokemonImage" src="" alt="Wilde Pokémon!" width="200" />
       </div>
-      <button id="skip">SKIP</button>
+      <button id="skip" class="button-red">SKIP</button>
       <div class="guess-box">
         <input type="text" placeholder="WHO'S THAT POKÉMON?" />
-        <button>onthullen</button>
+        <button class="button-red">onthullen</button>
       </div>
     </main>
-    <footer>&copy; 2025 | CodeHive | All Rights Reserved.</footer>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const menuButton = document.querySelector(".menu-button");
-        const mainContent = document.querySelector(".main-content");
-        const menuOverlay = document.querySelector(".menu-overlay");
-        const closeButton = document.querySelector(".close-button");
-        const body = document.body;
-
-        function openMenu() {
-          menuOverlay.classList.add("active");
-          mainContent.classList.add("behind-menu");
-          body.classList.add("menu-open");
-          menuButton.style.display = "none";
-        }
-
-        function closeMenu() {
-          menuOverlay.classList.remove("active");
-          mainContent.classList.remove("behind-menu");
-          body.classList.remove("menu-open");
-          menuButton.style.display = "flex";
-        }
-
-        menuButton.addEventListener("click", openMenu);
-        closeButton.addEventListener("click", closeMenu);
-
-        const menuItems = document.querySelectorAll(".menu-item");
-        menuItems.forEach((item) => {
-          item.addEventListener("click", closeMenu);
-        });
-      });
-
-      /*js voor exit menu*/
-document.addEventListener('DOMContentLoaded', function() {
-  const mainContent = document.querySelector('.main-content');
-  const exitMenuOverlay = document.querySelector('.exit-menu-overlay');
-  const body = document.body;
-  
-  const continueBtn = document.getElementById('continue-btn');
-  const saveBtn = document.getElementById('save-btn');
-  const quitBtn = document.getElementById('quit-btn');
-
-  function openExitMenu() {
-    exitMenuOverlay.classList.add('active');
-  }
-
-  function closeExitMenu() {
-    exitMenuOverlay.classList.remove('active');
-  }
-
-  /*esc knop drukken*/
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-      if (exitMenuOverlay.classList.contains('active')) {
-        closeExitMenu();
-      } else {
-        openExitMenu();
-      }
-    }
-  });
-
-  //speel verder 
-  continueBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    closeExitMenu();
-  });
-//spel opslaan
-  saveBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-  });
-//spel verlaten
-  quitBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    window.location.href = '../index.html';
-  });
-});
-    </script>
-    <script src="../JS/quiz.js"></script>
+    
+    
   </body>
 </html>
