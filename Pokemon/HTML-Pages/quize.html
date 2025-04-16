@@ -5,12 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../CSS/reset.css" />
     <link rel="stylesheet" href="../CSS/base.css" />
-    <link rel="stylesheet" href="../CSS/style.css" />
+    <!--<link rel="stylesheet" href="../CSS/style.css" />-->
     <link rel="stylesheet" href="../CSS/quiz.css" />
     <!-- <link rel="stylesheet" href="../CSS/quiz.css" /> -->
+    <script src="../JS/quiz.js"></script>
+    <script src="../JS/menu.js"></script>
+
     <title>Who's That Pokémon?</title>
   </head>
   <body>
+
+    <div class="exit-menu-overlay">
+      <div class="exit-menu-content">
+        <div class="exit-menu-header">Pokémon</div>
+        <ul class="exit-menu-items">
+          <li class="exit-menu-item"><a href="#" id="continue-btn">Speel verder</a></li>
+          <li class="exit-menu-item"><a href="#" id="save-btn">Spel opslaan</a></li>
+          <li class="exit-menu-item"><a href="#" id="quit-btn">Spel verlaten</a></li>
+        </ul>
+      </div>
+    </div>
+
     <header>
       <div class="background"></div>
       <button class="menu-button">
@@ -47,44 +62,13 @@
       <div class="pokemon-card">
         <img id="pokemonImage" src="" alt="Wilde Pokémon!" width="200" />
       </div>
-      <button id="skip">SKIP</button>
+      <button id="skip" class="button-red">SKIP</button>
       <div class="guess-box">
         <input type="text" placeholder="WHO'S THAT POKÉMON?" />
-        <button>onthullen</button>
+        <button class="button-red">onthullen</button>
       </div>
     </main>
-    <footer>&copy; 2025 | CodeHive | All Rights Reserved.</footer>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const menuButton = document.querySelector(".menu-button");
-        const mainContent = document.querySelector(".main-content");
-        const menuOverlay = document.querySelector(".menu-overlay");
-        const closeButton = document.querySelector(".close-button");
-        const body = document.body;
-
-        function openMenu() {
-          menuOverlay.classList.add("active");
-          mainContent.classList.add("behind-menu");
-          body.classList.add("menu-open");
-          menuButton.style.display = "none";
-        }
-
-        function closeMenu() {
-          menuOverlay.classList.remove("active");
-          mainContent.classList.remove("behind-menu");
-          body.classList.remove("menu-open");
-          menuButton.style.display = "flex";
-        }
-
-        menuButton.addEventListener("click", openMenu);
-        closeButton.addEventListener("click", closeMenu);
-
-        const menuItems = document.querySelectorAll(".menu-item");
-        menuItems.forEach((item) => {
-          item.addEventListener("click", closeMenu);
-        });
-      });
-    </script>
-    <script src="../JS/quiz.js"></script>
+    
+    
   </body>
 </html>

@@ -9,6 +9,13 @@
     align-items: center;
     font-size: 20px;
 } */
+ /*Body*/
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
 .guess-box{
     margin: 20px;
     margin-left: 90px;
@@ -18,7 +25,7 @@
     font-size: 16px;
     width: 250px;
 }
- button{
+.button-red{
     padding: 10px;
     font-size: 16px;
     background-color: red;
@@ -28,11 +35,11 @@
     transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
- button:hover {
+.button-red:hover {
     background-color: red;
 }
 
-button:active {
+.button-red:active {
     transform: scale(0.95);
 }
 

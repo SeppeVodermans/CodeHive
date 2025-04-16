@@ -3,219 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../CSS/reset.css" />
+    <link rel="stylesheet" href="../CSS/homepage.css" />
+    <link rel="stylesheet" href="../CSS/base.css" />
+    <script src="../JS/menu.js"></script>
+
     <title>Pokémon Game</title>
-    <style>
-      /* General Page Styling */
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #2a2a2a;
-        color: #e0e0e0;
-        font-family: "Press Start 2P", cursive;
-        flex-direction: column;
-        text-align: center;
-        position: relative;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-      }
-
-      /* Background Image */
-      .background {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 100%;
-        height: 100%;
-        background: url("../Assets/pokemon_background.jpg") no-repeat center
-          center;
-        background-size: cover;
-        transform: translate(-50%, -50%);
-        z-index: -1;
-        opacity: 0.6; /* Adjust transparency */
-      }
-
-      /* Title */
-      h1 {
-        font-size: 2.5rem;
-        margin-bottom: 10px;
-        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
-        color: #ffcc00;
-      }
-
-      /* Subtitle */
-      .subtitle {
-        font-size: 1rem;
-        color: #ddd;
-        margin-bottom: 30px;
-      }
-
-      /* Button Container */
-      .button-container {
-        display: flex;
-        gap: 20px;
-        flex-direction: row;
-        justify-content: center;
-        margin-top: 20px;
-      }
-
-      /* Buttons */
-      .button {
-        background: rgba(0, 0, 0, 0.5);
-        color: white;
-        border: 2px solid rgba(255, 204, 0, 0.7);
-        padding: 14px 40px;
-        font-size: 1.1rem;
-        cursor: pointer;
-        border-radius: 15px;
-        transition: all 0.3s ease-in-out;
-        font-family: "Press Start 2P", cursive;
-        backdrop-filter: blur(5px);
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-      }
-
-      /* Button Hover Effect */
-      .button:hover {
-        background: rgba(255, 204, 0, 0.6);
-        color: black;
-        border-color: white;
-        box-shadow: 0px 6px 12px rgba(255, 255, 255, 0.4);
-        transform: translateY(-2px);
-      }
-
-      /* Login Button */
-      .login-button {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: rgba(0, 0, 0, 0.5);
-        color: white;
-        border: 2px solid rgba(255, 204, 0, 0.7);
-        padding: 10px 22px;
-        font-size: 1rem;
-        cursor: pointer;
-        border-radius: 12px;
-        transition: all 0.3s ease-in-out;
-        font-family: "Press Start 2P", cursive;
-        backdrop-filter: blur(5px);
-      }
-
-      /* Login Button Hover Effect */
-      .login-button:hover {
-        background: rgba(255, 204, 0, 0.5);
-        color: black;
-        border-color: white;
-      }
-
-      /* Mobile Optimization */
-      @media (max-width: 600px) {
-        .button-container {
-          flex-direction: column;
-          gap: 15px;
-        }
-
-        .button {
-          width: 85%;
-          padding: 16px;
-          font-size: 1.2rem;
-        }
-
-        .login-button {
-          position: fixed;
-          top: 12px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 80%;
-          padding: 14px;
-          font-size: 1.1rem;
-        }
-      }
-      /* Title */
-      h1 {
-        font-size: 3rem;
-        margin-bottom: 20px;
-        color: #ffcc00;
-        text-shadow: 4px 4px 15px rgba(0, 0, 0, 0.7),
-          0 0 15px rgba(255, 204, 0, 0.8);
-        animation: glowingTitle 1.5s infinite alternate;
-      }
-
-      /* Glowing Animation for Title */
-      @keyframes glowingTitle {
-        0% {
-          text-shadow: 0 0 5px rgba(255, 204, 0, 0.8),
-            0 0 10px rgba(255, 204, 0, 0.7);
-          color: #ffcc00;
-        }
-        50% {
-          text-shadow: 0 0 20px rgba(255, 204, 0, 1),
-            0 0 30px rgba(255, 204, 0, 0.8);
-          color: #ffcc00;
-        }
-        100% {
-          text-shadow: 0 0 5px rgba(255, 204, 0, 0.8),
-            0 0 10px rgba(255, 204, 0, 0.7);
-          color: #ffcc00;
-        }
-      }
-      /* Subtitle (Champion Question) */
-      .subtitle {
-        font-size: 1.6rem; /* Smaller than title */
-        font-weight: bold;
-        color: #ffcc00;
-        text-shadow: 4px 4px 15px rgba(0, 0, 0, 0.7),
-          0 0 15px rgba(255, 204, 0, 0.8);
-        font-family: "Bangers", cursive; /* Flashy font */
-        margin-top: -10px;
-        margin-bottom: 40px;
-      }
-
-      /* Animation for Subtitle */
-      @keyframes glowAnimation {
-        0% {
-          text-shadow: 4px 4px 15px rgba(0, 0, 0, 0.7),
-            0 0 15px rgba(255, 204, 0, 0.7);
-        }
-        100% {
-          text-shadow: 4px 4px 25px rgba(255, 204, 0, 1),
-            0 0 30px rgba(255, 204, 0, 0.8);
-        }
-      }
-    </style>
-    <script>
-      let loggedIn = false;
-
-      /*function toggleLogin() {
-          loggedIn = !loggedIn;
-          const loginButton = document.getElementById('loginBtn');
-          const loginIcon = document.getElementById('loginIcon');
-
-          if (loggedIn) {
-              loginButton.innerHTML = <i class="fas fa-user"></i> Logout;
-          } else {
-              loginButton.innerHTML = <i class="fas fa-sign-in-alt"></i> Login;
-          }
-      }
-
-     function loadGame() {
-          window.location.href = 'load_game.html';
-      }*/
-    </script>
   </head>
   <body>
+
+    <div class="exit-menu-overlay">
+      <div class="exit-menu-content">
+        <div class="exit-menu-header">Pokémon</div>
+        <ul class="exit-menu-items">
+          <li class="exit-menu-item"><a href="#" id="continue-btn">Speel verder</a></li>
+          <li class="exit-menu-item"><a href="#" id="save-btn">Spel opslaan</a></li>
+          <li class="exit-menu-item"><a href="#" id="quit-btn">Spel verlaten</a></li>
+        </ul>
+      </div>
+    </div>
+
     <div class="background"></div>
-    <button class="login-button" id="loginBtn" onclick="toggleLogin()">
-      <i id="loginIcon" class="fas fa-sign-in-alt"></i> Login
-    </button>
     <h1>Welkom Bij Pokemon Wereld</h1>
     <p class="subtitle">Ben je klaar om ze allemaal te vangen?</p>
     <div class="button-container">
       <button class="button" button onclick="window.location.href='new-game.html'">New Game</button>
-      <button class="button" onclick="loadGame()">Load Game</button>
-    </div>
-
-    
+      <button class="button" onclick="">Load Game</button>
+    </div>  
   </body>
 </html>
