@@ -4,11 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../CSS/reset.css" />
-    <link rel="stylesheet" href="../CSS/quiz.css" />
     <link rel="stylesheet" href="../CSS/base.css" />
+    <link rel="stylesheet" href="../CSS/evolutie.css">
     <title>Pokemon-Evolutie</title>
   </head>
   <body>
+    <header>
     <div class="background"></div>
     </div>
     
@@ -32,35 +33,27 @@
         </ul>
     </div>
 </div>
-<div class="main-content">
-  <div class="trainer-section">
+</header>
+<main class="main-content">
+  
+  <section class="trainer-section">
     <div class="trainer-image">
         <img src="../Assets/Player/female.png">
     </div>
     <h2 class="trainer-name">Trainer Naam</h2>
+  </section>
+  <h1>Evolutie pad van</h1>
+  <form id="searchForm">
+  <input type="text" id="pokemonInput" placeholder="">
+  <button type="submit" >Zoek</button>
+    </form>
+  <div class="evolution-path" id="evolutionPath">
+     
   </div>
+
   
-</div>
-    <!--<main>
-      <section class="trainer-section">
-        <div class="trainer-info">
-          <img src="#" alt="Trainer Profile" />
-          <h2>Trainer Name</h2>
-          <input type="text" placeholder="Search..." />
-        </div>
-      </section>
-      <div class="pokemon-box">
-        <div class="pokemon-img">IMAGE</div>
-      </div>
-      <h3>EVOLUTION PATH</h3>
-      <div class="evolution">
-        <img src="#" alt="Evolution 1" />
-        <span>→</span>
-        <img src="#" alt="Evolution 2" />
-        <span>→</span>
-        <img src="#" alt="Evolution 3" />
-      </div>
-    </main>-->
+</main>
+    
     <script>
       document.addEventListener('DOMContentLoaded', function() {
           const menuButton = document.querySelector('.menu-button');
@@ -95,4 +88,5 @@
       
       </script>
   </body>
+  <script src="../JS/evolutie.js"></script>
 </html>
