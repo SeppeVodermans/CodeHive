@@ -85,10 +85,12 @@ function savePokemonName() {
 }
 
 function saveTrainer() {
-  let trainerName = document.getElementById("trainer-name").value.trim();
+  let trainerName = document.getElementById("trainer-name").value.trim().capitalize();
   let selectedPokemon = localStorage.getItem("selectedPokemon") || "";
   let pokemonNickname = localStorage.getItem("pokemonNickname") || "";
-  let selectedGender = document.getElementById('input[name="gender"]: checked');
+  let selectedGender = document.querySelector(
+    'input[name="gender"]:checked'
+  )?.value;
 
   console.log("Trainer Name:", trainerName);
   console.log("Selected Pokémon:", selectedPokemon);
@@ -116,7 +118,7 @@ function saveTrainer() {
 
   localStorage.setItem("trainerName", trainerName);
   localStorage.setItem("selectedPokemon", selectedPokemon);
-  localStorage.setItem("pokemonNickName", pokemonNickname);
+  localStorage.setItem("pokemonNickname", pokemonNickname);
   localStorage.setItem("selectedGender", selectedGender);
   document.getElementById(
     "output"
@@ -125,6 +127,16 @@ function saveTrainer() {
   setTimeout(() => {
     window.location.href = "team.html";
   }, 3000);
+
+  const team = [
+    {
+      name: selectedPokemon,
+      nickname: pokemonNickname,
+      isMain: true,
+    },
+  ];
+
+  localStorage.setItem("trainerTeam", JSON.stringify(team));
 }
 function updateProfileImage() {
   let selectedGender = document.querySelector(
