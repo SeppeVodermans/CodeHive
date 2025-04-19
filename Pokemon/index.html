@@ -3,55 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
     <link rel="stylesheet" href="CSS/reset.css" />
     <link rel="stylesheet" href="CSS/global.css" />
     <link rel="stylesheet" href="CSS/style.css" />
-    <title>Home</title>
+    <style>
+      .Image-Container {
+        margin-top: 50px;
+      }
+      .Image-Container ul li img {
+        filter: brightness(40%);
+        transition: filter 0.3s ease-in-out;
+      }
+
+      .Image-Container ul li img:hover {
+        filter: brightness(100%);
+      }
+    </style>
   </head>
   <body>
-    <header>
-      <nav>
-        <a href="index.html"
-          ><img src="Assets/CodeHive-Logo.png" alt="CodeHive Logo"
-        /></a>
-      </nav>
-    </header>
     <main>
-      <div class="Form-Container">
-        <form action="index.html" method="get">
-          <p class="Log-In">Aanmelden</p>
-          <label for="username">Username<span class="required">*</span>:</label
-          ><br />
-          <input
-            class="Input"
-            type="text"
-            placeholder="Type here..."
-            name="naam"
-            id="username"
-            required
-          /><br />
-          <label for="password">Password<span class="required">*</span>:</label
-          ><br />
-          <input
-            class="Input"
-            type="password"
-            placeholder="Type here..."
-            name="naam"
-            id="password"
-            required
-          /><br />
-          <a href="forgot-password.html" class="forgot-password"
-            >Wachtwoord vergeten?</a
-          >
-          <div class="Log-In-Button">
-            <input type="submit" name="" value="Aanmelden" />
-          </div>
-          <p class="NewUser">New User</p>
-          <div class="Log-In-Button">
-            <input type="submit" name="" value="Inschrijven" />
-          </div>
-        </form>
-      </div>
       <div class="Image-Container">
         <ul>
           <li>
@@ -79,7 +50,7 @@
             <p>MTG</p>
           </li>
           <li>
-            <a href="../Pokemon/HTML-Pages/homepage.html"
+            <a href="Pokemon/HTML-Pages/homepage.html"
               ><img src="Assets/pokemon logo (1).jpg" alt="Pokemon"
             /></a>
             <p>Pokemon</p>
@@ -87,6 +58,6 @@
         </ul>
       </div>
     </main>
-    <footer>&copy; 2025 | CodeHive | All Rights Reserved.</footer>
+    <script src="JS/aanmelden.js"></script>
   </body>
 </html>

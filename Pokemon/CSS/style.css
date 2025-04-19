@@ -4,13 +4,6 @@
   padding: 0;
   font-family: Montserrat, sans-serif;
 }
-/*Body*/
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background-color: #ebebeb;
-}
 /*Form*/
 .Form-Container {
   background-image: url(/Pokemon/Assets/nav-bar\ background.jpg);

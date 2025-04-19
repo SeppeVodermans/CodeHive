@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../CSS/reset.css" />
-    <link rel="stylesheet" href="../CSS/quiz.css" />
     <link rel="stylesheet" href="../CSS/base.css" />
     <title>Pokemon-Evolutie</title>
   </head>
@@ -32,13 +31,24 @@
         </ul>
     </div>
 </div>
-<div class="main-content">
-  <div class="trainer-section">
+</header>
+<main class="main-content">
+  
+  <section class="trainer-section">
     <div class="trainer-image">
         <img src="../Assets/Player/female.png">
     </div>
     <h2 class="trainer-name">Trainer Naam</h2>
+  </section>
+  <h1>Evolutie pad van</h1>
+  <form id="searchForm">
+  <input type="text" id="pokemonInput" placeholder="">
+  <button type="submit" >Zoek</button>
+    </form>
+  <div class="evolution-path" id="evolutionPath">
+     
   </div>
+
   
 </div>
     <!--<main>
@@ -95,4 +105,5 @@
       
       </script>
   </body>
+  <script src="../JS/evolutie.js"></script>
 </html>

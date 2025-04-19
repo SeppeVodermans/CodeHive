@@ -10,9 +10,23 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
+    
+    <script src="../JS/menu.js"></script>
     <title>Vang Pokémon</title>
   </head>
   <body>
+    
+    <div class="exit-menu-overlay">
+      <div class="exit-menu-content">
+        <div class="exit-menu-header">Pokémon</div>
+        <ul class="exit-menu-items">
+          <li class="exit-menu-item"><a href="#" id="continue-btn">Speel verder</a></li>
+          <li class="exit-menu-item"><a href="#" id="save-btn">Spel opslaan</a></li>
+          <li class="exit-menu-item"><a href="#" id="quit-btn">Spel verlaten</a></li>
+        </ul>
+      </div>
+    </div>
+
     <div class="background"></div>
     <button class="menu-button">
       <img src="../Assets/menu-icon.webp" />
@@ -47,6 +61,14 @@
       <div class="pokemon-card">
         <h2 id="pokemonName">Een wilde Pokémon duikt op!</h2>
         <img id="pokemonImage" src="" alt="Wilde Pokémon!" width="200" />
+        <div id="catch-options" style="display: none;">
+          <button id="keep-pokemon">Houden ✅</button>
+          <button id="release-pokemon">Vrijlaten ❌</button>
+        </div>
+        <div id="nickname-container" style="display: none;">
+          <input type="text" id="nickname-input" placeholder="Geef een bijnaam...">
+          <button id="confirm-nickname">Opslaan</button>
+        </div>
       </div>
       <aside class="pokeballs">
         <div id="rare-pokeball">
@@ -82,37 +104,6 @@
         <p id="catch-status"></p>
       </div>
     </main>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const menuButton = document.querySelector(".menu-button");
-        const mainContent = document.querySelector(".main-content");
-        const menuOverlay = document.querySelector(".menu-overlay");
-        const closeButton = document.querySelector(".close-button");
-        const body = document.body;
-
-        function openMenu() {
-          menuOverlay.classList.add("active");
-          mainContent.classList.add("behind-menu");
-          body.classList.add("menu-open");
-          menuButton.style.display = "none";
-        }
-
-        function closeMenu() {
-          menuOverlay.classList.remove("active");
-          mainContent.classList.remove("behind-menu");
-          body.classList.remove("menu-open");
-          menuButton.style.display = "flex";
-        }
-
-        menuButton.addEventListener("click", openMenu);
-        closeButton.addEventListener("click", closeMenu);
-
-        const menuItems = document.querySelectorAll(".menu-item");
-        menuItems.forEach((item) => {
-          item.addEventListener("click", closeMenu);
-        });
-      });
-    </script>
     <script src="../JS/catch.js"></script>
   </body>
 </html>
