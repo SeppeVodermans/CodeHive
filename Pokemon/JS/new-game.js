@@ -85,7 +85,7 @@ function savePokemonName() {
 }
 
 function saveTrainer() {
-  let trainerName = document.getElementById("trainer-name").value.trim();
+  let trainerName = document.getElementById("trainer-name").value.trim().capitalize();
   let selectedPokemon = localStorage.getItem("selectedPokemon") || "";
   let pokemonNickname = localStorage.getItem("pokemonNickname") || "";
   let selectedGender = document.querySelector(

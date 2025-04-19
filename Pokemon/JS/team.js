@@ -69,9 +69,7 @@ function setTrainerTeam(pokemonArray) {
 
   for (const pokemon of pokemonArray) {
     if (uniqueTeam.length >= 6) {
-      console.warn(
-        "⚠️ Teamlimiet van 6 bereikt. Extra Pokémon worden genegeerd."
-      );
+      console.warn("Teamlimiet van 6 bereikt. Extra Pokémon worden genegeerd.");
       break;
     }
 
@@ -101,11 +99,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const selectedName = localStorage.getItem("selectedPokemon");
   const nickname = localStorage.getItem("pokemonNickname");
 
-  const extraPokemons = [
-    { name: "bulbasaur", nickname: "Leafy" },
-    { name: "squirtle", nickname: "Bubbles" },
-    { name: "gengar", nickname: "Shadow" },
-  ];
+  const extraPokemons = [];
 
   const team = [
     { name: selectedName, nickname: nickname, isMain: true },

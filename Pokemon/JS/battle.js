@@ -1,137 +1,160 @@
 "use strict";
-/*Data Fetch APU*/
-async function getPokemonData(pokemonNameOrId) {
+
+// Capitalize helper
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+// Pokémon ophalen via API
+async function getPokemonData(nameOrId) {
   try {
     const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${pokemonNameOrId.toLowerCase()}`
+      `https://pokeapi.co/api/v2/pokemon/${String(nameOrId).toLowerCase()}`
     );
-    if (!response.ok) throw new Error("Pokémon niet gevonden!");
 
+    if (!response.ok) throw new Error("Pokémon niet gevonden");
     const data = await response.json();
     return {
       name: capitalize(data.name),
-      sprite: data.sprites.front_default, // API image
-      hp: data.stats.find((stat) => stat.stat.name === "hp").base_stat,
-      attack: data.stats.find((stat) => stat.stat.name === "attack").base_stat,
-      defense: data.stats.find((stat) => stat.stat.name === "defense")
-        .base_stat,
-      speed: data.stats.find((stat) => stat.stat.name === "speed").base_stat,
+      sprite: data.sprites.front_default,
+      hp: data.stats.find((s) => s.stat.name === "hp").base_stat,
+      attack: data.stats.find((s) => s.stat.name === "attack").base_stat,
+      defense: data.stats.find((s) => s.stat.name === "defense").base_stat,
+      speed: data.stats.find((s) => s.stat.name === "speed").base_stat,
     };
-  } catch (error) {
-    console.error(error.message);
+  } catch (err) {
+    console.error("Fout:", err.message);
     return null;
   }
 }
 
-/*Loading in Pokemons*/
-async function loadPokemon() {
-  const pokemon1 = await getPokemonData("machop"); // User Pokemon
-  const pokemon2 = await getPokemonData(newOpponent); // Random Pokemon
-
-  if (pokemon1 && pokemon2) {
-    updateBattleField(pokemon1, pokemon2);
-  }
-}
-
-function updateBattleField(pokemon1, pokemon2) {
-  const cards = document.querySelectorAll(".pokemon-card");
-
-  /*Pokemon User*/
-  cards[0].querySelector("h3").innerText = pokemon1.name;
-  cards[0].querySelector("img").src = pokemon1.sprite;
-  updateStats(cards[0], pokemon1);
-
-  /*Random Pokemon*/
-  cards[1].querySelector("h3").innerText = pokemon2.name;
-  cards[1].querySelector("img").src = pokemon2.sprite;
-  updateStats(cards[1], pokemon2);
-
-  /*Battle btn*/
-  document.querySelector(".battle-btn").onclick = () =>
-    startBattle(pokemon1, pokemon2);
-}
-
-/*Stats Updaten*/
-function updateStats(card, pokemon) {
-  const stats = card.querySelector(".stats").querySelectorAll("p");
+// Stats tonen
+function updateCard(card, pokemon) {
+  card.querySelector("h3").innerText = pokemon.name;
+  card.querySelector("img").src = pokemon.sprite;
+  const stats = card.querySelectorAll(".stats p");
   stats[0].innerText = `HP: ${pokemon.hp}`;
   stats[1].innerText = `Attack: ${pokemon.attack}`;
   stats[2].innerText = `Defense: ${pokemon.defense}`;
   stats[3].innerText = `Speed: ${pokemon.speed}`;
 }
 
-/*Battler*/
-async function startBattle(pokemon1, pokemon2) {
+// Battle-log
+function getBattleLog() {
+  let log = document.querySelector(".battle-log");
+  if (!log) {
+    log = document.createElement("div");
+    log.className = "battle-log";
+    document.querySelector(".battle-container").appendChild(log);
+  }
+  log.innerHTML = "";
+  return log;
+}
+
+// Battle uitvoeren
+function startBattle(pokemon1, pokemon2) {
   let hp1 = pokemon1.hp;
   let hp2 = pokemon2.hp;
+  const cards = document.querySelectorAll(".pokemon-card");
+  const log = getBattleLog();
 
-  const log =
-    document.querySelector(".battle-log") || document.createElement("div");
-  log.classList.add("battle-log");
-  log.innerHTML = "";
-  document.querySelector(".battle-container").appendChild(log);
-
-  function attack(attacker, defender, defenderHp) {
-    let damage = Math.max(1, attacker.attack - defender.defense / 2);
-    defenderHp -= damage;
-    log.innerHTML += `<p>${attacker.name} attacks ${
-      defender.name
-    } for ${Math.round(damage)} damage!</p>`;
-    return defenderHp;
-  }
-
-  /*Speed Pokemon*/
   let attacker = pokemon1.speed >= pokemon2.speed ? pokemon1 : pokemon2;
   let defender = attacker === pokemon1 ? pokemon2 : pokemon1;
 
-  /*Battle Loop (Attacking till 0 HP)*/
   while (hp1 > 0 && hp2 > 0) {
-    hp2 = attack(attacker, defender, hp2);
-    updateStats(document.querySelectorAll(".pokemon-card")[1], {
-      ...defender,
-      hp: Math.max(0, hp2),
-    });
+    let damage = Math.max(1, attacker.attack - defender.defense / 2);
+    if (attacker === pokemon1) {
+      hp2 = Math.max(0, hp2 - damage);
+      updateCard(cards[1], { ...defender, hp: hp2 });
+      log.innerHTML += `<p>${attacker.name} doet ${Math.round(
+        damage
+      )} schade aan ${defender.name}!</p>`;
+    } else {
+      hp1 = Math.max(0, hp1 - damage);
+      updateCard(cards[0], { ...defender, hp: hp1 });
+      log.innerHTML += `<p>${attacker.name} doet ${Math.round(
+        damage
+      )} schade aan ${defender.name}!</p>`;
+    }
 
-    if (hp2 <= 0) {
-      log.innerHTML += `<p><strong>${attacker.name} Wins!</strong></p>`;
+    if (hp1 <= 0 || hp2 <= 0) {
+      const winnaar = hp1 > 0 ? pokemon1.name : pokemon2.name;
+      log.innerHTML += `<p><strong>${winnaar} wint!</strong></p>`;
       break;
     }
-    /*Taking Turns*/
+
     [attacker, defender] = [defender, attacker];
   }
 }
 
-/*Generate Random Pokemon*/
-async function generateRandomOpponent() {
-  const randomId = Math.floor(Math.random() * 151) + 1;
-  const newOpponent = await getPokemonData(randomId);
+// Battle klaarzetten met gekozen Pokémon
+async function loadBattle(opponentName = null) {
+  const cards = document.querySelectorAll(".pokemon-card");
+  const userPokemonName = localStorage.getItem("selectedPokemon") || "pikachu";
+  const userNickname = localStorage.getItem("pokemonNickname");
 
-  if (newOpponent) {
-    const cards = document.querySelectorAll(".pokemon-card");
+  const player = await getPokemonData(userPokemonName);
+  const opponent = opponentName
+    ? await getPokemonData(opponentName)
+    : await getPokemonData(Math.floor(Math.random() * 151) + 1);
 
-    /*Update Random Pokemon*/
-    cards[1].querySelector("h3").innerText = newOpponent.name;
-    cards[1].querySelector("img").src = newOpponent.sprite;
-    updateStats(cards[1], newOpponent);
-
-    /*Update Battle Btn*/
-    const currentPokemon = await getPokemonData(
-      cards[0].querySelector("h3").innerText.toLowerCase()
-    );
-    document.querySelector(".battle-btn").onclick = () =>
-      startBattle(currentPokemon, newOpponent);
+  // Overschrijf naam met nickname als die bestaat
+  if (player && userNickname) {
+    player.name = capitalize(userNickname);
   }
+
+  if (player && opponent) {
+    updateCard(cards[0], player);
+    updateCard(cards[1], opponent);
+
+    document.querySelector(".battle-btn").onclick = () =>
+      startBattle(player, opponent);
+  }
+  function updateTrainerInfo() {
+    const trainerName = localStorage.getItem("trainerName") || "Trainer";
+    const gender = localStorage.getItem("selectedGender") || "F";
+
+    const trainerImage = document.querySelector(".trainer-info img");
+    const trainerNameHeading = document.getElementById("trainer-name");
+
+    // Naam instellen
+    if (trainerNameHeading) {
+      trainerNameHeading.innerText = `${trainerName}`;
+    }
+
+    // Afbeelding instellen
+    if (trainerImage) {
+      trainerImage.src =
+        gender === "M"
+          ? "../Assets/Player/male.png"
+          : "../Assets/Player/female.png";
+    }
+  }
+  updateTrainerInfo();
 }
 
-/*Capitalize Pokemon Name*/
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+// Zoek input activeren
+function setupSearch() {
+  const searchInput = document.querySelector(".trainer-info input");
+  if (!searchInput) return;
+
+  searchInput.addEventListener("keypress", async (e) => {
+    if (e.key === "Enter") {
+      const value = e.target.value.trim().toLowerCase();
+      if (value) {
+        loadBattle(value);
+        e.target.value = "";
+      }
+    }
+  });
 }
 
-/*Event*/
+// Initialisatie
 document.addEventListener("DOMContentLoaded", () => {
-  loadPokemon();
-  document
-    .querySelector(".generate-btn")
-    .addEventListener("click", generateRandomOpponent);
+  loadBattle();
+  setupSearch();
+
+  document.querySelector(".generate-btn").addEventListener("click", () => {
+    loadBattle(); // willekeurige tegenstander
+  });
 });
