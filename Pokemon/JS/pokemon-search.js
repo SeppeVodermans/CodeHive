@@ -1,3 +1,34 @@
+async function getPokemonTypes() {
+  try {
+    const response = await fetch("https://pokeapi.co/api/v2/type");
+    if (!response.ok)
+      throw new Error("Fout bij het ophalen van Pokémon types!");
+
+    const data = await response.json();
+    const typeFilter = document.getElementById("type-filter");
+
+    const allOptions = document.createElement("option");
+    allOptions.value = "all";
+    allOptions.textContent = "Alle types";
+    typeFilter.appendChild(allOptions);
+
+    data.results.forEach((type) => {
+      const option = document.createElement("option");
+      option.value = type.name;
+      option.textContent = capitalizeFirstLetter(type.name);
+      typeFilter.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Fout bij het ophalen van types:", error);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("Pagina geladen, start ophalen van Pokémon...");
+  getPokemonTypes();
+  getAllPokemon();
+});
+
 async function getAllPokemon() {
   try {
     console.log("Bezig met ophalen van Pokémon...");
@@ -144,8 +175,6 @@ document.getElementById("type-filter").addEventListener("change", function () {
   });
 });
 
-// Laadt alle Pokémon bij het starten van de pagina
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("Pagina geladen, start ophalen van Pokémon...");
-  getAllPokemon();
-});
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
