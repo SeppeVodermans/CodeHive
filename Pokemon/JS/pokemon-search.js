@@ -36,7 +36,7 @@ async function getPokemonData(pokemonNameOrId) {
   }
 }
 
-function displayPokemon(pokemonList) {
+async function displayPokemon(pokemonList) {
   const container = document.getElementById("pokemon-container");
   if (!container) {
     console.error("Fout: #pokemon-container bestaat niet in de HTML!");
@@ -51,8 +51,8 @@ function displayPokemon(pokemonList) {
 
   const caughtPokemon = JSON.parse(localStorage.getItem("caughtPokemon")) || [];
 
-  pokemonList.forEach((pokemon) => {
-    if (!pokemon) return;
+  for (const pokemon of pokemonList) {
+    if (!pokemon) continue;
 
     const pokemonTypes = pokemon.types.map((t) => t.type.name).join(", ");
     const isCaught = caughtPokemon.includes(pokemon.name);
@@ -61,19 +61,57 @@ function displayPokemon(pokemonList) {
     pokemonCard.classList.add("pokemon-card");
     pokemonCard.setAttribute("data-type", pokemonTypes);
 
-    const imgStyle = isCaught
-      ? ""
-      : 'style="filter: grayscale(100%); opacity: 0.5;"';
+    const img = document.createElement("img");
+    img.src = pokemon.sprites.front_default;
+    img.alt = pokemon.name;
+    if (!isCaught) {
+      img.style.filter = "grayscale(100%)";
+      img.style.opacity = "0.5";
+    }
 
-    pokemonCard.innerHTML = `
-        <img src="${pokemon.sprites.front_default}" alt="${
-      pokemon.name
-    }" ${imgStyle}>
-        <p>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
+    const name = document.createElement("p");
+    // name.textContent = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+
+    const infoIcon = document.createElement("span");
+    infoIcon.classList.add("info-icon");
+    infoIcon.textContent = "ℹ";
+
+    const tooltip = document.createElement("div");
+    tooltip.classList.add("tooltip");
+
+    if (isCaught) {
+      const speciesRes = await fetch(
+        `https://pokeapi.co/api/v2/pokemon-species/${pokemon.name}`
+      );
+      const speciesData = await speciesRes.json();
+      const entry = speciesData.flavor_text_entries.find(
+        (e) => e.language.name === "en"
+      );
+      const description = entry
+        ? entry.flavor_text.replace(/\f/g, " ")
+        : "No description available.";
+
+      tooltip.innerHTML = `
+        <strong>${pokemon.name}</strong><br>
+        Type: ${pokemonTypes}<br>
+        ${description}
       `;
+    } else {
+      tooltip.innerHTML = `
+        <strong>???</strong><br>
+        Type: ???<br>
+        Beschrijving: ???
+      `;
+    }
+
+    infoIcon.appendChild(tooltip);
+
+    pokemonCard.appendChild(infoIcon);
+    pokemonCard.appendChild(img);
+    pokemonCard.appendChild(name);
 
     pokemonGrid.appendChild(pokemonCard);
-  });
+  }
 
   container.appendChild(pokemonGrid);
 }
