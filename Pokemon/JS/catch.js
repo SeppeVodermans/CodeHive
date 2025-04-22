@@ -6,10 +6,28 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+async function isFirstEvolution(pokemonName) {
+  const speciesResponse = await fetch(
+    `https://pokeapi.co/api/v2/pokemon-species/${pokemonName}`
+  );
+  const speciesData = await speciesResponse.json();
+
+  return speciesData.evolves_from_species === null;
+}
+
 async function loadRandomPokemon() {
-  const randomId = Math.floor(Math.random() * 151) + 1;
-  const respons = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
-  const data = await respons.json();
+  let isFirstStage = false;
+  let data;
+
+  while (!isFirstStage) {
+    const randomId = Math.floor(Math.random() * 151) + 1;
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${randomId}`
+    );
+    data = await response.json();
+
+    isFirstStage = await isFirstEvolution(data.name);
+  }
 
   currentPokemon = data;
 
@@ -24,6 +42,7 @@ async function loadRandomPokemon() {
     data.name ?? "onbekend"
   )} duikt op!`;
 }
+
 window.onload = loadRandomPokemon;
 
 let rareAttempts = 2;
@@ -44,8 +63,12 @@ async function attemptCatch(ballType) {
   if (!currentPokemon || isCatching) return;
   isCatching = true;
 
-  if (caughtPokemons.some(pokemon => pokemon.name === currentPokemon.name)) {
-    document.getElementById("catch-status").textContent = `✅ ${capitalizeFirstLetter(currentPokemon.name)} is al gevangen!`;
+  if (caughtPokemons.some((pokemon) => pokemon.name === currentPokemon.name)) {
+    document.getElementById(
+      "catch-status"
+    ).textContent = `✅ ${capitalizeFirstLetter(
+      currentPokemon.name
+    )} is al gevangen!`;
     isCatching = false;
     return;
   }
@@ -57,36 +80,38 @@ async function attemptCatch(ballType) {
   const ball = document.querySelector(`#${ballType}-pokeball img`);
   const pokemonImage = document.querySelector("#pokemonImage");
 
-  // Pokémon springt in de bal
   pokemonImage.classList.add("jump");
   await new Promise((resolve) => setTimeout(resolve, 700));
 
-  // Pokémon verdwijnt & bal schudt
   pokemonImage.style.opacity = "0";
   ball.classList.add("shake");
   await new Promise((resolve) => setTimeout(resolve, 4000));
   ball.classList.remove("shake");
 
   if (pokemonNumber <= catchChances && playerNumber <= catchChances) {
-    document.getElementById("catch-status").textContent = `🎉 Je hebt ${capitalizeFirstLetter(currentPokemon.name)} gevangen!`;
+    document.getElementById(
+      "catch-status"
+    ).textContent = `🎉 Je hebt ${capitalizeFirstLetter(
+      currentPokemon.name
+    )} gevangen!`;
 
-    // Laat keuze-opties zien
     document.getElementById("catch-options").style.display = "block";
 
     await new Promise((resolve) => {
       document.getElementById("keep-pokemon").onclick = () => {
         document.getElementById("catch-options").style.display = "none";
 
-        // Laat bijnaam-invoer zien
         document.getElementById("nickname-container").style.display = "block";
         document.getElementById("confirm-nickname").onclick = () => {
           let nickname = document.getElementById("nickname-input").value.trim();
-          let finalName = nickname || capitalizeFirstLetter(currentPokemon.name);
+          let finalName =
+            nickname || capitalizeFirstLetter(currentPokemon.name);
 
           caughtPokemons.push({ ...currentPokemon, nickname: finalName });
-          document.getElementById("catch-status").textContent = `🎉 ${finalName} is toegevoegd aan je collectie!`;
+          document.getElementById(
+            "catch-status"
+          ).textContent = `🎉 ${finalName} is toegevoegd aan je collectie!`;
 
-          // Reset nickname invoer en verberg
           document.getElementById("nickname-input").value = "";
           document.getElementById("nickname-container").style.display = "none";
           resolve();
@@ -94,23 +119,30 @@ async function attemptCatch(ballType) {
       };
 
       document.getElementById("release-pokemon").onclick = () => {
-        document.getElementById("catch-status").textContent = `😢 Je hebt ${capitalizeFirstLetter(currentPokemon.name)} vrijgelaten!`;
+        document.getElementById(
+          "catch-status"
+        ).textContent = `😢 Je hebt ${capitalizeFirstLetter(
+          currentPokemon.name
+        )} vrijgelaten!`;
         document.getElementById("catch-options").style.display = "none";
         resolve();
       };
     });
   } else {
-    document.getElementById("catch-status").textContent = `😢 ${capitalizeFirstLetter(currentPokemon.name)} is ontsnapt!`;
+    document.getElementById(
+      "catch-status"
+    ).textContent = `😢 ${capitalizeFirstLetter(
+      currentPokemon.name
+    )} is ontsnapt!`;
   }
 
   await new Promise((resolve) => setTimeout(resolve, 2000));
 
-  // Reset Pokémon afbeelding
   pokemonImage.style.opacity = "1";
   pokemonImage.style.display = "block";
   pokemonImage.classList.remove("jump");
 
-  await loadRandomPokemon(); // Laad nieuwe Pokémon
+  await loadRandomPokemon();
   isCatching = false;
 }
 document.getElementById("rare-pokeball").addEventListener("click", async () => {
