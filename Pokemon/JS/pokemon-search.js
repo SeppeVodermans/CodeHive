@@ -49,17 +49,26 @@ function displayPokemon(pokemonList) {
   const pokemonGrid = document.createElement("div");
   pokemonGrid.classList.add("pokemon-grid");
 
+  const caughtPokemon = JSON.parse(localStorage.getItem("caughtPokemon")) || [];
+
   pokemonList.forEach((pokemon) => {
     if (!pokemon) return;
 
     const pokemonTypes = pokemon.types.map((t) => t.type.name).join(", ");
+    const isCaught = caughtPokemon.includes(pokemon.name);
 
     const pokemonCard = document.createElement("div");
     pokemonCard.classList.add("pokemon-card");
     pokemonCard.setAttribute("data-type", pokemonTypes);
 
+    const imgStyle = isCaught
+      ? ""
+      : 'style="filter: grayscale(100%); opacity: 0.5;"';
+
     pokemonCard.innerHTML = `
-        <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
+        <img src="${pokemon.sprites.front_default}" alt="${
+      pokemon.name
+    }" ${imgStyle}>
         <p>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
       `;
 
@@ -99,7 +108,6 @@ document.getElementById("type-filter").addEventListener("change", function () {
 
 // Laadt alle Pokémon bij het starten van de pagina
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Pagina geladen, start ophalen van Pokémon...");
-    getAllPokemon();
-  });
-  
+  console.log("Pagina geladen, start ophalen van Pokémon...");
+  getAllPokemon();
+});
