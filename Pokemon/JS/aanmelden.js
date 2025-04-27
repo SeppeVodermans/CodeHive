@@ -42,7 +42,7 @@ projectLinks.forEach(link => {
         } else if (projectName === 'Pokemon') {
             alert("Welkom bij Pokemon!");
             window.location.href = event.target.closest('a').href; 
-            window.location.href = "../HTML-Pages/aanmelden.html"; 
+            window.location.href = "/CodeHive/Pokemon/HTML-Pages/aanmelden.html"; 
         } else {
             alert("Je kunt niet deelnemen aan dit spel.");
         }
