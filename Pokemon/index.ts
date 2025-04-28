@@ -1,11 +1,11 @@
 import express, { Express, Request, Response } from "express";
 import ejs from "ejs";
 import path from "path";
-import { connect,insertData,getTrainerWithPokemons,addTeam,removeFromTeam } from "./database"; 
+import { connect, insertData, getTrainerWithPokemons, addTeam, removeFromTeam } from "./database";
 
 const app: Express = express();
 
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname, "views"));
@@ -15,46 +15,67 @@ app.set("port", 3000);
 
 
 app.get("/", (req, res) => {
-    res.render("homepage.ejs");
+  res.render("homepage.ejs");
 });
 app.get("/new-game", (req, res) => {
-    res.render("new-game.ejs");
+  res.render("new-game.ejs");
 });
 
+app.get("/pokemon-search", (req, res) => {
+  res.render("pokemon-search.ejs");
+});
+app.get("/battler", (req, res) => {
+  res.render("battler.ejs");
+});
+app.get("/catch", (req, res) => {
+  res.render("catch.ejs");
+});
+app.get("/compare", (req, res) => {
+  res.render("compare.ejs");
+});
+app.get("/pokemonevolution", (req, res) => {
+  res.render("pokemonevolution.ejs");
+});
+app.get("/quize", (req, res) => {
+  res.render("quize.ejs");
+});
+
+
 app.get("/team", async (req, res) => {
-    const id = "6807b809ca0c95ea66a05d80"; 
-    const result = await getTrainerWithPokemons(id);
-    if(result){
-        const { trainer, pokemons,team } = result;
-        res.render("team", {
-            trainer: trainer,
-            pokemons: pokemons,
-            team: team
-        });
-    }
+  const id = "680f94f80e253abbc6683d8c";
+  const result = await getTrainerWithPokemons(id);
+  if (result) {
+    const { trainer, pokemons, team } = result;
+    res.render("team", {
+      trainer: trainer,
+      pokemons: pokemons,
+      team: team
+    });
+  }
 });
 
 app.post('/team/add', async (req, res) => {
-    const pokemonId = req.body.pokemonId;
-    const trainerId = "6807b809ca0c95ea66a05d80"
-    await addTeam(pokemonId,trainerId);
+  const pokemonId = req.body.pokemonId;
+  const trainerId = "680f94f80e253abbc6683d8c"
+  await addTeam(pokemonId, trainerId);
 
-    res.redirect("/team");
+  res.redirect("/team");
 
-  });
+});
 
-  app.post("/team/remove", async (req, res) => {
-    const pokemonId = req.body.pokemonId;
-    const trainerId = "6807b809ca0c95ea66a05d80"; 
-    
-    await removeFromTeam(pokemonId, trainerId);
-    
-    res.redirect("/team");
-  });
-  
+app.post("/team/remove", async (req, res) => {
+  const pokemonId = req.body.pokemonId;
+  const trainerId = "680f94f80e253abbc6683d8c";
+
+  await removeFromTeam(pokemonId, trainerId);
+
+  res.redirect("/team");
+});
+
 app.listen(app.get("port"), async () => {
-    await connect();
-    console.log("Server started on http://localhost:" + app.get('port'));
+  await connect();
+  // await insertData();
+  console.log("Server started on http://localhost:" + app.get('port'));
 });
 
 /*async function getPokemonData(name: string) {
