@@ -62,7 +62,6 @@
 
     member.isMain ? grid.prepend(card) : grid.appendChild(card);
   }
-}*/
 
 /*Test Pokemons*/
 /*document.addEventListener("DOMContentLoaded", () => {
