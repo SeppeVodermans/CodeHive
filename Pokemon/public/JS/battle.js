@@ -5,15 +5,83 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+// Type-effectiviteit
+const typeEffectiveness = {
+  fire: { grass: 2, water: 0.5, fire: 0.5 },
+  water: { fire: 2, grass: 0.5, water: 0.5 },
+  grass: { water: 2, fire: 0.5, grass: 0.5 },
+  electric: { water: 2, grass: 0.5, electric: 0.5 },
+};
+
 // Pokémon ophalen via API
 async function getPokemonData(nameOrId) {
   try {
     const response = await fetch(
       `https://pokeapi.co/api/v2/pokemon/${String(nameOrId).toLowerCase()}`
     );
-
     if (!response.ok) throw new Error("Pokémon niet gevonden");
     const data = await response.json();
+
+    const types = data.types.map(t => t.type.name); // [ 'grass', 'poison' ]
+    const allMoves = data.moves;
+    const selectedMoves = [];
+
+    const usedMoveNames = new Set();
+
+    async function getValidMove(moveEntry) {
+      const res = await fetch(moveEntry.move.url);
+      if (!res.ok) return null;
+      const move = await res.json();
+
+      if (
+        move.power &&
+        move.type &&
+        move.power !== null &&
+        move.type.name !== "status"
+      ) {
+        return {
+          name: capitalize(move.name.replace("-", " ")),
+          power: move.power,
+          type: move.type.name,
+        };
+      }
+      return null;
+    }
+
+    for (const type of types) {
+      for (const moveEntry of allMoves) {
+        const moveData = await getValidMove(moveEntry);
+        if (
+          moveData &&
+          moveData.type === type &&
+          !usedMoveNames.has(moveData.name)
+        ) {
+          selectedMoves.push(moveData);
+          usedMoveNames.add(moveData.name);
+          break; 
+        }
+      }
+    }
+
+    for (const moveEntry of allMoves) {
+      if (selectedMoves.length >= 4) break;
+
+      const moveData = await getValidMove(moveEntry);
+      if (moveData && !usedMoveNames.has(moveData.name)) {
+        selectedMoves.push(moveData);
+        usedMoveNames.add(moveData.name);
+      }
+    }
+
+
+    while (selectedMoves.length < 4) {
+      selectedMoves.push({
+        name: "Tackle",
+        power: 40,
+        type: "normal",
+      });
+    }
+
     return {
       name: capitalize(data.name),
       sprite: data.sprites.front_default,
@@ -21,12 +89,16 @@ async function getPokemonData(nameOrId) {
       attack: data.stats.find((s) => s.stat.name === "attack").base_stat,
       defense: data.stats.find((s) => s.stat.name === "defense").base_stat,
       speed: data.stats.find((s) => s.stat.name === "speed").base_stat,
+      type: types[0], 
+      moves: selectedMoves.slice(0, 4),
     };
   } catch (err) {
     console.error("Fout:", err.message);
     return null;
   }
 }
+
+
 
 // Stats tonen
 function updateCard(card, pokemon) {
@@ -51,43 +123,87 @@ function getBattleLog() {
   return log;
 }
 
-// Battle uitvoeren
-function startBattle(pokemon1, pokemon2) {
-  let hp1 = pokemon1.hp;
-  let hp2 = pokemon2.hp;
+// Move damage berekenen
+function calculateDamage(attacker, defender, move) {
+  const effectiveness = typeEffectiveness[move.type]?.[defender.type] || 1;
+  const rawDamage = attacker.attack + move.power - defender.defense / 2;
+  return Math.max(1, rawDamage * effectiveness);
+}
+
+// Aanval uitvoeren
+function attackWithMove(attacker, defender, move, attackerCard, defenderCard, log) {
+  const damage = calculateDamage(attacker, defender, move);
+  defender.hp = Math.max(0, defender.hp - damage);
+
+  log.innerHTML += `<p>${attacker.name} gebruikt <strong>${move.name}</strong> (${move.type})!</p>`;
+
+  const effectiveness = typeEffectiveness[move.type]?.[defender.type] || 1;
+  if (effectiveness > 1) log.innerHTML += `<p>Het is super effectief!</p>`;
+  if (effectiveness < 1) log.innerHTML += `<p>Het is niet erg effectief...</p>`;
+
+  defenderCard.classList.add("shake"); 
+  setTimeout(() => defenderCard.classList.remove("shake"), 500);
+
+  updateCard(defenderCard, defender);
+  log.innerHTML += `<p>${defender.name} verliest ${Math.round(damage)} HP.</p>`;
+
+  return defender.hp <= 0;
+}
+
+
+function disableMoveButtons() {
+  document.querySelectorAll(".move-btn").forEach((btn) => (btn.disabled = true));
+}
+
+function setupMoveButtons(player, opponent) {
+  const buttons = document.querySelectorAll(".move-btn");
   const cards = document.querySelectorAll(".pokemon-card");
   const log = getBattleLog();
 
-  let attacker = pokemon1.speed >= pokemon2.speed ? pokemon1 : pokemon2;
-  let defender = attacker === pokemon1 ? pokemon2 : pokemon1;
+  buttons.forEach((btn, i) => {
+    const move = player.moves[i];
+    btn.textContent = move.name;
+    btn.disabled = false;
+    btn.onclick = async () => {
+      disableMoveButtons();
 
-  while (hp1 > 0 && hp2 > 0) {
-    let damage = Math.max(1, attacker.attack - defender.defense / 2);
-    if (attacker === pokemon1) {
-      hp2 = Math.max(0, hp2 - damage);
-      updateCard(cards[1], { ...defender, hp: hp2 });
-      log.innerHTML += `<p>${attacker.name} doet ${Math.round(
-        damage
-      )} schade aan ${defender.name}!</p>`;
-    } else {
-      hp1 = Math.max(0, hp1 - damage);
-      updateCard(cards[0], { ...defender, hp: hp1 });
-      log.innerHTML += `<p>${attacker.name} doet ${Math.round(
-        damage
-      )} schade aan ${defender.name}!</p>`;
-    }
+      const opponentFainted = attackWithMove(
+        player,
+        opponent,
+        move,
+        cards[0],
+        cards[1],
+        log
+      );
 
-    if (hp1 <= 0 || hp2 <= 0) {
-      const winnaar = hp1 > 0 ? pokemon1.name : pokemon2.name;
-      log.innerHTML += `<p><strong>${winnaar} wint!</strong></p>`;
-      break;
-    }
+      if (opponentFainted) {
+        log.innerHTML += `<p><strong>${player.name} wint!</strong></p>`;
+        return;
+      }
 
-    [attacker, defender] = [defender, attacker];
-  }
+      await new Promise((res) => setTimeout(res, 1000));
+
+      const counterMove =
+        opponent.moves[Math.floor(Math.random() * opponent.moves.length)];
+
+      const playerFainted = attackWithMove(
+        opponent,
+        player,
+        counterMove,
+        cards[1],
+        cards[0],
+        log
+      );
+
+      if (playerFainted) {
+        log.innerHTML += `<p><strong>${opponent.name} wint!</strong></p>`;
+        return;
+      }
+      setupMoveButtons(player, opponent);
+    };
+  });
 }
 
-// Battle klaarzetten met gekozen Pokémon
 async function loadBattle(opponentName = null) {
   const cards = document.querySelectorAll(".pokemon-card");
   const userPokemonName = localStorage.getItem("selectedPokemon") || "pikachu";
@@ -98,7 +214,6 @@ async function loadBattle(opponentName = null) {
     ? await getPokemonData(opponentName)
     : await getPokemonData(Math.floor(Math.random() * 151) + 1);
 
-  // Overschrijf naam met nickname als die bestaat
   if (player && userNickname) {
     player.name = capitalize(userNickname);
   }
@@ -106,31 +221,20 @@ async function loadBattle(opponentName = null) {
   if (player && opponent) {
     updateCard(cards[0], player);
     updateCard(cards[1], opponent);
-
-    document.querySelector(".battle-btn").onclick = () =>
-      startBattle(player, opponent);
+    setupMoveButtons(player, opponent);
   }
-  function updateTrainerInfo() {
-    const trainerName = localStorage.getItem("trainerName") || "Trainer";
-    const gender = localStorage.getItem("selectedGender") || "F";
 
-    const trainerImage = document.querySelector(".trainer-info img");
-    const trainerNameHeading = document.getElementById("trainer-name");
+  const trainerName = localStorage.getItem("trainerName") || "Trainer";
+  const gender = localStorage.getItem("selectedGender") || "F";
+  const trainerImage = document.querySelector(".trainer-info img");
+  const trainerNameHeading = document.getElementById("trainer-name");
 
-    // Naam instellen
-    if (trainerNameHeading) {
-      trainerNameHeading.innerText = `${trainerName}`;
-    }
-
-    // Afbeelding instellen
-    if (trainerImage) {
-      trainerImage.src =
-        gender === "M"
-          ? "../Assets/Player/male.png"
-          : "../Assets/Player/female.png";
-    }
-  }
-  updateTrainerInfo();
+  if (trainerNameHeading) trainerNameHeading.innerText = trainerName;
+  if (trainerImage)
+    trainerImage.src =
+      gender === "M"
+        ? "../Assets/Player/male.png"
+        : "../Assets/Player/female.png";
 }
 
 // Zoek input activeren
@@ -155,6 +259,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setupSearch();
 
   document.querySelector(".generate-btn").addEventListener("click", () => {
-    loadBattle(); // willekeurige tegenstander
+    loadBattle();
   });
 });

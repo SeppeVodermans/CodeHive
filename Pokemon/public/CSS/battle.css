@@ -12,7 +12,7 @@
 }
 .battle-field {
   display: flex;
-  justify-content: space-around; /* ruimte gelijk verdelen */
+  justify-content: space-around; 
   align-items: center;
   flex-wrap: wrap;
   padding: 40px 0;
@@ -119,4 +119,58 @@
 
 .battle-log p strong {
   color: #ff4500;
+}
+.move-selection {
+  margin-top: 30px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.moves {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.move-btn {
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  border: 2px solid #ffcc00;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #2a2a2a;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.move-btn:hover {
+  background-color: #ffe680;
+  transform: scale(1.05);
+}
+
+.move-btn:disabled {
+  background-color: #f2f2f2;
+  color: #aaa;
+  border-color: #ddd;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.5s ease;
 }
