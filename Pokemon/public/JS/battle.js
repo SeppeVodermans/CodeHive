@@ -132,6 +132,12 @@ function calculateDamage(attacker, defender, move) {
 
 // Aanval uitvoeren
 function attackWithMove(attacker, defender, move, attackerCard, defenderCard, log) {
+  // Verwijder standaardtekst indien aanwezig
+  const standaardRegel = "Kies een move om de battle te starten.";
+  if (log.innerHTML.includes(standaardRegel)) {
+    log.innerHTML = ""; // Leegmaken bij eerste echte actie
+  }
+
   const damage = calculateDamage(attacker, defender, move);
   defender.hp = Math.max(0, defender.hp - damage);
 
@@ -149,6 +155,8 @@ function attackWithMove(attacker, defender, move, attackerCard, defenderCard, lo
 
   return defender.hp <= 0;
 }
+
+
 
 
 function disableMoveButtons() {
@@ -224,18 +232,10 @@ async function loadBattle(opponentName = null) {
     setupMoveButtons(player, opponent);
   }
 
-  const trainerName = localStorage.getItem("trainerName") || "Trainer";
-  const gender = localStorage.getItem("selectedGender") || "F";
-  const trainerImage = document.querySelector(".trainer-info img");
-  const trainerNameHeading = document.getElementById("trainer-name");
-
-  if (trainerNameHeading) trainerNameHeading.innerText = trainerName;
-  if (trainerImage)
-    trainerImage.src =
-      gender === "M"
-        ? "../Assets/Player/male.png"
-        : "../Assets/Player/female.png";
+  const log = getBattleLog();
+  log.innerHTML = "<p>Kies een move om de battle te starten.</p>";
 }
+
 
 // Zoek input activeren
 function setupSearch() {
@@ -261,4 +261,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".generate-btn").addEventListener("click", () => {
     loadBattle();
   });
+
+
 });
