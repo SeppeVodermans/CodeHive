@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="../CSS/reset.css" />
     <link rel="stylesheet" href="../CSS/base.css" />
     <link rel="stylesheet" href="../CSS/pokemon-search.css" />
-    <script defer src="../JS/pokemon-search.js"></script>
     <script src="../JS/menu.js"></script>
     <title>Pokemon-search</title>
   </head>
@@ -39,18 +38,49 @@
     </div>
     <h2 class="trainer-name">Trainer Naam</h2>
     <div id ="search-container">
-      <input type="text" id="search-bar" placeholder="Zoek een Pokémon...">
-      <select id="type-filter">
-          <option value="all">Alle typen</option>
-          <option value="fire">Fire</option>
-          <option value="grass">Grass</option>
-          <option value="water">Water</option>
-      </select>
+      <form method="GET" action="/pokemon-search">
+        <input type="text" id="search-bar" name="q" placeholder="Zoek een Pokémon..." value="<%= searchQuery %>">
+        
+        <select id="type-filter" name="type" onchange="this.form.submit()">
+          <option value="all" <%= selectedType === "all" ? "selected" : "" %>>Alle typen</option>
+          <% types.forEach(type => { %>
+            <option value="<%= type %>" <%= selectedType === type ? "selected" : "" %>>
+              <%= type.charAt(0).toUpperCase() + type.slice(1) %>
+            </option>
+          <% }) %>
+        </select>
+      </form>
+      
     </div>
   </div>
   <h1>Pokédex</h1>
-  <div id="pokemon-container"></div>
+  <div class="pokemon-grid" id="pokemon-container">
+    <% for(const pokemon of pokemons) { %>
+      <% const isCaught = caughtPokemon.includes(pokemon.name); %>
+      <div class="pokemon-card">
+        <span class="info-icon">ℹ
+        <div class="tooltip">
+          <% if (isCaught) { %>
+            <strong><%= pokemon.name %></strong><br>
+            Type: <%= pokemon.type.join(", ") %><br>
+            HP: <%= pokemon.stats.hp %><br>
+            Attack: <%= pokemon.stats.attack %><br>
+            Defense: <%= pokemon.stats.defense %><br>
+         <% } else {%>
+          <strong>???</strong><br>
+          HP: ???<br>
+          Attack: ???<br>
+          Defense: ???<br>
+          <% } %>
+        </div>
+      </span>
+        <img src="<%= pokemon.image %>" alt="<%= pokemon.name %>"
+        class="<%= !caughtPokemon.includes(pokemon.name) ? 'not-caught' : ''%>">
+        <h3><%= isCaught ? pokemon.name : "???" %></h3>
+      </div>
+    <% }; %>
+  </div>
+  
 </main>
-
   </body>
 </html>

@@ -1,7 +1,8 @@
 import express, { Express, Request, Response } from "express";
 import ejs from "ejs";
 import path from "path";
-import { connect, insertData, getTrainerWithPokemons, addTeam, removeFromTeam } from "./database";
+import { connect, insertData, getTrainerWithPokemons, addTeam, removeFromTeam, deleteHardcodedPokemon, getAllPokemon, getAllTypes, PokemonCollection, client, getPokemonCaughtByTrainer, getFirstEvolutionPokemon } from "./database";
+import { Pokemons } from "./types";
 
 const app: Express = express();
 
@@ -13,6 +14,19 @@ app.use(express.static("Pokemon/public"));
 
 app.set("port", 3000);
 
+async function startServer() {
+  try {
+    await connect();
+    // await deleteHardcodedPokemon();
+    // await insertData();
+    app.listen(app.get("port"), () => {
+      console.log("Server started on http://localhost:" + app.get("port"));
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+  }
+}
+
 
 app.get("/", (req, res) => {
   res.render("homepage.ejs");
@@ -21,14 +35,30 @@ app.get("/new-game", (req, res) => {
   res.render("new-game.ejs");
 });
 
-app.get("/pokemon-search", (req, res) => {
-  res.render("pokemon-search.ejs");
+app.get("/pokemon-search", async (req, res) => {
+  const selectedType = req.query.type || "all";
+  const searchQuery = typeof req.query.q === "string" ? req.query.q.trim() : "";
+  const collection = client.db("pokemon_spel").collection<Pokemons>("pokemon")
+  const filter: any = {};
+  if (selectedType !== "all") {
+    filter.types = selectedType;
+  }
+  if (searchQuery !== " ") {
+    filter.name = { $regex: new RegExp(searchQuery, "i") };
+  }
+  const pokemons = await collection.find(filter).toArray();
+  const types = await getAllTypes();
+  const trainerName = "Cedric";
+  const caughtPokemon = await getPokemonCaughtByTrainer(trainerName);
+
+  res.render("pokemon-search.ejs", { types, selectedType, searchQuery, pokemons, caughtPokemon });
 });
 app.get("/battler", (req, res) => {
   res.render("battler.ejs");
 });
-app.get("/catch", (req, res) => {
-  res.render("catch.ejs");
+app.get("/catch", async (req, res) => {
+  const firstEvolution = await getFirstEvolutionPokemon();
+  res.render("catch.ejs", { firstEvolution });
 });
 app.get("/compare", (req, res) => {
   res.render("compare.ejs");
@@ -72,11 +102,18 @@ app.post("/team/remove", async (req, res) => {
   res.redirect("/team");
 });
 
-app.listen(app.get("port"), async () => {
-  await connect();
-  // await insertData();
-  console.log("Server started on http://localhost:" + app.get('port'));
+app.use((req, res) => {
+  res.status(404).render("404.ejs");
 });
+
+startServer();
+
+// app.listen(app.get("port"), async () => {
+//   await connect();
+//   await deleteHardcodedPokemon();
+//   await insertData();
+//   console.log("Server started on http://localhost:" + app.get('port'));
+// });
 
 /*async function getPokemonData(name: string) {
     try {

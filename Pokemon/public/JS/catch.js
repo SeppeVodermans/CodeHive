@@ -31,16 +31,16 @@ async function loadRandomPokemon() {
 
   currentPokemon = data;
 
-  document.querySelector("#pokemonImage").src =
-    data.sprites.other["official-artwork"].front_default;
-  pokemonImage.style.opacity = "1";
-  pokemonImage.style.display = "block";
+  // document.querySelector("#pokemonImage").src =
+  //   data.sprites.other["official-artwork"].front_default;
+  // pokemonImage.style.opacity = "1";
+  // pokemonImage.style.display = "block";
 
-  document.querySelector(
-    "#pokemonName"
-  ).textContent = `Een wilde ${capitalizeFirstLetter(
-    data.name ?? "onbekend"
-  )} duikt op!`;
+  // document.querySelector(
+  //   "#pokemonName"
+  // ).textContent = `Een wilde ${capitalizeFirstLetter(
+  //   data.name ?? "onbekend"
+  // )} duikt op!`;
 }
 
 window.onload = loadRandomPokemon;
