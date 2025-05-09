@@ -22,7 +22,7 @@ async function getPokemonData(nameOrId) {
     if (!response.ok) throw new Error("Pokémon niet gevonden");
     const data = await response.json();
 
-    const types = data.types.map(t => t.type.name); // [ 'grass', 'poison' ]
+    const types = data.types.map(t => t.type.name); 
     const allMoves = data.moves;
     const selectedMoves = [];
 
@@ -132,10 +132,9 @@ function calculateDamage(attacker, defender, move) {
 
 // Aanval uitvoeren
 function attackWithMove(attacker, defender, move, attackerCard, defenderCard, log) {
-  // Verwijder standaardtekst indien aanwezig
   const standaardRegel = "Kies een move om de battle te starten.";
   if (log.innerHTML.includes(standaardRegel)) {
-    log.innerHTML = ""; // Leegmaken bij eerste echte actie
+    log.innerHTML = ""; 
   }
 
   const damage = calculateDamage(attacker, defender, move);

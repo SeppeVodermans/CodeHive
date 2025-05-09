@@ -17,9 +17,34 @@
   margin: 0;
 }
 
-.trainer-name{
+.trainer-info-challenge{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 15px; 
+  margin-bottom: 20px;
+}
+
+.trainer-info-challenge img{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%; 
+  object-fit: cover;
+}
+
+.trainer-info-challenge h2 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.Ash-challenge{
+margin-left:170px;
+}
+
+#trainer-name{
   color: black;
 }
+
 .main-content {
   width: 100vw;
   margin: auto; 
