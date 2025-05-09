@@ -261,7 +261,7 @@ async function attemptCatch(ballType) {
   const ball = document.querySelector(`#${ballType}-pokeball img`);
   const pokemonImage = document.querySelector("#pokemonImage");
 
-  pokemonImage.classList.add("jump");
+  pokemonImage.classList.add("jump"); 
   await new Promise((resolve) => setTimeout(resolve, 700));
 
   pokemonImage.style.opacity = "0";
