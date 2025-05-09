@@ -1,6 +1,9 @@
-import { Collection, MongoClient,ObjectId } from "mongodb";
-import { Trainer,Pokemon,Stats} from "./trainer";
-const uri = "mongodb+srv://cedricrypens:CodeHive@cluster0.zgtcxog.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+import { Collection, MongoClient, ObjectId } from "mongodb";
+// import { Trainer, Pokemon, Stats } from "./trainer";
+import { Pokemons, Trainer, TrainerPokemons, Stats } from "./types";
+import { json } from "stream/consumers";
+const trainerName = "Cedric"
+const uri = "mongodb+srv://amaviyaovi:CodeHive@cluster0.bsv3myf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 export const client = new MongoClient(uri);
 
 //Collection voor Trainers en Pokemons
