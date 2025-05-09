@@ -1,3 +1,4 @@
+<<<<<<< HEAD:Pokemon/public/HTML-Pages/quize.html
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -72,3 +73,61 @@
     
   </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../CSS/reset.css" />
+    <link rel="stylesheet" href="../CSS/base.css" />
+    <!--<link rel="stylesheet" href="../CSS/style.css" />-->
+    <link rel="stylesheet" href="../CSS/quiz.css" />
+    <!-- <link rel="stylesheet" href="../CSS/quiz.css" /> -->
+    <script src="../JS/quiz.js"></script>
+    <script src="../JS/menu.js"></script>
+
+    <title>Who's That Pokémon?</title>
+  </head>
+  <body>
+
+    <div class="exit-menu-overlay">
+      <div class="exit-menu-content">
+        <div class="exit-menu-header">Pokémon</div>
+        <ul class="exit-menu-items">
+          <li class="exit-menu-item"><a href="#" id="continue-btn">Speel verder</a></li>
+          <li class="exit-menu-item"><a href="#" id="save-btn">Spel opslaan</a></li>
+          <li class="exit-menu-item"><a href="#" id="quit-btn">Spel verlaten</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <header>
+      <div class="background"></div>
+      <button class="menu-button">
+        <img src="../Assets/menu-icon.webp" />
+      </button>
+    <%- include("partials/menu") %>
+      
+    </header>
+    <main class="main-content">
+      <section class="trainer-section">
+        <div class="trainer-image">
+          <img src="../Assets/Player/female.png" />
+        </div>
+        <h2 class="trainer-name">Trainer Naam</h2>
+      </section>
+      <div class="pokemon-card">
+        <img id="pokemonImage" src="" alt="Wilde Pokémon!" width="200" />
+      </div>
+      <button id="skip" class="button-red">SKIP</button>
+      <div class="guess-box">
+        <input type="text" placeholder="WHO'S THAT POKÉMON?" />
+        <button class="button-red">onthullen</button>
+      </div>
+    </main>
+    
+    
+  </body>
+</html>
+>>>>>>> refs/remotes/origin/main:Pokemon/views/quize.ejs

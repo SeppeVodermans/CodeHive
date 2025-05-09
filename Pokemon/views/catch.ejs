@@ -1,3 +1,4 @@
+<<<<<<< HEAD:Pokemon/public/HTML-Pages/catch.html
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -107,3 +108,97 @@
     <script src="../JS/catch.js"></script>
   </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../CSS/reset.css" />
+    <link rel="stylesheet" href="../CSS/base.css" />
+    <link rel="stylesheet" href="../CSS/catch.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    
+    <script src="../JS/menu.js"></script>
+    <title>Vang Pokémon</title>
+  </head>
+  <body>
+    
+    <div class="exit-menu-overlay">
+      <div class="exit-menu-content">
+        <div class="exit-menu-header">Pokémon</div>
+        <ul class="exit-menu-items">
+          <li class="exit-menu-item"><a href="#" id="continue-btn">Speel verder</a></li>
+          <li class="exit-menu-item"><a href="#" id="save-btn">Spel opslaan</a></li>
+          <li class="exit-menu-item"><a href="#" id="quit-btn">Spel verlaten</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="background"></div>
+    <button class="menu-button">
+      <img src="../Assets/menu-icon.webp" />
+    </button>
+    <div class="menu-overlay">
+    <%- include("partials/menu") %>
+    </div>
+    <main class="main-content">
+      <section class="trainer-section">
+        <div class="trainer-image">
+          <img src="../Assets/Player/female.png" />
+        </div>
+        <h2 class="trainer-name">Trainer Naam</h2>
+      </section>
+      <div class="pokemon-card">
+        <h2 id="pokemonName">Een wilde <%= firstEvolution.name %> duikt op!</h2>
+        <img id="pokemonImage" src="<%= firstEvolution.image %>" alt="Wilde Pokémon!" width="200" />
+        <div id="catch-options" style="display: none;">
+          <button id="keep-pokemon">Houden ✅</button>
+          <button id="release-pokemon">Vrijlaten ❌</button>
+        </div>
+        <div id="nickname-container" style="display: none;">
+          <input type="text" id="nickname-input" placeholder="Geef een bijnaam...">
+          <button id="confirm-nickname">Opslaan</button>
+        </div>
+      </div>
+      <aside class="pokeballs">
+        <div id="rare-pokeball">
+          <img
+            src="../Assets/pokeballs/rare-pokeball.png"
+            alt="Rare Pokéball"
+            width="120"
+          />
+          <p>Rare Pokéball</p>
+        </div>
+        <div id="normal-pokeball">
+          <img
+            src="../Assets/pokeballs/pokeball.png"
+            alt="Pokéball"
+            width="120"
+          />
+          <p>Normaal Pokéball</p>
+        </div>
+        <div id="epic-pokeball">
+          <img
+            src="../Assets/pokeballs/epik-pokeball.png"
+            alt="Epik Pokéball"
+            width="120"
+          />
+          <p>Epic Pokéball</p>
+        </div>
+      </aside>
+      <div id="status">
+        <p>Resterende pogingen:</p>
+        <p>Rare Pokéball: <span id="rare-attempts">2</span></p>
+        <p>Normaal Pokéball: <span id="normal-attempts">3</span></p>
+        <p>Epic Pokéball: <span id="epic-attempts">1</span></p>
+        <p id="catch-status"></p>
+      </div>
+    </main>
+    <script src="../JS/catch.js"></script>
+  </body>
+</html>
+>>>>>>> refs/remotes/origin/main:Pokemon/views/catch.ejs

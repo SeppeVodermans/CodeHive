@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../CSS/reset.css" />
+    <link rel="stylesheet" href="../CSS/base.css" />
+    <link rel="stylesheet" href="../CSS/pokemon-search.css" />
+    <script src="../JS/menu.js"></script>
+    <title>Pokemon-search</title>
+  </head>
+  <body>
+
+    <div class="exit-menu-overlay">
+        <div class="exit-menu-content">
+          <div class="exit-menu-header">Pokémon</div>
+          <ul class="exit-menu-items">
+            <li class="exit-menu-item"><a href="#" id="continue-btn">Speel verder</a></li>
+            <li class="exit-menu-item"><a href="#" id="save-btn">Spel opslaan</a></li>
+            <li class="exit-menu-item"><a href="#" id="quit-btn">Spel verlaten</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="background"></div>
+    
+      <button class="menu-button">
+        <img src="../Assets/menu-icon.webp"> 
+    </button>
+
+    <%- include("partials/menu") %>
+  
+ 
+<main class="main-content">
+  <div class="trainer-section">
+    <div class="trainer-image">
+        <img src="../Assets/Player/female.png">
+    </div>
+    <h2 class="trainer-name">Trainer Naam</h2>
+    <div id ="search-container">
+      <form method="GET" action="/pokemon-search">
+        <input type="text" id="search-bar" name="q" placeholder="Zoek een Pokémon..." value="<%= searchQuery %>">
+        
+        <select id="type-filter" name="type" onchange="this.form.submit()">
+          <option value="all" <%= selectedType === "all" ? "selected" : "" %>>Alle typen</option>
+          <% types.forEach(type => { %>
+            <option value="<%= type %>" <%= selectedType === type ? "selected" : "" %>>
+              <%= type.charAt(0).toUpperCase() + type.slice(1) %>
+            </option>
+          <% }) %>
+        </select>
+      </form>
+      
+    </div>
+  </div>
+  <h1>Pokédex</h1>
+  <div class="pokemon-grid" id="pokemon-container">
+    <% for(const pokemon of pokemons) { %>
+      <% const isCaught = caughtPokemon.includes(pokemon.name); %>
+      <div class="pokemon-card">
+        <span class="info-icon">ℹ
+        <div class="tooltip">
+          <% if (isCaught) { %>
+            <strong><%= pokemon.name %></strong><br>
+            Type: <%= pokemon.type.join(", ") %><br>
+            HP: <%= pokemon.stats.hp %><br>
+            Attack: <%= pokemon.stats.attack %><br>
+            Defense: <%= pokemon.stats.defense %><br>
+         <% } else {%>
+          <strong>???</strong><br>
+          HP: ???<br>
+          Attack: ???<br>
+          Defense: ???<br>
+          <% } %>
+        </div>
+      </span>
+        <img src="<%= pokemon.image %>" alt="<%= pokemon.name %>"
+        class="<%= !caughtPokemon.includes(pokemon.name) ? 'not-caught' : ''%>">
+        <h3><%= isCaught ? pokemon.name : "???" %></h3>
+      </div>
+    <% }; %>
+  </div>
+  
+</main>
+  </body>
+</html>

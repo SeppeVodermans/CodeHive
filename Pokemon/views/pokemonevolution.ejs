@@ -1,3 +1,4 @@
+<<<<<<< HEAD:Pokemon/public/HTML-Pages/pokemonevolution.html
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -107,3 +108,100 @@
   </body>
   <script src="../JS/evolutie.js"></script>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../CSS/reset.css" />
+    <link rel="stylesheet" href="../CSS/base.css" />
+    <title>Pokemon-Evolutie</title>
+  </head>
+  <body>
+    <div class="background"></div>
+    </div>
+    
+    <button class="menu-button">
+        <img src="../Assets/menu-icon.webp"> 
+    </button>
+
+    <%- include("partials/menu") %>
+
+</header>
+<main class="main-content">
+  
+  <section class="trainer-section">
+    <div class="trainer-image">
+        <img src="../Assets/Player/female.png">
+    </div>
+    <h2 class="trainer-name">Trainer Naam</h2>
+  </section>
+  <h1>Evolutie pad van</h1>
+  <form id="searchForm">
+  <input type="text" id="pokemonInput" placeholder="">
+  <button type="submit" >Zoek</button>
+    </form>
+  <div class="evolution-path" id="evolutionPath">
+     
+  </div>
+
+  
+</div>
+    <!--<main>
+      <section class="trainer-section">
+        <div class="trainer-info">
+          <img src="#" alt="Trainer Profile" />
+          <h2>Trainer Name</h2>
+          <input type="text" placeholder="Search..." />
+        </div>
+      </section>
+      <div class="pokemon-box">
+        <div class="pokemon-img">IMAGE</div>
+      </div>
+      <h3>EVOLUTION PATH</h3>
+      <div class="evolution">
+        <img src="#" alt="Evolution 1" />
+        <span>→</span>
+        <img src="#" alt="Evolution 2" />
+        <span>→</span>
+        <img src="#" alt="Evolution 3" />
+      </div>
+    </main>-->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const menuButton = document.querySelector('.menu-button');
+          const mainContent = document.querySelector('.main-content');
+          const menuOverlay = document.querySelector('.menu-overlay');
+          const closeButton = document.querySelector('.close-button');
+          const body = document.body;
+      
+          function openMenu() {
+              menuOverlay.classList.add('active');
+              mainContent.classList.add('behind-menu');
+              body.classList.add('menu-open');
+              menuButton.style.display = 'none';
+          }
+      
+          function closeMenu() {
+              menuOverlay.classList.remove('active');
+              mainContent.classList.remove('behind-menu');
+              body.classList.remove('menu-open');
+              menuButton.style.display = 'flex';
+          }
+      
+          menuButton.addEventListener('click', openMenu);
+          closeButton.addEventListener('click', closeMenu);
+      
+          const menuItems = document.querySelectorAll('.menu-item');
+          menuItems.forEach(item => {
+              item.addEventListener('click', closeMenu);
+          });
+      });
+      
+      
+      </script>
+  </body>
+  <script src="../JS/evolutie.js"></script>
+</html>
+>>>>>>> refs/remotes/origin/main:Pokemon/views/pokemonevolution.ejs
