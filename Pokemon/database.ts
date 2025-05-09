@@ -1,6 +1,6 @@
 import { Collection, MongoClient,ObjectId } from "mongodb";
 import { Trainer,Pokemon,Stats} from "./trainer";
-const uri = "mongodb+srv://cedricrypens:CodeHive@cluster0.zgtcxog.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "mongodb+srv://amaviyaovi:CodeHive@cluster0.bsv3myf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 export const client = new MongoClient(uri);
 export const trainersCollection: Collection<Trainer> = client.db("pokemon_spel").collection<Trainer>("trainer");
 export const PokemonCollection: Collection<Pokemon> = client.db("pokemon_spel").collection<Pokemon>("pokemon");
