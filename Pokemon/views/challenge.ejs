@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../CSS/reset.css" />
+    <link rel="stylesheet" href="../CSS/base.css" />
+    <link rel="stylesheet" href="../CSS/battle.css" />
+
+    <script src="../JS/battle.js" defer></script>
+    <script src="../JS/menu.js"></script>
+    <title>Pokémon Battle</title>
+  </head>
+  <body>
+    <div class="exit-menu-overlay">
+      <div class="exit-menu-content">
+        <div class="exit-menu-header">Pokémon</div>
+        <ul class="exit-menu-items">
+          <li class="exit-menu-item">
+            <a href="#" id="continue-btn">Speel verder</a>
+          </li>
+          <li class="exit-menu-item">
+            <a href="#" id="save-btn">Spel opslaan</a>
+          </li>
+          <li class="exit-menu-item">
+            <a href="#" id="quit-btn">Spel verlaten</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <header>
+      <div class="background"></div>
+
+      <button class="menu-button">
+        <img src="../Assets/menu-icon.webp" />
+      </button>
+
+    <%- include("partials/menu") %>
+      
+
+      </div>
+    </div>
+    <main class="main-content">
+      <section class="battle-container">
+        <div class="trainer-info-challenge">
+          <div class ="Trainer-challenge">
+          <img src="../Assets/Player/female.png" alt="Trainer Profile" />
+          <h2 id="trainer-name">Trainer</h2>
+        </div>
+        <div class="Ash-challenge">
+          <img src="../Assets/Player/Ash.png" alt="Trainer Profile" />
+          <h2 id="trainer-name">Ash</h2>
+        </div>
+        </div>
+        <div class="battle-field">
+          <div class="pokemon-card">
+            <h3>Pokémon Name</h3>
+            <img src="" alt="Pokémon" />
+            <div class="stats">
+              <p>HP:</p>
+              <p>Attack:</p>
+              <p>Defense:</p>
+              <p>Speed:</p>
+            </div>
+          </div>
+          <h1>VS</h1>
+          <div class="pokemon-card">
+            <h3>Pokémon Name</h3>
+            <img src="" alt="Pokémon" />
+            <div class="stats">
+              <p>HP:</p>
+              <p>Attack:</p>
+              <p>Defense:</p>
+              <p>Speed:</p>
+            </div>
+          </div>
+        </div>
+        <div class="move-selection">
+          <h3>Kies een aanval:</h3>
+          <div class="moves">
+            <button class="move-btn" data-move-index="0">Aanval 1</button>
+            <button class="move-btn" data-move-index="1">Aanval 2</button>
+            <button class="move-btn" data-move-index="2">Aanval 3</button>
+            <button class="move-btn" data-move-index="3">Aanval 4</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
