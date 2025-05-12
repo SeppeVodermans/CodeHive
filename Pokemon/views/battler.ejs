@@ -46,7 +46,7 @@
       <section class="battle-container">
         <div class="trainer-info">
           <img src="../Assets/Player/female.png" alt="Trainer Profile" />
-          <h2 id="trainer-name">Trainer</h2>
+          <h2 class="trainer-name">Trainer</h2>
           <input type="text" placeholder="Search..." />
         </div>
         <button class="generate-btn">Generate new opponent</button>
@@ -73,17 +73,18 @@
             </div>
           </div>
         </div>
-        <button class="battle-btn">BATTLE</button>
+        <div class="move-selection">
+          <h3>Kies een aanval:</h3>
+          <div class="moves">
+            <button class="move-btn" data-move-index="0">Aanval 1</button>
+            <button class="move-btn" data-move-index="1">Aanval 2</button>
+            <button class="move-btn" data-move-index="2">Aanval 3</button>
+            <button class="move-btn" data-move-index="3">Aanval 4</button>
+          </div>
+        </div>
+        
+        <a href="/challenge" class="challenge-btn">Challenge Ash!</a>
       </section>
     </main>
-    <footer>
-      <p>&copy; CodeHive</p>
-      <div class="social-icons">
-        <img src="" alt="" />
-        <img src="" alt="" />
-        <img src="" alt="" />
-        <img src="" alt="" />
-      </div>
-    </footer>
   </body>
 </html>

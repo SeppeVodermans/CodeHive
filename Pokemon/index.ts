@@ -69,6 +69,9 @@ app.get("/pokemonevolution", (req, res) => {
 app.get("/quize", (req, res) => {
   res.render("quize.ejs");
 });
+app.get("/challenge", (req, res) => {
+  res.render("challenge");
+});
 
 
 app.get("/team", async (req, res) => {
