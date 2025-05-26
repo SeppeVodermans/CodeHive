@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 let currentPokemon;
 let caughtPokemons = [];
 let isCatching = false;
@@ -178,7 +177,7 @@ document.getElementById("epic-pokeball").addEventListener("click", async () => {
   }
 });
 updateStatus();
-=======
+
 let currentPokemon;
 let caughtPokemons = [];
 let isCatching = false;
@@ -358,4 +357,3 @@ document.getElementById("epic-pokeball").addEventListener("click", async () => {
   }
 });
 updateStatus();
->>>>>>> refs/remotes/origin/main
