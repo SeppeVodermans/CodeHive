@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
-import ejs from "ejs";
+import ejs, { name } from "ejs";
 import path from "path";
+
 import { connect, insertData, getTrainerWithPokemons, addTeam, removeFromTeam, deleteHardcodedPokemon, getAllPokemon, getAllTypes, PokemonCollection, client, getPokemonCaughtByTrainer, getFirstEvolutionPokemon, login, userCollection, createInitialUser } from "./database";
 import { Pokemons, User } from "./types";
 import dotenv from "dotenv"
@@ -8,15 +9,27 @@ import bcrypt from "bcrypt"
 
 dotenv.config();
 
+import { connect, getTrainerWithPokemons, addTeam, removeFromTeam, getAllPokemon, getAllTypes, client, getPokemonCaughtByTrainer, getNextEvolutions, getRandomPokemonQuizData, addScoreToTrainer } from "./database";
+import { PokeBall, Pokemons, PokemonQuizdata } from "./types";
+import { catchPokemon } from "../data";
+import { error } from "console";
+import catchRoute from "./routes/catch";
+import quizeRout from "./routes/quize";
+import quizePointsRoute from "./routes/quizePoints";
+
+
 const app: Express = express();
 
 app.use(express.urlencoded({ extended: true }));
-
+app.use(express.json());
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname, "views"));
 app.use(express.static("Pokemon/public"));
-
 app.set("port", 3000);
+
+app.use(catchRoute());
+app.use(quizeRout());
+app.use(quizePointsRoute());
 
 async function startServer() {
   try {
@@ -31,7 +44,6 @@ async function startServer() {
   }
 }
 
-
 app.get("/", (req, res) => {
   res.render("index.ejs");
 });
@@ -42,36 +54,58 @@ app.get("/new-game", (req, res) => {
 app.get("/pokemon-search", async (req, res) => {
   const selectedType = req.query.type || "all";
   const searchQuery = typeof req.query.q === "string" ? req.query.q.trim() : "";
-  const collection = client.db("pokemon_spel").collection<Pokemons>("pokemon")
+  const collection = client.db("pokemon_spel").collection<Pokemons>("pokemon");
+
   const filter: any = {};
   if (selectedType !== "all") {
     filter.types = selectedType;
   }
-  if (searchQuery !== " ") {
+  if (searchQuery !== "") {
     filter.name = { $regex: new RegExp(searchQuery, "i") };
   }
+
   const pokemons = await collection.find(filter).toArray();
   const types = await getAllTypes();
   const trainerName = "Cedric";
   const caughtPokemon = await getPokemonCaughtByTrainer(trainerName);
 
+  // Fetch and attach next evolutions
+  for (const pokemon of pokemons) {
+    const evolutionNames = await getNextEvolutions(pokemon);
+    const evolutions = await collection.find({ name: { $in: evolutionNames } }).toArray();
+
+    (pokemon as any).nextEvolutions = evolutions.map(evo => ({
+      name: evo.name,
+      image: evo.sprites.front_default,
+      stats: caughtPokemon.includes(evo.name)
+        ? {
+          hp: evo.base_stats.hp,
+          attack: evo.base_stats.attack,
+          defense: evo.base_stats.defense
+        }
+        : {
+          hp: "???",
+          attack: "???",
+          defense: "???"
+        }
+    }));
+  }
+
   res.render("pokemon-search.ejs", { types, selectedType, searchQuery, pokemons, caughtPokemon });
 });
+
+
+
 app.get("/battler", (req, res) => {
   res.render("battler.ejs");
 });
-app.get("/catch", async (req, res) => {
-  const firstEvolution = await getFirstEvolutionPokemon();
-  res.render("catch.ejs", { firstEvolution });
-});
+
 app.get("/compare", (req, res) => {
   res.render("compare.ejs");
 });
-app.get("/pokemonevolution", (req, res) => {
-  res.render("pokemonevolution.ejs");
-});
-app.get("/quize", (req, res) => {
-  res.render("quize.ejs");
+
+app.get("/challenge", (req, res) => {
+  res.render("challenge");
 });
 app.get("/aanmelden",(req,res) =>{
     res.render("aanmelden")

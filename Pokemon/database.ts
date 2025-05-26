@@ -1,9 +1,15 @@
 import { Collection, MongoClient, ObjectId } from "mongodb";
 // import { Trainer, Pokemon, Stats } from "./trainer";
+
 import { Pokemons, Trainer, TrainerPokemons, Stats, User } from "./types";
 import dotenv from "dotenv";
 import path from "path";
 import bcrypt from "bcrypt"
+
+
+import { Pokemons, Trainer, TrainerPokemons, Stats, PokemonQuizdata } from "./types";
+import { json } from "stream/consumers";
+import { caughtPokemon, PokeBall, EvolutionChainLink } from "./types";
 
 const trainerName = "Cedric"
 const uri: string = "mongodb+srv://amaviyaovi:CodeHive@cluster0.bsv3myf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -16,10 +22,48 @@ dotenv.config({path: path.resolve(__dirname, '.env')});
 //Collection voor Trainers en Pokemons
 export const trainersCollection: Collection<Trainer> = client.db("pokemon_spel").collection<Trainer>("trainer");
 export const PokemonCollection: Collection<Pokemons> = client.db("pokemon_spel").collection<Pokemons>("pokemon");
+
 export const userCollection: Collection<User> = client.db("pokemon_spel").collection<User>("Users");
+
+
+export let caughtPokemons: caughtPokemon[] = [];
+
+export function addCaughtPokemon(pokemon: caughtPokemon) {
+  caughtPokemons.push(pokemon);
+}
+
+
+let pokeballAttempts: PokeBall = {
+  rare: 2,
+  normal: 3,
+  epic: 1,
+};
+
+export function getAttempts(): PokeBall {
+  return { ...pokeballAttempts };
+}
+
+export function decrementAttempts(ballType: keyof PokeBall): boolean {
+  if (pokeballAttempts[ballType] > 0) {
+    pokeballAttempts[ballType]--;
+    return true
+  }
+  return false;
+}
+
+export function resetAttempts() {
+  pokeballAttempts = {
+    rare: 2,
+    normal: 3,
+    epic: 1
+  }
+}
+
+
 async function exit() {
   try {
     await client.close();
+    resetAttempts();
     console.log('Disconnected from database');
   } catch (error) {
     console.error(error);
@@ -65,10 +109,13 @@ export async function getPokemonCaughtByTrainer(trainerName: string) {
   return trainer?.pokemons || [];
 }
 
-export async function getFirstEvolutionPokemon() {
-  const collection = client.db("pokemon_spel").collection<Pokemons>("pokemon");
-  const result = await collection.aggregate([{ $match: { evolves_from_species: null } }, { $sample: { size: 1 } }]).toArray();
-  return result[0];
+export async function getFirstEvolutionPokemon(pokemonName: string) {
+  const speciesResponse = await fetch(
+    `https://pokeapi.co/api/v2/pokemon-species/${pokemonName}`
+  );
+  const speciesData = await speciesResponse.json();
+
+  return speciesData.evolves_from_species === null;
 
 }
 export async function login(email: string, password: string) {
@@ -110,6 +157,8 @@ export async function createInitialUser() {
 
   console.log("Admin account aangemaakt.");
 }
+
+
 
 // export async function insertData() {
 //   try {
@@ -214,6 +263,67 @@ export async function insertData(): Promise<void> {
 export async function getAllPokemon() {
   const collection = client.db("pokemon_spel").collection<Pokemons>("pokemon");
   return await collection.find().toArray();
+}
+
+export async function getNextEvolutions(pokemon: Pokemons): Promise<string[]> {
+  try {
+    const speciesRes = await fetch(pokemon.species_url);
+    const speciesData = await speciesRes.json();
+
+    const evoChainRes = await fetch(speciesData.evolution_chain.url);
+    const evoChainData = await evoChainRes.json();
+
+    interface EvolutionChainLink {
+      species: { name: string };
+      evolves_to: EvolutionChainLink[];
+    }
+
+    function findEvolutions(chain: EvolutionChainLink): string[] {
+      if (chain.species.name === pokemon.name) {
+        return chain.evolves_to.map(evo => evo.species.name);
+      }
+
+      for (const evo of chain.evolves_to) {
+        const result = findEvolutions(evo);
+        if (result.length > 0) return result;
+      }
+
+      return [];
+    }
+
+    const evolutions = findEvolutions(evoChainData.chain);
+    return evolutions;
+  } catch (err) {
+    console.error("Error fetching evolutions for:", pokemon.name, err);
+    return [];
+  }
+}
+
+export async function getRandomPokemonQuizData(): Promise<PokemonQuizdata> {
+  const pokemons: Pokemons[] = await getAllPokemon();
+  const random = pokemons[Math.floor(Math.random() * pokemons.length)];
+
+  return {
+    name: random.name,
+    silhouetteImage: `https://img.pokemondb.net/sprites/black-white/anim/normal/${random.name.toLowerCase()}.gif`,
+    fullImage: `https://img.pokemondb.net/artwork/large/${random.name.toLowerCase()}.jpg`,
+  };
+}
+
+export async function addScoreToTrainer(trainerName: string, points: number): Promise<void> {
+  try {
+    await client.connect();
+    const db = client.db("pokemon_spel");
+    const trainers = db.collection("trainers");
+
+    await trainers.updateOne(
+      { name: trainerName },
+      { $inc: { score: points } },
+      { upsert: true }
+    );
+  } finally {
+    await client.close();
+  }
 }
 
 export async function getAllTypes() {
