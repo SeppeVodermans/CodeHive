@@ -48,45 +48,57 @@
           <button id="keep-pokemon">Houden ✅</button>
           <button id="release-pokemon">Vrijlaten ❌</button>
         </div>
-        <div id="nickname-container" style="display: none;">
+
+        <% if (result && Object.values(result).flat().includes("Caught")) { %>
+        <form id="nickname-container" action="/nickname" method="post">
+          <input type="hidden" name="pokemon" value="<%= firstEvolution.name %>">
           <input type="text" id="nickname-input" placeholder="Geef een bijnaam...">
-          <button id="confirm-nickname">Opslaan</button>
-        </div>
+          <button type="submit" id="confirm-nickname">Opslaan</button>
+        </form>
+        <% } %>
+
       </div>
       <aside class="pokeballs">
-        <div id="rare-pokeball">
-          <img
-            src="../Assets/pokeballs/rare-pokeball.png"
-            alt="Rare Pokéball"
-            width="120"
-          />
-          <p>Rare Pokéball</p>
-        </div>
-        <div id="normal-pokeball">
-          <img
-            src="../Assets/pokeballs/pokeball.png"
-            alt="Pokéball"
-            width="120"
-          />
-          <p>Normaal Pokéball</p>
-        </div>
-        <div id="epic-pokeball">
-          <img
-            src="../Assets/pokeballs/epik-pokeball.png"
-            alt="Epik Pokéball"
-            width="120"
-          />
-          <p>Epic Pokéball</p>
-        </div>
+
+        <form action="/catch" method="post">
+          <input type="hidden" name="type" value="rare">
+          <button type="submit" name="ballType" value="rare" class="pokeball-button">
+            <img
+              src="../Assets/pokeballs/rare-pokeball.png" alt="Rare Pokéball" width="120"/>
+            <p>Rare Pokéball</p>
+          </button>
+        </form>
+        
+        <form action="/catch" method="POST">
+          <input type="hidden" name="type" value="normal" />
+          <button type="submit" name="ballType" value="normal" class="pokeball-button">
+            <img src="../Assets/pokeballs/pokeball.png" alt="Normal Pokéball" width="120" />
+            <p>Normaal Pokéball</p>
+          </button>
+        </form>
+      
+        <form action="/catch" method="POST">
+          <input type="hidden" name="type" value="epic" />
+          <button type="submit"  name="ballType" value="epic" class="pokeball-button">
+            <img src="../Assets/pokeballs/epik-pokeball.png" alt="Epic Pokéball" width="120" />
+            <p>Epic Pokéball</p>
+          </button>
+        </form>
       </aside>
-      <div id="status">
-        <p>Resterende pogingen:</p>
-        <p>Rare Pokéball: <span id="rare-attempts">2</span></p>
-        <p>Normaal Pokéball: <span id="normal-attempts">3</span></p>
-        <p>Epic Pokéball: <span id="epic-attempts">1</span></p>
-        <p id="catch-status"></p>
-      </div>
+      <% if (result) { %>
+        <section class="catch-result">
+          <h2>Vang Resultaat</h2>
+          <div class="result-message"><%= result %></div>
+      
+          <% if (result.includes("gevangen")) { %>
+            <div class="success-message">🎉 Je hebt de wilde de wilde Pokémon gevangen!</div>
+          <% } else { %>
+            <div class="fail-message">😢 Pokémon is ontsnapt!</div>
+          <% } %>
+        </section>
+      <% } %>
+      
     </main>
-    <script src="../JS/catch.js"></script>
+    <!-- <script src="../JS/catch.js"></script> -->
   </body>
 </html>

@@ -8,7 +8,7 @@
     <!--<link rel="stylesheet" href="../CSS/style.css" />-->
     <link rel="stylesheet" href="../CSS/quiz.css" />
     <!-- <link rel="stylesheet" href="../CSS/quiz.css" /> -->
-    <script src="../JS/quiz.js"></script>
+    <!-- <script src="../JS/quiz.js"></script> -->
     <script src="../JS/menu.js"></script>
 
     <title>Who's That Pokémon?</title>
@@ -42,15 +42,75 @@
         <h2 class="trainer-name">Trainer Naam</h2>
       </section>
       <div class="pokemon-card">
-        <img id="pokemonImage" src="" alt="Wilde Pokémon!" width="200" />
+        <img id="pokemonImage" src="<%= pokemons.silhouetteImage %>" alt="Wilde Pokémon!" width="200" class="silhouette" data-actual-src="<%= pokemons.fullImage %>"/>
       </div>
-      <button id="skip" class="button-red">SKIP</button>
+      <button id="reloadBtn" class="button-red">SKIP</button>
+
       <div class="guess-box">
-        <input type="text" placeholder="WHO'S THAT POKÉMON?" />
-        <button class="button-red">onthullen</button>
-      </div>
+        <form id="quiz">
+        <input type="text" id="guess-input" placeholder="WELKE POKÉMON IS DIT?" />
+        <button class="button-red" id="reveal-button">Onthul</button>
+        </form>
+      </div>      
     </main>
-    
-    
   </body>
+  <script>
+    const guessInput = document.getElementById('guess-input');
+    const revealButton = document.getElementById('reveal-button');
+    const skipButton = document.getElementById('reloadBtn');
+    const pokemonImage = document.getElementById('pokemonImage');
+  
+    
+    function revealPokemon(fullImageUrl) {
+      pokemonImage.src = fullImageUrl;
+      pokemonImage.classList.remove('silhouette'); 
+    }
+  
+   
+    revealButton.addEventListener('click', async (event) => {
+      event.preventDefault();
+  
+      const guess = guessInput.value.trim();
+      if (!guess) return alert("Please enter a guess!");
+  
+      const response = await fetch('/quize/check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ guess }),
+      });
+  
+      const result = await response.json();
+      if (result.correct) {
+        revealPokemon(result.fullImage); 
+        alert("Correct! Goed gedaan!");
+        // await fetch("/trainer/add-points",{
+        //   method: "post",
+        //   headers: {"Content-Type": "application/json"},
+        //   body: JSON.stringify({trainerName: "", points: 5})
+        // })
+        setTimeout(async() =>{
+          const skipResponse = await fetch("/quize/skip");
+          const newPokemon = await skipResponse.json();
+
+          pokemonImage.src = newPokemon.silhouetteImage;
+          pokemonImage.classList.add("silhouette");
+          guessInput = "";
+        }, 2000);
+      } else {
+        alert("Fout geraden, probeer opnieuw!");
+      }
+    });
+  
+   
+    skipButton.addEventListener('click', async () => {
+      const response = await fetch('/quize/skip');
+      const newPokemon = await response.json();
+  
+      pokemonImage.src = newPokemon.silhouetteImage;
+      pokemonImage.classList.add('silhouette'); 
+      guessInput.value = '';
+    });
+  </script>
+  
+  
 </html>
