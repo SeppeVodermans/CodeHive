@@ -50,3 +50,11 @@ export interface Stats {
     draws: number,
     losses: number
 }
+
+type UserRole = "ADMIN" | "USER";
+
+export interface User{
+    email : string;
+    password: string;
+    role? : UserRole
+}
