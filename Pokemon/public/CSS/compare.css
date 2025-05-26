@@ -173,7 +173,7 @@
     display: inline-block;
     padding: 5px 15px;
     border-radius: 15px;
-    color: white;
+    color: #f0f0f0;
     font-weight: bold;
     font-size: 12px;
     margin: 0 5px 15px;
@@ -186,6 +186,14 @@
 
 .type-water {
     background-color: var(--water-type);
+}
+
+.type-electric {
+    background-color: var(--electric-type);
+}
+
+.type-grass {
+    background-color: var(--grass-type);
 }
 
 /*StatsColors aanpassen*/

@@ -1,10 +1,4 @@
-/* Algemene stijlen */
-body {
-    background-color: #f4f4f9;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Trainer Info */
+    /* Trainer Info */
   .trainer-info-challenge {
     display: flex;
     align-items: center;
