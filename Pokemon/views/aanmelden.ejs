@@ -10,7 +10,7 @@
 </head>
 <header>
     <nav>
-      <a href="/CodeHive/Pokemon/index.html"
+      <a href="../index.html"
         ><img src="../Assets/CodeHive-Logo.png" alt="CodeHive Logo"
       /></a>
     </nav>
@@ -18,9 +18,9 @@
 <body>
     <main>
     <div class="Form-Container">
-        <form action="/CodeHive/Pokemon/index.html" method="get">
+        <form action="/register" method="POST">
           <p class="Log-In">Aanmelden</p>
-          <label for="username">Username<span class="required">*</span>:</label
+          <label for="username">Gebruikersnaam<span class="required">*</span>:</label
           ><br />
           <input
             class="Input"
@@ -28,9 +28,8 @@
             placeholder="Type here..."
             name="naam"
             id="username"
-            required
           /><br />
-          <label for="password">Password<span class="required">*</span>:</label
+          <label for="password">Wachtwoord<span class="required">*</span>:</label
           ><br />
           <input
             class="Input"
@@ -38,17 +37,16 @@
             placeholder="Type here..."
             name="naam"
             id="password"
-            required
           /><br />
-          <a href="forgot-password.html" class="forgot-password"
-            >Wachtwoord vergeten?</a
-          >
+          <a href="../views/forgot-password.ejs" class="forgot-password"
+            >Wachtwoord vergeten?</a>
           <div class="Log-In-Button">
             <input type="submit" name="" value="Aanmelden" />
           </div>
-          <p class="NewUser">New User</p>
+          <p class="NewUser">Nieuwe Gebruiker</p>
           <div class="Log-In-Button">
-            <input type="submit" name="" value="Inschrijven" />
+            <a href="../views/register.ejs"></a>
+            <input type="button" id="registerButton" value="Inschrijven" />
           </div>
         </form>
       </div>

@@ -1,6 +1,14 @@
 import express, { Express, Request, Response } from "express";
 import ejs, { name } from "ejs";
 import path from "path";
+
+import { connect, insertData, getTrainerWithPokemons, addTeam, removeFromTeam, deleteHardcodedPokemon, getAllPokemon, getAllTypes, PokemonCollection, client, getPokemonCaughtByTrainer, getFirstEvolutionPokemon, login, userCollection, createInitialUser } from "./database";
+import { Pokemons, User } from "./types";
+import dotenv from "dotenv"
+import bcrypt from "bcrypt"
+
+dotenv.config();
+
 import { connect, getTrainerWithPokemons, addTeam, removeFromTeam, getAllPokemon, getAllTypes, client, getPokemonCaughtByTrainer, getNextEvolutions, getRandomPokemonQuizData, addScoreToTrainer } from "./database";
 import { PokeBall, Pokemons, PokemonQuizdata } from "./types";
 import { catchPokemon } from "../data";
@@ -8,6 +16,7 @@ import { error } from "console";
 import catchRoute from "./routes/catch";
 import quizeRout from "./routes/quize";
 import quizePointsRoute from "./routes/quizePoints";
+
 
 const app: Express = express();
 
@@ -36,7 +45,7 @@ async function startServer() {
 }
 
 app.get("/", (req, res) => {
-  res.render("homepage.ejs");
+  res.render("index.ejs");
 });
 app.get("/new-game", (req, res) => {
   res.render("new-game.ejs");
@@ -98,6 +107,66 @@ app.get("/compare", (req, res) => {
 app.get("/challenge", (req, res) => {
   res.render("challenge");
 });
+app.get("/aanmelden",(req,res) =>{
+    res.render("aanmelden")
+})
+
+app.get("/register",(req,res) =>{
+  res.render("register.ejs")
+})
+
+app.post("/register", async (req, res) => {
+  const { email, password } = req.body;
+  console.log("Registratiegegevens ontvangen:", email, password); // <---- TEST
+
+  if (!email || !password) {
+     res.status(400).send("Email en wachtwoord zijn verplicht");
+     return;
+  }
+
+  try {
+    const existingUser = await userCollection.findOne({ email });
+
+    if (existingUser) {
+       res.status(409).send("Gebruiker bestaat al");
+       return;
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await userCollection.insertOne({
+      email,
+      password: hashedPassword,
+      role: "USER"
+    });
+
+    console.log("Gebruiker toegevoegd aan MongoDB:", email);
+    res.redirect("/new-game");
+  } catch (err) {
+    console.error("Fout bij registratie:", err);
+    res.status(500).send("Interne serverfout");
+  }
+});
+
+
+
+
+app.post("/aanmelden",async(req,res) =>{
+    const email : string = req.body.email;
+    const password : string = req.body.password;
+    try{
+      let user : User | null = await login(email, password)
+      console.log(user)
+      res.redirect("/new-game");
+    }
+    catch(e: any){
+        console.log(e)
+        res.redirect("/aanmelden")
+    }
+    res.render("aanmelden.ejs");
+})
+// app.get("/",(req,res) =>{
+//   res.render("index.ejs");
+// })
 
 
 app.get("/team", async (req, res) => {

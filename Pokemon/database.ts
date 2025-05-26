@@ -1,15 +1,30 @@
 import { Collection, MongoClient, ObjectId } from "mongodb";
 // import { Trainer, Pokemon, Stats } from "./trainer";
+
+import { Pokemons, Trainer, TrainerPokemons, Stats, User } from "./types";
+import dotenv from "dotenv";
+import path from "path";
+import bcrypt from "bcrypt"
+
+
 import { Pokemons, Trainer, TrainerPokemons, Stats, PokemonQuizdata } from "./types";
 import { json } from "stream/consumers";
 import { caughtPokemon, PokeBall, EvolutionChainLink } from "./types";
+
 const trainerName = "Cedric"
-const uri = "mongodb+srv://amaviyaovi:CodeHive@cluster0.bsv3myf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri: string = "mongodb+srv://amaviyaovi:CodeHive@cluster0.bsv3myf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 export const client = new MongoClient(uri);
 
+
+dotenv.config({path: path.resolve(__dirname, '.env')});
+
+// console.log(process.env.ADMIN_EMAIL)
 //Collection voor Trainers en Pokemons
 export const trainersCollection: Collection<Trainer> = client.db("pokemon_spel").collection<Trainer>("trainer");
 export const PokemonCollection: Collection<Pokemons> = client.db("pokemon_spel").collection<Pokemons>("pokemon");
+
+export const userCollection: Collection<User> = client.db("pokemon_spel").collection<User>("Users");
+
 
 export let caughtPokemons: caughtPokemon[] = [];
 
@@ -44,6 +59,7 @@ export function resetAttempts() {
   }
 }
 
+
 async function exit() {
   try {
     await client.close();
@@ -59,10 +75,11 @@ export async function connect() {
   try {
     await client.connect();
     console.log('Connected to database');
+    await createInitialUser();
     process.on('SIGINT', exit);
   } catch (error) {
     console.error(error);
-    console.log("test");
+    //console.log("test");
   }
 }
 
@@ -100,6 +117,45 @@ export async function getFirstEvolutionPokemon(pokemonName: string) {
 
   return speciesData.evolves_from_species === null;
 
+}
+export async function login(email: string, password: string) {
+  if (!email || !password) {
+    throw new Error("Email en wachtwoord zijn vereist");
+  }
+  const user: User | null = await userCollection.findOne<User>({ email: email });
+  if (!user) {
+    throw Error("Gebruiker niet gevonden")
+  }
+  if (!user.password) {
+      throw new Error("Gebruiker heeft geen wachtwoord in de database");
+    }
+    return user;
+}
+
+export async function createInitialUser() {
+  const email = process.env.ADMIN_EMAIL;
+  const password = process.env.ADMIN_PASSWORD;
+
+  if (!email || !password) {
+    throw new Error("ADMIN_EMAIL and ADMIN_PASSWORD zijn verplicht");
+  }
+
+  const existingAdmin = await userCollection.findOne({ email });
+  if (existingAdmin) {
+    console.log("Admin bestaat al");
+    return;
+  }
+
+  // Wachtwoord hashen voordat het wordt opgeslagen
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  await userCollection.insertOne({
+    email: email,
+    password: hashedPassword,
+    role: "ADMIN"
+  });
+
+  console.log("Admin account aangemaakt.");
 }
 
 
@@ -142,6 +198,7 @@ export async function getFirstEvolutionPokemon(pokemonName: string) {
 
 // Invoegen van Pokemons in de database van uit de pokeAPI
 export async function insertData(): Promise<void> {
+
   try {
     const collection = client.db("pokemon_spel").collection<Pokemons>("pokemon");
 
