@@ -107,11 +107,6 @@ margin-left:170px;
   margin: 4px 0;
   color: #444;
 }
-
-.generate-btn {
-  display: flex;
-  margin-left: 42%;
-}
 .challenge-btn {
   display: block;
 }
@@ -120,24 +115,26 @@ margin-left:170px;
 .stats-btn,.challenge-btn {
   margin-top: 20px;
   padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #ff4500;
+  border: 2px solid #ffcc00;
+    border-radius: 25px;
+  background: rgb(104, 95, 95);
+    transition: all 0.3s ease;
   color: white;
   cursor: pointer;
 }
 .battle-btn:hover,
 .generate-btn:hover,
 .stats-btn:hover,.challenge-btn:hover {
-  background-color: #e63e00;
+  color: black;
+  background: white;
 }
 .generate-btn {
   display: block;
   margin: 20px auto;
   padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #ff4500;
+  border: 2px solid #ffcc00;
+    border-radius: 25px;
+  background: rgb(104, 95, 95);
   color: white;
   cursor: pointer;
   font-size: 16px;
@@ -145,7 +142,8 @@ margin-left:170px;
 }
 
 .generate-btn:hover {
-  background-color: #e63e00;
+  color: black;
+  background: white;
 }
 
 .battle-log {
