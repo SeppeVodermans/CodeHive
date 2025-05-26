@@ -1,0 +1,182 @@
+/* Algemene stijlen */
+body {
+    background-color: #f4f4f9;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Trainer Info */
+  .trainer-info-challenge {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 0 20px;
+  }
+  
+  .trainer-info-challenge .Trainer-challenge,
+  .trainer-info-challenge .Ash-challenge {
+    text-align: center;
+  }
+  
+  .trainer-info-challenge img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%; 
+    object-fit: cover;
+  }
+  
+  .trainer-info-challenge h2 {
+    font-size: 1.5rem;
+    margin: 10px 0 0;
+    color: #333;
+  }
+  
+  /* Battle Field */
+  .battle-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .battle-field {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0;
+    gap: 20px;
+  }
+  
+  .pokemon-card {
+    background-color: #ffffff;
+    border: 2px solid #ffcc00;
+    border-radius: 12px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    color: #2a2a2a;
+    transition: transform 0.2s ease;
+  }
+  
+  .pokemon-card:hover {
+    transform: scale(1.03);
+  }
+  
+  .pokemon-card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #ff4500;
+    text-transform: capitalize;
+  }
+  
+  .pokemon-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    margin-bottom: 10px;
+  }
+  
+  .pokemon-card .stats {
+    margin-top: 10px;
+  }
+  
+  .pokemon-card .stats p {
+    font-size: 14px;
+    margin: 4px 0;
+    color: #444;
+  }
+  
+  /* Move Knoppen */
+  .move-selection {
+    margin-top: 30px;
+    text-align: center;
+  }
+  
+  .move-selection h3 {
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .moves {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+  }
+  
+  .move-btn {
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid #ffcc00;
+    border-radius: 10px;
+    background-color: #ffffff;
+    color: #2a2a2a;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  
+  .move-btn:hover {
+    background-color: #ffe680;
+    transform: scale(1.05);
+  }
+  
+  .move-btn:disabled {
+    background-color: #f2f2f2;
+    color: #aaa;
+    border-color: #ddd;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  /* Battle Log */
+  .battle-log {
+    background-color: #ffffff;
+    border: 2px solid #ffcc00;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 14px;
+    color: #2a2a2a;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .battle-log p {
+    margin: 8px 0;
+    line-height: 1.4;
+  }
+  
+  /* Animaties */
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+    100% { transform: translateX(0); }
+  }
+  
+  .shake {
+    animation: shake 0.5s ease;
+  }
+
+  .pokeball-container {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  margin-left: 70%;
+}
+
+.pokeball-icon {
+  width: 30px;
+  height: 30px;
+}
+  

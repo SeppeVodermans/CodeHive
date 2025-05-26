@@ -6,8 +6,9 @@
     <link rel="stylesheet" href="../CSS/reset.css" />
     <link rel="stylesheet" href="../CSS/base.css" />
     <link rel="stylesheet" href="../CSS/battle.css" />
+    <link rel="stylesheet" href="../CSS/challenge.css" />
 
-    <script src="../JS/battle.js" defer></script>
+    <script src="../JS/challenge.js" defer></script>
     <script src="../JS/menu.js"></script>
     <title>Pokémon Battle</title>
   </head>
@@ -29,31 +30,34 @@
       </div>
     </div>
 
-
     <header>
       <div class="background"></div>
-
       <button class="menu-button">
         <img src="../Assets/menu-icon.webp" />
       </button>
+      <%- include("partials/menu") %>
+    </header>
 
-    <%- include("partials/menu") %>
-      
-
-      </div>
-    </div>
     <main class="main-content">
       <section class="battle-container">
         <div class="trainer-info-challenge">
-          <div class ="Trainer-challenge">
-          <img src="../Assets/Player/female.png" alt="Trainer Profile" />
-          <h2 id="trainer-name">Trainer</h2>
+          <div class="Trainer-challenge">
+            <img src="../Assets/Player/female.png" alt="Trainer Profile" />
+            <h2 id="trainer-name">Trainer</h2>
+          </div>
+          <div class="Ash-challenge">
+            <img src="../Assets/Player/Ash.png" alt="Ash Profile" />
+            <h2 id="trainer-name">Ash</h2>
+          </div>
         </div>
-        <div class="Ash-challenge">
-          <img src="../Assets/Player/Ash.png" alt="Trainer Profile" />
-          <h2 id="trainer-name">Ash</h2>
+        <div id="opponent-pokeballs" class="pokeball-container">
+        <img src="../Assets/pokeballs/pokeball.png" class="pokeball-icon" />
+        <img src="../Assets/pokeballs/pokeball.png" class="pokeball-icon" />
+        <img src="../Assets/pokeballs/pokeball.png" class="pokeball-icon" />
+        <img src="../Assets/pokeballs/pokeball.png" class="pokeball-icon" />
+        <img src="../Assets/pokeballs/pokeball.png" class="pokeball-icon" />
         </div>
-        </div>
+
         <div class="battle-field">
           <div class="pokemon-card">
             <h3>Pokémon Name</h3>
@@ -77,6 +81,7 @@
             </div>
           </div>
         </div>
+
         <div class="move-selection">
           <h3>Kies een aanval:</h3>
           <div class="moves">
@@ -86,6 +91,7 @@
             <button class="move-btn" data-move-index="3">Aanval 4</button>
           </div>
         </div>
+        <div class="battle-log"></div>
       </section>
     </main>
   </body>
