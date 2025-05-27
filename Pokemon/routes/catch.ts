@@ -2,6 +2,7 @@ import express, { Router } from "express";
 import { Request, Response } from 'express';
 import { PokeBall, Pokemons } from "../types";
 import { getAttempts, decrementAttempts, getFirstEvolutionPokemon, PokemonCollection } from "../database";
+import { getCachedFirstEvolutions, preloadPokemonData } from "../database";
 
 export default function catchRoute() {
 
@@ -9,23 +10,17 @@ export default function catchRoute() {
 
     router.get("/catch", async (req, res) => {
         try {
+            await preloadPokemonData();
             const allPokemons: Pokemons[] = await PokemonCollection.find().toArray();
 
 
-            const firstEvolutions: Pokemons[] = [];
-            for (const pokemon of allPokemons) {
-                const isFirstEvolution = await getFirstEvolutionPokemon(pokemon.name);
-                if (isFirstEvolution) {
-                    firstEvolutions.push(pokemon);
-
-                }
-            }
+            const firstEvolutions = getCachedFirstEvolutions();
             if (firstEvolutions.length === 0) {
                 res.status(404).send("Geen eerste evolution Pokémon gevonden.");
                 return;
             }
             const randomPokemon = firstEvolutions[Math.floor(Math.random() * firstEvolutions.length)];
-            console.log("Random Pokemon to render:", randomPokemon);
+            // console.log("Random Pokemon to render:", randomPokemon);
             res.render("catch", { firstEvolution: randomPokemon, result: null });
         } catch (error) {
             console.error("Error loading catch page:", error);

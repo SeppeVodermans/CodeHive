@@ -52,14 +52,6 @@ export interface Stats {
     losses: number
 }
 
-
-type UserRole = "ADMIN" | "USER";
-
-export interface User{
-    email : string;
-    password: string;
-    role? : UserRole
-
 export interface PokeBall {
     rare: number,
     normal: number,
@@ -86,5 +78,13 @@ export interface PokemonQuizdata {
     silhouetteImage: string,
     fullImage: string
 
+}
+
+type userRole = "ADMIN" | "USER";
+
+export interface User {
+    email: string,
+    password: string,
+    role?: userRole
 
 }
