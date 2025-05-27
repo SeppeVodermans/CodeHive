@@ -150,20 +150,33 @@ app.post("/register", async (req, res) => {
 
 
 
-app.post("/aanmelden",async(req,res) =>{
-    const email : string = req.body.email;
-    const password : string = req.body.password;
-    try{
-      let user : User | null = await login(email, password)
-      console.log(user)
-      res.redirect("/new-game");
+app.post("/aanmelden", async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.render("aanmelden", { error: "Vul alle velden in." });
+  }
+
+  try {
+    const user: User | null = await userCollection.findOne({ email });
+
+    if (!user) {
+      return res.render("aanmelden", { error: "Gebruiker bestaat niet." });
     }
-    catch(e: any){
-        console.log(e)
-        res.redirect("/aanmelden")
+
+    // Alleen bcrypt gebruiken om wachtwoord te vergelijken
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return res.render("aanmelden", { error: "Wachtwoord is incorrect." });
     }
-    res.render("aanmelden.ejs");
-})
+
+    return res.render("new-game", { user });
+  } catch (err) {
+    console.error("Fout bij inloggen:", err);
+    return res.render("aanmelden", { error: "Er is iets misgegaan. Probeer opnieuw." });
+  }
+});
+
 // app.get("/",(req,res) =>{
 //   res.render("index.ejs");
 // })
