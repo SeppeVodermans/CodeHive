@@ -151,15 +151,25 @@ export async function login(email: string, password: string) {
   if (!email || !password) {
     throw new Error("Email en wachtwoord zijn vereist");
   }
+
   const user: User | null = await userCollection.findOne<User>({ email: email });
   if (!user) {
-    throw Error("Gebruiker niet gevonden")
+    throw new Error("Gebruiker niet gevonden");
   }
+
   if (!user.password) {
     throw new Error("Gebruiker heeft geen wachtwoord in de database");
   }
+
+
+  if (user.password !== password) {
+    throw new Error("Wachtwoord klopt niet");
+  }
+
+
   return user;
 }
+
 
 export async function createInitialUser() {
   const email = process.env.ADMIN_EMAIL;
