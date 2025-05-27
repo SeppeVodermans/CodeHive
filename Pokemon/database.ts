@@ -7,7 +7,7 @@ import path from "path";
 import bcrypt from "bcrypt"
 
 
-import { Pokemons, Trainer, TrainerPokemons, Stats, PokemonQuizdata } from "./types";
+import { PokemonQuizdata } from "./types";
 import { json } from "stream/consumers";
 import { caughtPokemon, PokeBall, EvolutionChainLink } from "./types";
 
@@ -16,7 +16,7 @@ const uri: string = "mongodb+srv://amaviyaovi:CodeHive@cluster0.bsv3myf.mongodb.
 export const client = new MongoClient(uri);
 
 
-dotenv.config({path: path.resolve(__dirname, '.env')});
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 // console.log(process.env.ADMIN_EMAIL)
 //Collection voor Trainers en Pokemons
@@ -24,6 +24,35 @@ export const trainersCollection: Collection<Trainer> = client.db("pokemon_spel")
 export const PokemonCollection: Collection<Pokemons> = client.db("pokemon_spel").collection<Pokemons>("pokemon");
 
 export const userCollection: Collection<User> = client.db("pokemon_spel").collection<User>("Users");
+
+let cachedPokemonList: Pokemons[] | null = null;
+let cachedFirstEvolutions: Pokemons[] | null = null;
+let isCacheLoaded = false;
+
+export async function preloadPokemonData() {
+  if (isCacheLoaded) return;
+  const collection = client.db("pokemon_spel").collection<Pokemons>("pokemon");
+  cachedPokemonList = await collection.find().toArray();
+  console.log(`Cached ${cachedPokemonList.length} Pokémon`);
+
+  cachedFirstEvolutions = [];
+  for (const pokemon of cachedPokemonList) {
+    const isFirst = await getFirstEvolutionPokemon(pokemon.name);
+    if (isFirst) {
+      cachedFirstEvolutions.push(pokemon);
+    }
+  }
+
+  isCacheLoaded = true;
+}
+
+export function getCachedPokemonData(): Pokemons[] {
+  return cachedPokemonList || [];
+}
+
+export function getCachedFirstEvolutions(): Pokemons[] {
+  return cachedFirstEvolutions || [];
+}
 
 
 export let caughtPokemons: caughtPokemon[] = [];
@@ -127,9 +156,9 @@ export async function login(email: string, password: string) {
     throw Error("Gebruiker niet gevonden")
   }
   if (!user.password) {
-      throw new Error("Gebruiker heeft geen wachtwoord in de database");
-    }
-    return user;
+    throw new Error("Gebruiker heeft geen wachtwoord in de database");
+  }
+  return user;
 }
 
 export async function createInitialUser() {
@@ -157,44 +186,6 @@ export async function createInitialUser() {
 
   console.log("Admin account aangemaakt.");
 }
-
-
-
-// export async function insertData() {
-//   try {
-//     const magnemite: Pokemon = {
-//       name: "magnemite",
-//       geslacht: "male",
-//       stats: { wins: 12, losses: 3, draws: 1 },
-//       type: ["Elecktric"]
-//     }
-
-//     const magneton: Pokemon = {
-//       name: "magneton",
-//       geslacht: "female",
-//       stats: { wins: 10, losses: 5, draws: 0 },
-//       type: ["Elecktric"]
-//     }
-
-//     const pokemons: Pokemon[] = [magnemite, magneton];
-
-//     const pokemonResult = await PokemonCollection.insertMany(pokemons);
-//     const insertedIds = Object.values(pokemonResult.insertedIds);
-
-//     const trainer: Trainer = {
-//       name: "Cedric",
-//       geslacht: "male",
-//       pokemons: insertedIds,
-//       team: []
-//     };
-
-//     await trainersCollection.insertOne(trainer);
-
-//     console.log("Data inserted successfully!");
-//   } catch (error) {
-//     console.error("Error inserting data:", error);
-//   }
-// }
 
 // Invoegen van Pokemons in de database van uit de pokeAPI
 export async function insertData(): Promise<void> {
@@ -261,6 +252,7 @@ export async function insertData(): Promise<void> {
 }
 
 export async function getAllPokemon() {
+
   const collection = client.db("pokemon_spel").collection<Pokemons>("pokemon");
   return await collection.find().toArray();
 }
@@ -300,7 +292,10 @@ export async function getNextEvolutions(pokemon: Pokemons): Promise<string[]> {
 }
 
 export async function getRandomPokemonQuizData(): Promise<PokemonQuizdata> {
-  const pokemons: Pokemons[] = await getAllPokemon();
+  await preloadPokemonData();
+  const pokemons = getCachedPokemonData();
+  if (pokemons.length === 0) throw new Error("No Pokémon available");
+
   const random = pokemons[Math.floor(Math.random() * pokemons.length)];
 
   return {
