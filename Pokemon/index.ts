@@ -136,23 +136,6 @@ app.post("/aanmelden", async (req, res) => {
   }
 });
 
-// app.get("/",(req,res) =>{
-//   res.render("index.ejs");
-// })
-
-  const email: string = req.body.email;
-  const password: string = req.body.password;
-  try {
-    let user: User | null = await login(email, password)
-    console.log(user)
-    res.redirect("/new-game");
-  }
-  catch (e: any) {
-    console.log(e)
-    res.redirect("/aanmelden")
-  }
-  res.render("aanmelden.ejs");
-})
 
 
 
