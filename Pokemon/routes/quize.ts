@@ -9,6 +9,10 @@ export default function quizeRout() {
     router.get("/quize", async (req, res) => {
         try {
             const quizData = await getRandomPokemonQuizData();
+            if (!quizData) {
+                res.status(500).send("No Pokémon data available");
+                return;
+            }
             currentPokemon = quizData;
             res.render("quize.ejs", { pokemons: quizData });
         } catch (error) {
