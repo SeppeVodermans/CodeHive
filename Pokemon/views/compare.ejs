@@ -1,104 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/reset.css" />
-    <link rel="stylesheet" href="../CSS/compare.css" />
-    <link rel="stylesheet" href="../CSS/base.css" />
-    <script src="../JS/compare.js"></script>
-    <script src="../JS/menu.js"></script>
-    
-    <title>Vergelijk Pokémon</title>
-    <title>Pokémon Battle Comparison</title>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../CSS/reset.css" />
+  <link rel="stylesheet" href="../CSS/base.css" />
+  <link rel="stylesheet" href="../CSS/compare.css" />
+  <script src="../JS/compare.js" defer></script>
+  <script src="../JS/menu.js"></script>
+  <title>Vergelijk Pokémon</title>
 </head>
 <body>
-    <div class="exit-menu-overlay">
-        <div class="exit-menu-content">
-          <div class="exit-menu-header">Pokémon</div>
-          <ul class="exit-menu-items">
-            <li class="exit-menu-item"><a href="#" id="continue-btn">Speel verder</a></li>
-            <li class="exit-menu-item"><a href="#" id="save-btn">Spel opslaan</a></li>
-            <li class="exit-menu-item"><a href="#" id="quit-btn">Spel verlaten</a></li>
-          </ul>
+  <div class="exit-menu-overlay">
+    <div class="exit-menu-content">
+      <div class="exit-menu-header">Pokémon</div>
+      <ul class="exit-menu-items">
+        <li class="exit-menu-item"><a href="#" id="continue-btn">Speel verder</a></li>
+        <li class="exit-menu-item"><a href="#" id="save-btn">Spel opslaan</a></li>
+        <li class="exit-menu-item"><a href="#" id="quit-btn">Spel verlaten</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="background"></div>
+  <button class="menu-button"><img src="../Assets/menu-icon.webp" /></button>
+  <%- include("partials/menu") %>
+
+  <div class="main-content">
+    <div class="trainer-section">
+      <div class="trainer-image"><img src="../Assets/Player/female.png" /></div>
+      <h2 class="trainer-name">Trainer</h2>
+      <div class="searchbar-box">
+        <input type="text" class="search-bar" placeholder="Zoek een Pokémon om te vergelijken..." />
+        <button class="generate-button">Vergelijk</button>
+      </div>
+    </div>
+
+    <main class="battle-section">
+      <!-- Huidige Pokémon van de speler -->
+      <div class="pokemon-container" id="player-pokemon">
+        <div><img src="" /></div>
+        <div class="pokemon-name"></div>
+        <div><span class="type-badge type-fire"></span></div>
+        <div class="stats-container">
+          <div class="stat-row"><div class="stat-label">HP:<span></span></div></div>
+          <div class="stat-row"><div class="stat-label">ATTACK:<span></span></div></div>
+          <div class="stat-row"><div class="stat-label">DEFENSE:<span></span></div></div>
+          <div class="stat-row"><div class="stat-label">SPEED:<span></span></div></div>
         </div>
       </div>
-  
-    <div class="background"></div>
-    
-    <button class="menu-button">
-        <img src="../Assets/menu-icon.webp"> 
-    </button>
 
-    <%- include("partials/menu") %>
+      <div class="vs-circle">VS</div>
 
-
-    <div class="main-content">
-        <div class="trainer-section">
-            <div class="trainer-image">
-                <img src="../Assets/Player/female.png">
-            </div>
-            <h2 class="trainer-name">Trainer Name</h2>
-            <div class="searchbar-box">
-                <input type="text" class="search-bar" placeholder="Search for a Pokémon...">
-                <button class="generate-button">Vergelijk Pokémons</button>
-            </div>
+      <!-- Opgezochte Pokémon -->
+      <div class="pokemon-container" id="searched-pokemon">
+        <div><img src="" /></div>
+        <div class="pokemon-name"></div>
+        <div><span class="type-badge type-water"></span></div>
+        <div class="stats-container">
+          <div class="stat-row"><div class="stat-label">HP:<span></span></div></div>
+          <div class="stat-row"><div class="stat-label">ATTACK:<span></span></div></div>
+          <div class="stat-row"><div class="stat-label">DEFENSE:<span></span></div></div>
+          <div class="stat-row"><div class="stat-label">SPEED:<span></span></div></div>
         </div>
-        
-        <main class="battle-section">
-            <div class="pokemon-container">
-                <div>
-                    <img src="">
-                </div>
-                <div class="pokemon-name"></div>
-                <div>
-                    <span class="type-badge type-fire"></span>
-                </div>
-                
-                <div class="stats-container">
-                    <div class="stat-row">
-                        <div class="stat-label">HP:<span></span></div>
-                    </div>
-                    <div class="stat-row">
-                        <div class="stat-label">ATTACK:<span></span></div>
-                    </div>
-                    <div class="stat-row">
-                        <div class="stat-label">DEFENSE:<span></span></div>
-                    </div>
-                    <div class="stat-row">
-                        <div class="stat-label">SPEED:<span></span></div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="vs-circle"></div>
-            
-            <div class="pokemon-container">
-                <div>
-                    <img src="">
-                </div>
-                <div class="pokemon-name"></div>
-                <div>
-                    <span class="type-badge type-water"></span>
-                </div>
-                
-                <div class="stats-container">
-                    <div class="stat-row">
-                        <div class="stat-label">HP:<span></span></div>
-                    </div>
-                    <div class="stat-row">
-                        <div class="stat-label">ATTACK:<span></span></div>
-                    </div>
-                    <div class="stat-row">
-                        <div class="stat-label">DEFENSE:<span></span></div>
-                    </div>
-                    <div class="stat-row">
-                        <div class="stat-label">SPEED:<span></span></div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+      </div>
+    </main>
+  </div>
 </body>
 </html>

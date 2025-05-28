@@ -108,7 +108,7 @@ margin-left:170px;
   color: #444;
 }
 .challenge-btn {
-  display: block;
+  display: inline-block;
 }
 
 .battle-btn,
@@ -117,7 +117,7 @@ margin-left:170px;
   padding: 10px 20px;
   border: 2px solid #ffcc00;
     border-radius: 25px;
-  background: rgb(104, 95, 95);
+ background-color: rgb(61, 139, 204);
     transition: all 0.3s ease;
   color: white;
   cursor: pointer;
@@ -134,7 +134,7 @@ margin-left:170px;
   padding: 10px 20px;
   border: 2px solid #ffcc00;
     border-radius: 25px;
-  background: rgb(104, 95, 95);
+  background-color: rgb(61, 139, 204);
   color: white;
   cursor: pointer;
   font-size: 16px;

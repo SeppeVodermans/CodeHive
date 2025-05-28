@@ -2,7 +2,10 @@
 
 const ashTeamNames = ["pikachu", "charizard", "bulbasaur", "squirtle", "snorlax"];
 let ashTeam = [];
+let playerTeam = [];
+let currentPlayerPokemon = null;
 let currentOpponentIndex = 0;
+let selectedPokemonName = null;
 
 // Capitalize
 function capitalize(str) {
@@ -89,7 +92,6 @@ function disableMoveButtons() {
   document.querySelectorAll(".move-btn").forEach((btn) => (btn.disabled = true));
 }
 
-// Buttons instellen
 function setupMoveButtons(player, opponent, onOpponentFaint) {
   const buttons = document.querySelectorAll(".move-btn");
   const log = getBattleLog();
@@ -120,7 +122,6 @@ function setupMoveButtons(player, opponent, onOpponentFaint) {
         return;
       }
 
-      // Simuleer tegenaanval
       setTimeout(() => {
         const counterDamage = Math.max(1, opponent.attack - player.defense / 2);
         player.hp = Math.max(0, player.hp - counterDamage);
@@ -136,34 +137,46 @@ function setupMoveButtons(player, opponent, onOpponentFaint) {
   });
 }
 
-// Battle starten
 async function startBattle() {
   const cards = document.querySelectorAll(".pokemon-card");
-  const userPokemonName = localStorage.getItem("selectedPokemon") || "pikachu";
-  const userNickname = localStorage.getItem("pokemonNickname") || userPokemonName;
   const log = getBattleLog();
-  log.innerHTML = "";
+  log.innerHTML = "<p>Kies een aanval om de battle te starten.</p>";
 
-  const player = await getPokemonData(userNickname);
+  try {
+    const trainerId = "680f94f80e253abbc6683d8c"; 
+    const response = await fetch(`/api/team/${trainerId}`);
+    if (!response.ok) throw new Error("Team ophalen mislukt");
 
-  if (ashTeam.length === 0) {
-    for (const name of ashTeamNames) {
-      const pokemon = await getPokemonData(name);
-      if (pokemon) ashTeam.push(pokemon);
+    const teamData = await response.json();
+    if (teamData.length === 0) {
+      alert("Geen team gevonden! Voeg Pokémon toe aan je team.");
+      return;
     }
-  }
 
-  const opponent = ashTeam[currentOpponentIndex];
+    playerTeam = await Promise.all(teamData.map(p => getPokemonData(p.name)));
 
-  if (player && opponent) {
-    updateCard(cards[0], player);
+    currentPlayerPokemon =
+      playerTeam.find(p => p.name.toLowerCase() === selectedPokemonName?.toLowerCase()) || playerTeam[0];
+
+    if (ashTeam.length === 0) {
+      for (const name of ashTeamNames) {
+        const poke = await getPokemonData(name);
+        if (poke) ashTeam.push(poke);
+      }
+    }
+
+    const opponent = ashTeam[currentOpponentIndex];
+
+    updateCard(cards[0], currentPlayerPokemon);
     updateCard(cards[1], opponent);
-    log.innerHTML += `<p>Kies een move om de battle te starten.</p>`;
-    setupMoveButtons(player, opponent, () => loadNextOpponent(player));
+
+    setupMoveButtons(currentPlayerPokemon, opponent, () => loadNextOpponent(currentPlayerPokemon));
+  } catch (error) {
+    console.error(error);
+    alert("Er is een fout opgetreden bij het starten van de battle.");
   }
 }
 
-// Volgende Pokémon van Ash
 async function loadNextOpponent(player) {
   const cards = document.querySelectorAll(".pokemon-card");
   const nextOpponent = ashTeam[currentOpponentIndex];
@@ -176,17 +189,10 @@ async function loadNextOpponent(player) {
   }
 }
 
-// Initialisatie
-document.addEventListener("DOMContentLoaded", () => {
- startBattle();
-});
-
-//Pokeballs updaten tijdens gevecht
 function updatePokeballs() {
   const container = document.getElementById("opponent-pokeballs");
-
-  container.innerHTML = ""; 
-  const remaining = ashTeam.length - currentOpponentIndex; 
+  container.innerHTML = "";
+  const remaining = ashTeam.length - currentOpponentIndex;
   for (let i = 0; i < remaining; i++) {
     const pokeball = document.createElement("img");
     pokeball.src = "../Assets/pokeballs/pokeball.png";
@@ -194,3 +200,12 @@ function updatePokeballs() {
     container.appendChild(pokeball);
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  startBattle();
+
+  document.getElementById("pokemon-select").addEventListener("change", (e) => {
+    selectedPokemonName = e.target.value;
+    startBattle(); // herstart battle met nieuwe Pokémon
+  });
+});
