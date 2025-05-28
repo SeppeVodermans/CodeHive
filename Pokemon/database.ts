@@ -113,6 +113,7 @@ export async function connect() {
 }
 
 
+
 export async function getTrainerWithPokemons(_id: string) {
   try {
     const objectId = new ObjectId(_id); // Convert once and reuse
@@ -140,13 +141,25 @@ export async function getTrainerWithPokemons(_id: string) {
     console.error("Error in getTrainerWithPokemons:", err);
     return null;
   }
+
 }
 
-export async function getPokemonCaughtByTrainer(trainerName: string) {
-  const trainersCollection = client.db("pokemon_spel").collection("trainer");
-  const trainer = await trainersCollection.findOne({ name: trainerName })
-  return trainer?.pokemons || [];
+export async function getPokemonCaughtByTrainer(trainerId: string) {
+  const trainersCollection = client.db("pokemon_spel").collection<Trainer>("trainer");
+  const trainer = await trainersCollection.findOne({ _id: new ObjectId(trainerId) });
+
+  if (!trainer || !trainer.pokemons || trainer.pokemons.length === 0) {
+    return [];
+  }
+
+  const pokemons = await PokemonCollection.find({
+    _id: { $in: trainer.pokemons }
+  }).toArray();
+
+  return pokemons;
 }
+
+
 
 export async function getFirstEvolutionPokemon(pokemonName: string) {
   const speciesResponse = await fetch(
@@ -381,3 +394,20 @@ export async function deleteHardcodedPokemon() {
     console.error("Error deleting Pokémon:", error);
   }
 }
+
+export async function connectIfNeeded() {
+  try {
+    console.log("🌐 Test MongoDB verbinding...");
+    await client.db().admin().ping();
+    console.log("✅ Verbinding OK");
+  } catch (error) {
+    console.log("❌ Geen verbinding, probeer opnieuw...");
+    await connect();
+    console.log("✅ Verbinding hersteld");
+  }
+}
+
+
+
+
+

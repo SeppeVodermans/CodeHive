@@ -22,22 +22,24 @@ async function getPokemonData(nameOrId) {
     if (!response.ok) throw new Error("Pokémon niet gevonden");
     const data = await response.json();
 
-    const types = data.types.map(t => t.type.name); 
+    const types = data.types.map(t => t.type.name);
     const allMoves = data.moves;
-    const selectedMoves = [];
+    const selectedMoves = [
+      { name: "Tackle", power: 40, type: "normal" },
+      { name: "Quick Attack", power: 40, type: "normal" }
+    ];
 
-    const usedMoveNames = new Set();
+    const usedMoveNames = new Set(selectedMoves.map(m => m.name));
 
     async function getValidMove(moveEntry) {
       const res = await fetch(moveEntry.move.url);
       if (!res.ok) return null;
       const move = await res.json();
-
       if (
         move.power &&
         move.type &&
         move.power !== null &&
-        move.type.name !== "status"
+        move.damage_class.name !== "status"
       ) {
         return {
           name: capitalize(move.name.replace("-", " ")),
@@ -48,6 +50,8 @@ async function getPokemonData(nameOrId) {
       return null;
     }
 
+    const typeSpecificMoves = [];
+
     for (const type of types) {
       for (const moveEntry of allMoves) {
         const moveData = await getValidMove(moveEntry);
@@ -56,31 +60,15 @@ async function getPokemonData(nameOrId) {
           moveData.type === type &&
           !usedMoveNames.has(moveData.name)
         ) {
-          selectedMoves.push(moveData);
+          typeSpecificMoves.push(moveData);
           usedMoveNames.add(moveData.name);
-          break; 
+          if (typeSpecificMoves.length >= 2) break;
         }
       }
+      if (typeSpecificMoves.length >= 2) break;
     }
 
-    for (const moveEntry of allMoves) {
-      if (selectedMoves.length >= 4) break;
-
-      const moveData = await getValidMove(moveEntry);
-      if (moveData && !usedMoveNames.has(moveData.name)) {
-        selectedMoves.push(moveData);
-        usedMoveNames.add(moveData.name);
-      }
-    }
-
-
-    while (selectedMoves.length < 4) {
-      selectedMoves.push({
-        name: "Tackle",
-        power: 40,
-        type: "normal",
-      });
-    }
+    selectedMoves.push(...typeSpecificMoves.slice(0, 2));
 
     return {
       name: capitalize(data.name),
@@ -89,7 +77,7 @@ async function getPokemonData(nameOrId) {
       attack: data.stats.find((s) => s.stat.name === "attack").base_stat,
       defense: data.stats.find((s) => s.stat.name === "defense").base_stat,
       speed: data.stats.find((s) => s.stat.name === "speed").base_stat,
-      type: types[0], 
+      type: types[0],
       moves: selectedMoves.slice(0, 4),
     };
   } catch (err) {
