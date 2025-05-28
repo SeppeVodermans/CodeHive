@@ -1,109 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/CSS/reset.css" />
-    <link rel="stylesheet" href="/CSS/team.css" />
-    <link rel="stylesheet" href="/CSS/base.css" />
-    <!--<script src="../JS/team.js"></script>-->
-    <script src="/JS/menu.js"></script>
-    <title>team</title>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/CSS/reset.css" />
+  <link rel="stylesheet" href="/CSS/team.css" />
+  <link rel="stylesheet" href="/CSS/base.css" />
+  <script src="/JS/menu.js"></script>
+  <title>Team</title>
+</head>
+<body>
 
-    <div class="exit-menu-overlay">
-      <div class="exit-menu-content">
-        <div class="exit-menu-header">Pokémon</div>
-        <ul class="exit-menu-items">
-          <li class="exit-menu-item"><a href="#" id="continue-btn">Speel verder</a></li>
-          <li class="exit-menu-item"><a href="#" id="save-btn">Spel opslaan</a></li>
-          <li class="exit-menu-item"><a href="#" id="quit-btn">Spel verlaten</a></li>
-        </ul>
-      </div>
+<div class="exit-menu-overlay">
+  <div class="exit-menu-content">
+    <div class="exit-menu-header">Pokémon</div>
+    <ul class="exit-menu-items">
+      <li class="exit-menu-item"><a href="#" id="continue-btn">Speel verder</a></li>
+      <li class="exit-menu-item"><a href="#" id="save-btn">Spel opslaan</a></li>
+      <li class="exit-menu-item"><a href="#" id="quit-btn">Spel verlaten</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="background"></div>
+<button class="menu-button">
+  <img src="/Assets/menu-icon.webp" />
+</button>
+
+<%- include("partials/menu") %>
+
+<div class="main-content">
+  <div class="trainer-section">
+    <div class="trainer-image">
+      <img src="/Assets/Player/<%= trainer.gender %>.png">
     </div>
-    
-    <div class="background"></div>
+    <h2 class="trainer-name"><%= trainer.name %></h2>
+  </div>
 
-    <button class="menu-button">
-      <img src="../Assets/menu-icon.webp" />
-    </button>
-
-    <%- include("partials/menu") %>
-
-    <div class="main-content">
-      <div class="trainer-section">
-        <div class="trainer-image">
-          <img src="../Assets/Player/female.png">
-        </div>
-        <h2 class="trainer-name"><%= trainer.name %></h2>
-      </div>
-      
-      <h2 class="your-pokemon">Jouw Team</h2>
-      <section class="pokemon-list">
-        <div class="pokemon-grid">
-          <% if (team.length > 0) {pokemon = team[0]; %>
-            <div class="pokemon-card-main-pokemon">
-              <form action="/team/remove" method="POST">
-                <input type="hidden" name="pokemonId" value="<%= pokemon._id %>">
-                <button type="submit" class="min-button-main-pokemon">-</button>
-              </form>
-              <h3><%= pokemon.name %></h3>
-              <p>Type: <%= pokemon.type %></p>
-              <button class="main-pokemon-button">View More Details</button>
-              <div class="stats">
-              <span class="wins"><%= pokemon.stats.wins %></span>
-              <span class="losses"><%= pokemon.stats.losses %></span>
-              <span><%= pokemon.stats.draws %></span>
-            </div>
-            </div>
-          <% } %>
-
-        <% team.slice(1).forEach(pokemon => { %>
-          <div class="pokemon-card">
-            <form action="/team/remove" method="POST">
-              <input type="hidden" name="pokemonId" value="<%= pokemon._id %>">
-              <button type="submit" class="min-button">-</button>
-            </form>
-            <h3><%= pokemon.name %></h3>
-            <p>Type: <%= pokemon.type %></p>
-            <button class="view-details-button">View More Details</button>
-            <div class="stats">
-            <span class="wins"><%= pokemon.stats.wins %></span>
-            <span class="losses"><%= pokemon.stats.losses %></span>
-            <span><%= pokemon.stats.draws %></span>
+  <h2 class="your-pokemon">Jouw Team</h2>
+  <section class="pokemon-list">
+    <div class="pokemon-grid">
+      <% if (team.length > 0) { 
+           const pokemon = team[0]; %>
+        <div class="pokemon-card-main-pokemon">
+          <form action="/team/remove" method="POST">
+            <input type="hidden" name="pokemonId" value="<%= pokemon._id %>">
+            <button type="submit" class="min-button-main-pokemon">-</button>
+          </form>
+          <img src="<%= pokemon.image %>" alt="<%= pokemon.name %>">
+          <h3><%= pokemon.name %></h3>
+          <p>Type: <%= pokemon.type %></p>
+          <button class="main-pokemon-button">View More Details</button>
+          <div class="stats">
+            <span class="wins">W: <%= pokemon.stats?.wins ?? 0 %></span>
+            <span class="losses">L: <%= pokemon.stats?.losses ?? 0 %></span>
+            <span>D: <%= pokemon.stats?.draws ?? 0 %></span>
           </div>
-          </div>
-          <% }); %>
-      </div>
-    </section>
-
-      <h2 class="your-pokemon">Jouw Pokémons</h2>
-      <section class="pokemon-list">
-        <div class="pokemon-grid">
-          <% 
-          const availablePokemon = pokemons.filter(pokemon => {
-            return !team.some(teamPokemon => teamPokemon._id.toString() === pokemon._id.toString());
-          });
-      
-          availablePokemon.forEach(pokemon => { %>
-            <div class="pokemon-card">
-              <form action="/team/add" method="POST">
-                <input type="hidden" name="pokemonId" value="<%= pokemon._id %>">
-                <button type="submit" class="plus-button">+</button>
-              </form>
-              <h3><%= pokemon.name %></h3>
-              <p>Type: <%= pokemon.type %></p>
-              <button type="button" class="view-details-button">View More Details</button>
-              <div class="stats">
-                <span class="wins">W: <%= pokemon.stats.wins %></span>
-                <span class="losses">L: <%= pokemon.stats.losses %></span>
-                <span>D: <%= pokemon.stats.draws %></span>
-              </div>
-            </div>
-          <% }); %>
         </div>
-      </section>
+      <% } %>
+
+      <% team.slice(1).forEach(pokemon => { %>
+        <div class="pokemon-card">
+          <form action="/team/remove" method="POST">
+            <input type="hidden" name="pokemonId" value="<%= pokemon._id %>">
+            <button type="submit" class="min-button">-</button>
+          </form>
+          <img src="<%= pokemon.image %>" alt="<%= pokemon.name %>">
+          <h3><%= pokemon.name %></h3>
+          <p>Type: <%= pokemon.type %></p>
+          <button class="view-details-button">View More Details</button>
+          <div class="stats">
+            <span class="wins">W: <%= pokemon.stats?.wins ?? 0 %></span>
+            <span class="losses">L: <%= pokemon.stats?.losses ?? 0 %></span>
+            <span>D: <%= pokemon.stats?.draws ?? 0 %></span>
+          </div>
+        </div>
+      <% }); %>
     </div>
-  </body>
+  </section>
+
+  <h2 class="your-pokemon">Jouw Pokémons</h2>
+  <section class="pokemon-list">
+    <div class="pokemon-grid">
+      <% 
+        const availablePokemon = pokemons.filter(p => {
+          return !team.some(tp => tp._id.toString() === p._id.toString());
+        });
+
+        availablePokemon.forEach(pokemon => { %>
+        <div class="pokemon-card">
+          <form action="/team/add" method="POST">
+            <input type="hidden" name="pokemonId" value="<%= pokemon._id %>">
+            <button type="submit" class="plus-button">+</button>
+          </form>
+          <img src="<%= pokemon.image %>" alt="<%= pokemon.name %>">
+          <h3><%= pokemon.name %></h3>
+          <p>Type: <%= pokemon.type %></p>
+          <button type="button" class="view-details-button">View More Details</button>
+          <div class="stats">
+            <span class="wins">W: <%= pokemon.stats?.wins ?? 0 %></span>
+            <span class="losses">L: <%= pokemon.stats?.losses ?? 0 %></span>
+            <span>D: <%= pokemon.stats?.draws ?? 0 %></span>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </section>
+</div>
+
+</body>
 </html>

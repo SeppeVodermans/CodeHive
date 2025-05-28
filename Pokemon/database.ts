@@ -113,23 +113,33 @@ export async function connect() {
 }
 
 
-export async function getTrainerWithPokemons(id: string) {
-  const trainer = await trainersCollection.findOne({ _id: new ObjectId(id) });
-  if (!trainer) {
+export async function getTrainerWithPokemons(_id: string) {
+  try {
+    const objectId = new ObjectId(_id); // Convert once and reuse
+    console.log("Looking up trainer with ID:", objectId.toHexString());
+
+    const trainer = await trainersCollection.findOne({ _id: objectId });
+    if (!trainer) {
+      console.log("Trainer not found.");
+      return null;
+    }
+
+    const pokemonIds = trainer.pokemons || [];
+    const teamIds = trainer.team || [];
+
+    const pokemons = await PokemonCollection
+      .find({ _id: { $in: pokemonIds } })
+      .toArray();
+
+    const team = await PokemonCollection
+      .find({ _id: { $in: teamIds } })
+      .toArray();
+
+    return { trainer, pokemons, team };
+  } catch (err) {
+    console.error("Error in getTrainerWithPokemons:", err);
     return null;
   }
-
-  const pokemonIds = trainer.pokemons;
-
-  const pokemons = await PokemonCollection
-    .find({ _id: { $in: pokemonIds } })
-    .toArray();
-
-  const teamIds = trainer.team;
-  const team = await PokemonCollection
-    .find({ _id: { $in: teamIds } })
-    .toArray();
-  return { trainer, pokemons, team };
 }
 
 export async function getPokemonCaughtByTrainer(trainerName: string) {

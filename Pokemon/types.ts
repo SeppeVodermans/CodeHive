@@ -1,4 +1,19 @@
 import { ObjectId } from "mongodb";
+import "express-session";
+import { Pokemon } from "./trainer";
+
+declare module "express-session" {
+    interface SessionData {
+        trainer?: {
+            _id: string | ObjectId,
+            name: string,
+            gender: "male" | "female",
+            team: ObjectId[],
+            pokemonIds: ObjectId[],
+            caughtPokemons: caughtPokemon[],
+        }
+    }
+}
 
 export interface Pokemons {
     _id?: ObjectId;
@@ -31,12 +46,13 @@ export interface Pokemons {
 
 
 export interface Trainer {
-    id: ObjectId,
+    _id?: ObjectId;
+    id: string | ObjectId,
     name: string,
     gender: "male" | "female",
     team: ObjectId[],
     pokemons: ObjectId[],
-    caughtPokemons: caughtPokemon
+    caughtPokemons: caughtPokemon[]
 }
 
 export interface TrainerPokemons {
@@ -65,7 +81,7 @@ export interface PokemonSpecies {
 }
 
 export interface caughtPokemon extends Pokemons {
-    name: string
+    nickName: string
 }
 
 export interface EvolutionChainLink {
