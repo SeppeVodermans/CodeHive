@@ -43,8 +43,6 @@ export default function newGameRoute() {
                 _id: starterPokemon._id || new ObjectId(),
             },],
         };
-
-        // Hier zou je je trainer opslaan in de database...
         console.log("Saving trainer:", name, gender, starterPokemonName, customPokemonName);
         const insertResult = await trainersCollection.insertOne(trainer);
 

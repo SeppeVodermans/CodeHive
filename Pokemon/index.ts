@@ -3,7 +3,7 @@ import ejs, { name } from "ejs";
 import path from "path";
 import session from "express-session";
 
-import { connect,connectIfNeeded, insertData, getTrainerWithPokemons, addTeam, removeFromTeam, deleteHardcodedPokemon, getAllPokemon, getAllTypes, PokemonCollection, client, getPokemonCaughtByTrainer, getFirstEvolutionPokemon } from "./database";
+import { connect, connectIfNeeded, insertData, getTrainerWithPokemons, addTeam, removeFromTeam, deleteHardcodedPokemon, getAllPokemon, getAllTypes, PokemonCollection, client, getPokemonCaughtByTrainer, getFirstEvolutionPokemon } from "./database";
 import { Pokemons } from "./types";
 
 
@@ -78,13 +78,6 @@ app.get("/compare", (req, res) => {
 app.get("/challenge", (req, res) => {
   res.render("challenge");
 });
-app.get("/aanmelden", (req, res) => {
-  res.render("aanmelden")
-})
-
-app.get("/register", (req, res) => {
-  res.render("register.ejs")
-})
 
 app.post("/register", async (req, res) => {
   const { email, password } = req.body;
@@ -111,7 +104,7 @@ app.post("/register", async (req, res) => {
     });
 
     console.log("Gebruiker toegevoegd aan MongoDB:", email);
-    res.redirect("/new-game");
+    res.redirect("/new-game",);
   } catch (err) {
     console.error("Fout bij registratie:", err);
     res.status(500).send("Interne serverfout");
@@ -151,7 +144,7 @@ app.post("/aanmelden", async (req, res) => {
 
 
 
-app.get("/challenge", async (req:any, res: any) => {
+app.get("/challenge", async (req: any, res: any) => {
   try {
     console.log("🚀 /challenge route gestart");
     await connectIfNeeded();

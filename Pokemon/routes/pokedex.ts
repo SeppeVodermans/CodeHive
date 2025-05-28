@@ -1,6 +1,7 @@
 import express from "express";
 import { getCachedPokemonData, getAllTypes, getPokemonCaughtByTrainer, getNextEvolutions, client } from "../database";
 import { Pokemons } from "../types";
+import { ObjectId } from "mongodb";
 
 export default function pokedexRoute() {
     const route = express.Router();
@@ -25,8 +26,13 @@ export default function pokedexRoute() {
             return;
         };
         const types = await getAllTypes();
-        const trainerName = "Cedric";
-        const caughtPokemon = await getPokemonCaughtByTrainer(trainerName);
+        const trainerId: string | undefined = req.session.trainer?._id?.toString();
+        if (!trainerId || typeof trainerId !== "string" || !ObjectId.isValid(trainerId)) {
+            res.status(400).send("Invalid trainer ID.");
+            return;
+        }
+        const objectId = new ObjectId(trainerId);
+        const caughtPokemon = await getPokemonCaughtByTrainer(trainerId);
 
         // Fetch and attach next evolutions
         // 1. Filter by type and name
@@ -44,7 +50,7 @@ export default function pokedexRoute() {
             (pokemon as any).nextEvolutions = evolutions.map(evo => ({
                 name: evo.name,
                 image: evo.sprites.front_default,
-                stats: caughtPokemon.includes(evo.name)
+                stats: caughtPokemon.some(p => p.name === evo.name)
                     ? {
                         hp: evo.base_stats.hp,
                         attack: evo.base_stats.attack,

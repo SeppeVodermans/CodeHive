@@ -1,8 +1,9 @@
 import express, { Router } from "express";
 import { Request, Response } from 'express';
 import { PokeBall, Pokemons } from "../types";
-import { getAttempts, decrementAttempts, getFirstEvolutionPokemon, PokemonCollection } from "../database";
+import { getAttempts, decrementAttempts, getFirstEvolutionPokemon, PokemonCollection, trainersCollection } from "../database";
 import { getCachedFirstEvolutions, preloadPokemonData } from "../database";
+import { ObjectId } from "mongodb";
 
 export default function catchRoute() {
 
@@ -63,6 +64,39 @@ export default function catchRoute() {
         }
 
         const randomPokemon = firstEvolutions[Math.floor(Math.random() * firstEvolutions.length)];
+
+        let resultMessage = "";
+        if (success) {
+            resultMessage = "Pokémon gevangen!";
+            const newCaughtPokemon = {
+                ...randomPokemon,
+                nickName: randomPokemon.name,
+                _id: (randomPokemon._id || new ObjectId()) as ObjectId,
+            };
+            const updateResult = await trainersCollection.updateOne(
+                { _id: ObjectId },
+                {
+                    $push: {
+                        caughtPokemons: newCaughtPokemon,
+                        pokemonIds: newCaughtPokemon._id,
+                    }
+                }
+            );
+            if (updateResult.modifiedCount === 0) {
+                console.warn(`Trainer not found or not updated after successful catch.`);
+                resultMessage = "Pokémon gevangen, maar trainer data kon niet worden opgeslagen!";
+            }
+            if (req.session && req.session.trainer) {
+                req.session.trainer.caughtPokemons = req.session.trainer.caughtPokemons || [];
+                req.session.trainer.pokemonIds = req.session.trainer.pokemonIds || [];
+
+                req.session.trainer.caughtPokemons.push(newCaughtPokemon);
+                req.session.trainer.pokemonIds.push(newCaughtPokemon._id);
+            }
+        } else {
+            resultMessage = "Pokémon is ontsnapt."
+        }
+
 
         res.render("catch", {
             firstEvolution: randomPokemon,

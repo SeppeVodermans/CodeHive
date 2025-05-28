@@ -144,16 +144,43 @@ export async function getTrainerWithPokemons(_id: string) {
 
 }
 
-export async function getPokemonCaughtByTrainer(trainerId: string) {
+
+export async function getPokemonCaughtByTrainer(_id: string) {
+  console.log("getPokemonCaughtByTrainer called with trainerId:", _id);
+  console.log("Is trainerId a string?", typeof _id === 'string');
+  console.log("Is trainerId a valid ObjectId string?", ObjectId.isValid(_id));
   const trainersCollection = client.db("pokemon_spel").collection<Trainer>("trainer");
-  const trainer = await trainersCollection.findOne({ _id: new ObjectId(trainerId) });
+  const trainer = await trainersCollection.findOne({ _id: new ObjectId(_id) });
 
   if (!trainer || !trainer.pokemons || trainer.pokemons.length === 0) {
+    return []; // No trainer or no pokemons, return empty array
+  }
+
+  // Filter and map the trainer.pokemons array to ensure valid ObjectIds
+  const validPokemonObjectIds = trainer.pokemons
+    .map(id => {
+      // Check if it's already an ObjectId instance
+      if (id instanceof ObjectId) {
+        return id;
+      }
+      // Check if it's a valid 24-character hex string
+      if (typeof id === 'string' && ObjectId.isValid(id)) {
+        return new ObjectId(id);
+      }
+      // If it's neither, it's an invalid ID, so return null/undefined to filter it out
+      console.warn(`Encountered invalid Pokémon ID in trainer.pokemons for trainer ${_id}:`, id);
+      return null;
+    })
+    .filter((id): id is ObjectId => id !== null); // Filter out any nulls, and tell TypeScript these are now ObjectIds
+
+  // If after filtering, there are no valid IDs, return an empty array
+  if (validPokemonObjectIds.length === 0) {
     return [];
   }
 
+  // Now query the PokemonCollection with only valid ObjectIds
   const pokemons = await PokemonCollection.find({
-    _id: { $in: trainer.pokemons }
+    _id: { $in: validPokemonObjectIds }
   }).toArray();
 
   return pokemons;
