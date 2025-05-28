@@ -1,10 +1,11 @@
+/*
 window.onload = function () {
-  const username = localStorage.getItem("username");
+  // const username = localStorage.getItem("username");
   if (username) {
     alert("Welkom terug, " + username + "!");
   }
 };
-
+*/
 const form = document.querySelector("form");
 
 if (form) {
@@ -17,12 +18,24 @@ if (form) {
     if (username && password) {
       localStorage.setItem("username", username);
       alert("Je bent ingelogd als " + username);
-      window.location.href = "/CodeHive/Pokemon/public/HTML-Pages/new-game.html";
-    } else {
+      window.location.href = "new-game";
+    } 
+/*   else {
       alert("Vul een geldige gebruikersnaam en wachtwoord in");
     }
+*/
   });
 }
+
+const registerButton = document.getElementById("registerButton");
+
+if (registerButton) {
+  registerButton.addEventListener("click", function () {
+    window.location.href = "/register"; 
+  });
+}
+
+
 const projectLinks = document.querySelectorAll("ul li a");
 
 projectLinks.forEach(link => {
@@ -35,14 +48,14 @@ projectLinks.forEach(link => {
         if (!username) {
             if (projectName === 'Pokemon') {
                 alert("Je moet eerst inloggen om Pokemon te spelen.");
-                window.location.href = "../HTML-Pages/aanmelden.html"; 
+                window.location.href = "aanmelden"; 
             } else {
                 alert("Je moet eerst inloggen om een spel te spelen.");
             }
         } else if (projectName === 'Pokemon') {
             alert("Welkom bij Pokemon!");
             window.location.href = event.target.closest('a').href; 
-            window.location.href = "/CodeHive/Pokemon/public/HTML-Pages/aanmelden.html"; 
+            window.location.href = "aanmelden"; 
         } else {
             alert("Je kunt niet deelnemen aan dit spel.");
         }

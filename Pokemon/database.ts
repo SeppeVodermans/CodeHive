@@ -1,18 +1,98 @@
 import { Collection, MongoClient, ObjectId } from "mongodb";
 // import { Trainer, Pokemon, Stats } from "./trainer";
-import { Pokemons, Trainer, TrainerPokemons, Stats } from "./types";
+
+import { Pokemons, Trainer, TrainerPokemons, Stats, User } from "./types";
+import dotenv from "dotenv";
+import path from "path";
+import bcrypt from "bcrypt"
+
+
+import { PokemonQuizdata } from "./types";
 import { json } from "stream/consumers";
+import { caughtPokemon, PokeBall, EvolutionChainLink } from "./types";
+
 const trainerName = "Cedric"
-const uri = "mongodb+srv://amaviyaovi:CodeHive@cluster0.bsv3myf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri: string = "mongodb+srv://amaviyaovi:CodeHive@cluster0.bsv3myf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 export const client = new MongoClient(uri);
 
+
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+
+// console.log(process.env.ADMIN_EMAIL)
 //Collection voor Trainers en Pokemons
 export const trainersCollection: Collection<Trainer> = client.db("pokemon_spel").collection<Trainer>("trainer");
 export const PokemonCollection: Collection<Pokemons> = client.db("pokemon_spel").collection<Pokemons>("pokemon");
 
+export const userCollection: Collection<User> = client.db("pokemon_spel").collection<User>("Users");
+
+let cachedPokemonList: Pokemons[] | null = null;
+let cachedFirstEvolutions: Pokemons[] | null = null;
+let isCacheLoaded = false;
+
+export async function preloadPokemonData() {
+  if (isCacheLoaded) return;
+  const collection = client.db("pokemon_spel").collection<Pokemons>("pokemon");
+  cachedPokemonList = await collection.find().toArray();
+  console.log(`Cached ${cachedPokemonList.length} Pokémon`);
+
+  cachedFirstEvolutions = [];
+  for (const pokemon of cachedPokemonList) {
+    const isFirst = await getFirstEvolutionPokemon(pokemon.name);
+    if (isFirst) {
+      cachedFirstEvolutions.push(pokemon);
+    }
+  }
+
+  isCacheLoaded = true;
+}
+
+export function getCachedPokemonData(): Pokemons[] {
+  return cachedPokemonList || [];
+}
+
+export function getCachedFirstEvolutions(): Pokemons[] {
+  return cachedFirstEvolutions || [];
+}
+
+
+export let caughtPokemons: caughtPokemon[] = [];
+
+export function addCaughtPokemon(pokemon: caughtPokemon) {
+  caughtPokemons.push(pokemon);
+}
+
+
+let pokeballAttempts: PokeBall = {
+  rare: 2,
+  normal: 3,
+  epic: 1,
+};
+
+export function getAttempts(): PokeBall {
+  return { ...pokeballAttempts };
+}
+
+export function decrementAttempts(ballType: keyof PokeBall): boolean {
+  if (pokeballAttempts[ballType] > 0) {
+    pokeballAttempts[ballType]--;
+    return true
+  }
+  return false;
+}
+
+export function resetAttempts() {
+  pokeballAttempts = {
+    rare: 2,
+    normal: 3,
+    epic: 1
+  }
+}
+
+
 async function exit() {
   try {
     await client.close();
+    resetAttempts();
     console.log('Disconnected from database');
   } catch (error) {
     console.error(error);
@@ -24,10 +104,11 @@ export async function connect() {
   try {
     await client.connect();
     console.log('Connected to database');
+    await createInitialUser();
     process.on('SIGINT', exit);
   } catch (error) {
     console.error(error);
-    console.log("test");
+    //console.log("test");
   }
 }
 
@@ -60,51 +141,68 @@ export async function getPokemonCaughtByTrainer(trainerId: string) {
 
 
 
-export async function getFirstEvolutionPokemon() {
-  const collection = client.db("pokemon_spel").collection<Pokemons>("pokemon");
-  const result = await collection.aggregate([{ $match: { evolves_from_species: null } }, { $sample: { size: 1 } }]).toArray();
-  return result[0];
+export async function getFirstEvolutionPokemon(pokemonName: string) {
+  const speciesResponse = await fetch(
+    `https://pokeapi.co/api/v2/pokemon-species/${pokemonName}`
+  );
+  const speciesData = await speciesResponse.json();
+
+  return speciesData.evolves_from_species === null;
 
 }
+export async function login(email: string, password: string) {
+  if (!email || !password) {
+    throw new Error("Email en wachtwoord zijn vereist");
+  }
 
-// export async function insertData() {
-//   try {
-//     const magnemite: Pokemon = {
-//       name: "magnemite",
-//       geslacht: "male",
-//       stats: { wins: 12, losses: 3, draws: 1 },
-//       type: ["Elecktric"]
-//     }
+  const user: User | null = await userCollection.findOne<User>({ email: email });
+  if (!user) {
+    throw new Error("Gebruiker niet gevonden");
+  }
 
-//     const magneton: Pokemon = {
-//       name: "magneton",
-//       geslacht: "female",
-//       stats: { wins: 10, losses: 5, draws: 0 },
-//       type: ["Elecktric"]
-//     }
+  if (!user.password) {
+    throw new Error("Gebruiker heeft geen wachtwoord in de database");
+  }
 
-//     const pokemons: Pokemon[] = [magnemite, magneton];
 
-//     const pokemonResult = await PokemonCollection.insertMany(pokemons);
-//     const insertedIds = Object.values(pokemonResult.insertedIds);
+  if (user.password !== password) {
+    throw new Error("Wachtwoord klopt niet");
+  }
 
-//     const trainer: Trainer = {
-//       name: "Cedric",
-//       geslacht: "male",
-//       pokemons: insertedIds,
-//       team: []
-//     };
 
-//     await trainersCollection.insertOne(trainer);
+  return user;
+}
 
-//     console.log("Data inserted successfully!");
-//   } catch (error) {
-//     console.error("Error inserting data:", error);
-//   }
-// }
+
+export async function createInitialUser() {
+  const email = process.env.ADMIN_EMAIL;
+  const password = process.env.ADMIN_PASSWORD;
+
+  if (!email || !password) {
+    throw new Error("ADMIN_EMAIL and ADMIN_PASSWORD zijn verplicht");
+  }
+
+  const existingAdmin = await userCollection.findOne({ email });
+  if (existingAdmin) {
+    console.log("Admin bestaat al");
+    return;
+  }
+
+  // Wachtwoord hashen voordat het wordt opgeslagen
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  await userCollection.insertOne({
+    email: email,
+    password: hashedPassword,
+    role: "ADMIN"
+  });
+
+  console.log("Admin account aangemaakt.");
+}
 
 // Invoegen van Pokemons in de database van uit de pokeAPI
 export async function insertData(): Promise<void> {
+
   try {
     const collection = client.db("pokemon_spel").collection<Pokemons>("pokemon");
 
@@ -167,8 +265,73 @@ export async function insertData(): Promise<void> {
 }
 
 export async function getAllPokemon() {
+
   const collection = client.db("pokemon_spel").collection<Pokemons>("pokemon");
   return await collection.find().toArray();
+}
+
+export async function getNextEvolutions(pokemon: Pokemons): Promise<string[]> {
+  try {
+    const speciesRes = await fetch(pokemon.species_url);
+    const speciesData = await speciesRes.json();
+
+    const evoChainRes = await fetch(speciesData.evolution_chain.url);
+    const evoChainData = await evoChainRes.json();
+
+    interface EvolutionChainLink {
+      species: { name: string };
+      evolves_to: EvolutionChainLink[];
+    }
+
+    function findEvolutions(chain: EvolutionChainLink): string[] {
+      if (chain.species.name === pokemon.name) {
+        return chain.evolves_to.map(evo => evo.species.name);
+      }
+
+      for (const evo of chain.evolves_to) {
+        const result = findEvolutions(evo);
+        if (result.length > 0) return result;
+      }
+
+      return [];
+    }
+
+    const evolutions = findEvolutions(evoChainData.chain);
+    return evolutions;
+  } catch (err) {
+    console.error("Error fetching evolutions for:", pokemon.name, err);
+    return [];
+  }
+}
+
+export async function getRandomPokemonQuizData(): Promise<PokemonQuizdata> {
+  await preloadPokemonData();
+  const pokemons = getCachedPokemonData();
+  if (pokemons.length === 0) throw new Error("No Pokémon available");
+
+  const random = pokemons[Math.floor(Math.random() * pokemons.length)];
+
+  return {
+    name: random.name,
+    silhouetteImage: `https://img.pokemondb.net/sprites/black-white/anim/normal/${random.name.toLowerCase()}.gif`,
+    fullImage: `https://img.pokemondb.net/artwork/large/${random.name.toLowerCase()}.jpg`,
+  };
+}
+
+export async function addScoreToTrainer(trainerName: string, points: number): Promise<void> {
+  try {
+    await client.connect();
+    const db = client.db("pokemon_spel");
+    const trainers = db.collection("trainers");
+
+    await trainers.updateOne(
+      { name: trainerName },
+      { $inc: { score: points } },
+      { upsert: true }
+    );
+  } finally {
+    await client.close();
+  }
 }
 
 export async function getAllTypes() {

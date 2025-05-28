@@ -1,58 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../CSS/reset.css" />
-    <link rel="stylesheet" href="../CSS/global.css" />
-    <link rel="stylesheet" href="../CSS/style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aanmelden</title>
+  <link rel="stylesheet" href="../CSS/reset.css" />
+  <link rel="stylesheet" href="../CSS/global.css" />
+  <link rel="stylesheet" href="../CSS/style.css" />
 </head>
-<header>
+
+<body>
+  <header>
     <nav>
-      <a href="/CodeHive/Pokemon/index.html"
-        ><img src="../Assets/CodeHive-Logo.png" alt="CodeHive Logo"
-      /></a>
+      <a href="../index.html">
+        <img src="../Assets/CodeHive-Logo.png" alt="CodeHive Logo" />
+      </a>
     </nav>
   </header>
-<body>
-    <main>
+
+  <main>
     <div class="Form-Container">
-        <form action="/CodeHive/Pokemon/index.html" method="get">
-          <p class="Log-In">Aanmelden</p>
-          <label for="username">Username<span class="required">*</span>:</label
-          ><br />
-          <input
-            class="Input"
-            type="text"
-            placeholder="Type here..."
-            name="naam"
-            id="username"
-            required
-          /><br />
-          <label for="password">Password<span class="required">*</span>:</label
-          ><br />
-          <input
-            class="Input"
-            type="password"
-            placeholder="Type here..."
-            name="naam"
-            id="password"
-            required
-          /><br />
-          <a href="forgot-password.html" class="forgot-password"
-            >Wachtwoord vergeten?</a
-          >
-          <div class="Log-In-Button">
-            <input type="submit" name="" value="Aanmelden" />
-          </div>
-          <p class="NewUser">New User</p>
-          <div class="Log-In-Button">
-            <input type="submit" name="" value="Inschrijven" />
-          </div>
-        </form>
-      </div>
-    </main>
-    <script src="../JS/aanmelden.js"></script>
+      <form action="/aanmelden" method="POST">
+        <p class="Log-In">Aanmelden</p>
+
+        <% if (typeof error !== "undefined") { %>
+          <p class="error-message" style="color: red;"><%= error %></p>
+        <% } %>
+
+        <label for="email">E-mailadres<span class="required">*</span>:</label><br />
+        <input
+          class="Input"
+          type="text"
+          placeholder="Typ hier je e-mail..."
+          name="email"
+          id="email"
+          required
+        /><br />
+
+        <label for="password">Wachtwoord<span class="required">*</span>:</label><br />
+        <input
+          class="Input"
+          type="password"
+          placeholder="Typ hier je wachtwoord..."
+          name="password"
+          id="password"
+          required
+        /><br />
+
+        <a href="/forgot-password" class="forgot-password">Wachtwoord vergeten?</a>
+
+        <div class="Log-In-Button">
+          <input type="submit" value="Aanmelden" />
+        </div>
+
+        <p class="NewUser">Nieuwe gebruiker?</p>
+
+        <div class="Log-In-Button">
+          <a href="/register">
+            <input type="button" value="Inschrijven" />
+          </a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Alleen nodig als je JS gebruikt -->
+  <!-- <script src="../JS/aanmelden.js"></script> -->
 </body>
 </html>

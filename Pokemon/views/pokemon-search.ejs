@@ -55,32 +55,56 @@
   </div>
   <h1>Pokédex</h1>
   <div class="pokemon-grid" id="pokemon-container">
-    <% for(const pokemon of pokemons) { %>
+    <% for (const pokemon of pokemons) { %>
       <% const isCaught = caughtPokemon.includes(pokemon.name); %>
       <div class="pokemon-card">
         <span class="info-icon">ℹ
-        <div class="tooltip">
-          <% if (isCaught) { %>
-            <strong><%= pokemon.name %></strong><br>
-            Type: <%= pokemon.type.join(", ") %><br>
-            HP: <%= pokemon.stats.hp %><br>
-            Attack: <%= pokemon.stats.attack %><br>
-            Defense: <%= pokemon.stats.defense %><br>
-         <% } else {%>
-          <strong>???</strong><br>
-          HP: ???<br>
-          Attack: ???<br>
-          Defense: ???<br>
-          <% } %>
-        </div>
-      </span>
-        <img src="<%= pokemon.image %>" alt="<%= pokemon.name %>"
-        class="<%= !caughtPokemon.includes(pokemon.name) ? 'not-caught' : ''%>">
+          <div class="tooltip">
+            <% if (isCaught) { %>
+              <strong><%= pokemon.name %></strong><br>
+              Type: <%= pokemon.types.join(", ") %><br>
+              HP: <%= pokemon.base_stats.hp %><br>
+              Attack: <%= pokemon.base_stats.attack %><br>
+              Defense: <%= pokemon.base_stats.defense %><br>
+            <% } else { %>
+              <strong>???</strong><br>
+              HP: ???<br>
+              Attack: ???<br>
+              Defense: ???<br>
+            <% } %>
+  
+            <% if (pokemon.nextEvolutions && pokemon.nextEvolutions.length > 0) { %>
+              <div class="evolutions">
+                <strong>Next Evolution:</strong>
+                <div class="evolution-list">
+                  <% for (const evo of pokemon.nextEvolutions) { %>
+                    <div class="evolution-card">
+                      <img src="<%= evo.image %>" alt="<%= evo.name %>">
+                      <div>
+                        <% if (caughtPokemon.includes(evo.name)) { %>
+                          <strong><%= evo.name %></strong><br>
+                          HP: <%= evo.stats.hp %><br>
+                          Attack: <%= evo.stats.attack %><br>
+                          Defense: <%= evo.stats.defense %><br>
+                        <% } else { %>
+                          Name: ???<br>
+                          HP: ???<br>
+                          Attack: ???<br>
+                          Defense: ???<br>
+                        <% } %>
+                      </div>
+                    </div>
+                  <% } %>
+                </div>
+              </div>
+            <% } %>
+          </div>
+        </span>
+        <img src="<%= pokemon.image %>" alt="<%= pokemon.name %>" class="<%= !isCaught ? 'not-caught' : '' %>">
         <h3><%= isCaught ? pokemon.name : "???" %></h3>
       </div>
-    <% }; %>
-  </div>
-  
+    <% } %>
+  </div>  
 </main>
   </body>
 </html>
