@@ -1,123 +1,96 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const generateButton = document.querySelector(".generate-button");
   const searchBar = document.querySelector(".search-bar");
+  const generateButton = document.querySelector(".generate-button");
 
-  async function getPokemonData(pokemonName) {
+  async function getPokemonData(name) {
     try {
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`
-      );
-      if (!response.ok)
-        throw new Error(`Pokémon ${pokemonName} niet gevonden!`);
-      return await response.json();
-    } catch (error) {
-      console.error(error.message);
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`);
+      if (!res.ok) throw new Error("Niet gevonden");
+      return await res.json();
+    } catch (err) {
+      console.error("Fout:", err.message);
       return null;
     }
   }
 
-  async function updatePokemonDisplay(pokemonData, container) {
-    if (!pokemonData) return;
+  async function updatePokemonUI(data, container) {
+    if (!data) return;
 
-    const imgElement = container.querySelector("img");
-    const nameElement = container.querySelector(".pokemon-name");
-    const typeBadge = container.querySelector(".type-badge");
-    const statSpans = container.querySelectorAll(".stat-row .stat-label span");
+    container.querySelector("img").src = data.sprites.front_default;
+    container.querySelector(".pokemon-name").textContent = data.name.toUpperCase();
+    const badge = container.querySelector(".type-badge");
+    const type = data.types[0].type.name;
 
-    // Update de Pokémon-afbeelding
-    imgElement.src = pokemonData.sprites.front_default;
+    badge.textContent = data.types.map(t => t.type.name.toUpperCase()).join(", ");
+    badge.className = `type-badge type-${type}`;
 
-    // Update de naam
-    nameElement.textContent = pokemonData.name.toUpperCase();
-
-    // Update het type en voeg een CSS-klasse toe voor styling
-    typeBadge.textContent = pokemonData.types
-      .map((t) => t.type.name.toUpperCase())
-      .join(", ");
-    typeBadge.className = `type-badge type-${pokemonData.types[0].type.name.toLowerCase()}`;
-
-    // Update de stats (HP, Attack, Defense, Speed)
     const stats = {
-      hp: pokemonData.stats[0].base_stat,
-      attack: pokemonData.stats[1].base_stat,
-      defense: pokemonData.stats[2].base_stat,
-      speed: pokemonData.stats[5].base_stat,
+      hp: data.stats[0].base_stat,
+      attack: data.stats[1].base_stat,
+      defense: data.stats[2].base_stat,
+      speed: data.stats[5].base_stat,
     };
 
-    const statKeys = Object.keys(stats);
-    statSpans.forEach((span, index) => {
-      span.textContent = stats[statKeys[index]];
+    const spans = container.querySelectorAll(".stat-label span");
+    Object.values(stats).forEach((val, idx) => {
+      spans[idx].textContent = val;
     });
 
     return stats;
   }
 
-  async function updateBattleComparison(pokemon1, pokemon2) {
-    const container1 = document.querySelector(
-      ".battle-section .pokemon-container:nth-child(1)"
-    );
-    const container2 = document.querySelector(
-      ".battle-section .pokemon-container:nth-child(3)"
-    );
+  function compareStats(playerStats, searchedStats) {
+    const playerSpans = document.querySelectorAll("#player-pokemon .stat-label span");
+    const searchedSpans = document.querySelectorAll("#searched-pokemon .stat-label span");
 
-    const data1 = await getPokemonData(pokemon1);
-    const data2 = await getPokemonData(pokemon2);
+    ["hp", "attack", "defense", "speed"].forEach((stat, i) => {
+      const val1 = playerStats[stat];
+      const val2 = searchedStats[stat];
 
-    if (data1 && data2) {
-      const stats1 = await updatePokemonDisplay(data1, container1);
-      const stats2 = await updatePokemonDisplay(data2, container2);
+      playerSpans[i].className = "";
+      searchedSpans[i].className = "";
 
-      comparePokemonStats(stats1, stats2, container1, container2);
-    }
-  }
-
-  function comparePokemonStats(stats1, stats2, container1, container2) {
-    const statRows1 = container1.querySelectorAll(".stat-row .stat-label span");
-    const statRows2 = container2.querySelectorAll(".stat-row .stat-label span");
-
-    Object.keys(stats1).forEach((stat, index) => {
-      const value1 = stats1[stat];
-      const value2 = stats2[stat];
-
-      // Reset alle klassen eerst
-      statRows1[index].classList.remove(
-        "stat-higher",
-        "stat-lower",
-        "stat-equal"
-      );
-      statRows2[index].classList.remove(
-        "stat-higher",
-        "stat-lower",
-        "stat-equal"
-      );
-
-      // Vergelijk de stats en voeg de juiste klasse toe
-      if (value1 > value2) {
-        statRows1[index].classList.add("stat-higher");
-        statRows2[index].classList.add("stat-lower");
-      } else if (value2 > value1) {
-        statRows2[index].classList.add("stat-higher");
-        statRows1[index].classList.add("stat-lower");
+      if (val1 > val2) {
+        playerSpans[i].classList.add("stat-higher");
+        searchedSpans[i].classList.add("stat-lower");
+      } else if (val2 > val1) {
+        searchedSpans[i].classList.add("stat-higher");
+        playerSpans[i].classList.add("stat-lower");
       } else {
-        statRows1[index].classList.add("stat-equal");
-        statRows2[index].classList.add("stat-equal");
+        playerSpans[i].classList.add("stat-equal");
+        searchedSpans[i].classList.add("stat-equal");
       }
     });
   }
 
-  generateButton.addEventListener("click", () => {
-    const input = searchBar.value.trim().split(",");
-    if (input.length === 2) {
-      updateBattleComparison(input[0], input[1]);
-    } else {
-      alert(
-        "Voer twee Pokémon-namen in, gescheiden door een komma (bijv. Charizard, Blastoise)"
-      );
+  async function loadComparePage() {
+    const ownName = localStorage.getItem("selectedPokemon") || "pikachu";
+    const playerData = await getPokemonData(ownName);
+    const defaultData = await getPokemonData("charizard");
+
+    if (playerData && defaultData) {
+      const playerStats = await updatePokemonUI(playerData, document.getElementById("player-pokemon"));
+      const defaultStats = await updatePokemonUI(defaultData, document.getElementById("searched-pokemon"));
+      compareStats(playerStats, defaultStats);
+    }
+  }
+
+  generateButton.addEventListener("click", async () => {
+    const searchName = searchBar.value.trim();
+    if (!searchName) return;
+
+    const ownName = localStorage.getItem("selectedPokemon") || "pikachu";
+    const playerData = await getPokemonData(ownName);
+    const searchData = await getPokemonData(searchName);
+
+    if (playerData && searchData) {
+      const playerStats = await updatePokemonUI(playerData, document.getElementById("player-pokemon"));
+      const searchStats = await updatePokemonUI(searchData, document.getElementById("searched-pokemon"));
+      compareStats(playerStats, searchStats);
     }
   });
 
-  // Standaard vergelijking bij het laden
-  updateBattleComparison("charizard", "blastoise");
+  loadComparePage();
 });

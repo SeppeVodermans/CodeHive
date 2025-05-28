@@ -2,6 +2,10 @@ import express, { Express, Request, Response } from "express";
 import ejs, { name } from "ejs";
 import path from "path";
 
+import { connect,connectIfNeeded, insertData, getTrainerWithPokemons, addTeam, removeFromTeam, deleteHardcodedPokemon, getAllPokemon, getAllTypes, PokemonCollection, client, getPokemonCaughtByTrainer, getFirstEvolutionPokemon } from "./database";
+import { Pokemons } from "./types";
+
+
 import { connect, getTrainerWithPokemons, addTeam, removeFromTeam, login, userCollection, preloadPokemonData } from "./database";
 import { User } from "./types";
 import dotenv from "dotenv"
@@ -17,6 +21,8 @@ import catchRoute from "./routes/catch";
 import quizeRout from "./routes/quize";
 import quizePointsRoute from "./routes/quizePoints";
 import pokedexRoute from "./routes/pokedex";
+
+
 
 
 const app: Express = express();
@@ -137,16 +143,13 @@ app.post("/aanmelden", async (req, res) => {
 });
 
 
-
-
 app.get("/team", async (req, res) => {
   const id = "680f94f80e253abbc6683d8c";
   const result = await getTrainerWithPokemons(id);
   if (result) {
-    const { trainer, pokemons, team } = result;
+    const { trainer, team } = result;
     res.render("team", {
       trainer: trainer,
-      pokemons: pokemons,
       team: team
     });
   }
@@ -169,6 +172,31 @@ app.post("/team/remove", async (req, res) => {
 
   res.redirect("/team");
 });
+
+app.get("/challenge", async (req:any, res: any) => {
+  try {
+    console.log("🚀 /challenge route gestart");
+    await connectIfNeeded();
+
+    console.log("📦 trainer ophalen...");
+    const trainerTeam = await getPokemonCaughtByTrainer("680f94f80e253abbc6683d8c");
+
+    console.log("✅ trainerTeam:", trainerTeam);
+
+    if (!trainerTeam || trainerTeam.length === 0) {
+      return res.send("⚠️ Geen team gevonden voor deze trainer.");
+    }
+
+    res.render("challenge", { trainerTeam });
+
+  } catch (err) {
+    console.error("❌ Fout in /challenge:", err);
+    res.status(500).send("Kon team niet laden.");
+  }
+});
+
+
+
 
 app.use((req, res) => {
   res.status(404).render("404.ejs");

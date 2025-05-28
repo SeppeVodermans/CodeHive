@@ -5,56 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../CSS/reset.css" />
     <link rel="stylesheet" href="../CSS/base.css" />
-    <link rel="stylesheet" href="../CSS/battle.css" />
+    <link rel="stylesheet" href="../CSS/challenge.css" />
 
-    <script src="../JS/battle.js" defer></script>
+    <script src="../JS/challenge.js" defer></script>
     <script src="../JS/menu.js"></script>
     <title>Pokémon Battle</title>
   </head>
   <body>
-    <div class="exit-menu-overlay">
-      <div class="exit-menu-content">
-        <div class="exit-menu-header">Pokémon</div>
-        <ul class="exit-menu-items">
-          <li class="exit-menu-item">
-            <a href="#" id="continue-btn">Speel verder</a>
-          </li>
-          <li class="exit-menu-item">
-            <a href="#" id="save-btn">Spel opslaan</a>
-          </li>
-          <li class="exit-menu-item">
-            <a href="#" id="quit-btn">Spel verlaten</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-
     <header>
       <div class="background"></div>
+      <button class="menu-button"><img src="../Assets/menu-icon.webp" /></button>
+      <%- include("partials/menu") %>
+    </header>
 
-      <button class="menu-button">
-        <img src="../Assets/menu-icon.webp" />
-      </button>
-
-    <%- include("partials/menu") %>
-      
-
-      </div>
-    </div>
     <main class="main-content">
       <section class="battle-container">
+        <a href="/battler" class="return-btn">Terugkeren</a>
+
         <div class="trainer-info-challenge">
-          <div class ="Trainer-challenge">
-          <img src="../Assets/Player/female.png" alt="Trainer Profile" />
-          <h2 id="trainer-name">Trainer</h2>
+          <div class="Trainer-challenge">
+            <img src="../Assets/Player/female.png" alt="Trainer Profile" />
+            <h2 id="trainer-name">Trainer</h2>
+          </div>
+          <div class="Ash-challenge">
+            <img src="../Assets/Player/Ash.png" alt="Ash Profile" />
+            <h2 id="trainer-name">Ash</h2>
+          </div>
         </div>
-        <div class="Ash-challenge">
-          <img src="../Assets/Player/Ash.png" alt="Trainer Profile" />
-          <h2 id="trainer-name">Ash</h2>
+
+        <div id="opponent-pokeballs" class="pokeball-container">
+          <% for(let i = 0; i < 5; i++) { %>
+            <img src="../Assets/pokeballs/pokeball.png" class="pokeball-icon" />
+          <% } %>
         </div>
-        </div>
+
         <div class="battle-field">
+          <!-- Pokémon-select dropdown -->
+          <div class="trainer-select">
+            <label for="pokemon-select">Kies je Pokémon:</label>
+            <select id="pokemon-select">
+              <% trainerTeam.forEach(p => { %>
+                <option value="<%= p.name %>"><%= p.name.charAt(0).toUpperCase() + p.name.slice(1) %></option>
+              <% }); %>
+            </select>
+          </div>
+
+          <!-- Trainer Pokémon kaart -->
           <div class="pokemon-card">
             <h3>Pokémon Name</h3>
             <img src="" alt="Pokémon" />
@@ -65,7 +61,10 @@
               <p>Speed:</p>
             </div>
           </div>
+
           <h1>VS</h1>
+
+          <!-- Ash Pokémon kaart -->
           <div class="pokemon-card">
             <h3>Pokémon Name</h3>
             <img src="" alt="Pokémon" />
@@ -77,6 +76,7 @@
             </div>
           </div>
         </div>
+
         <div class="move-selection">
           <h3>Kies een aanval:</h3>
           <div class="moves">
@@ -86,6 +86,8 @@
             <button class="move-btn" data-move-index="3">Aanval 4</button>
           </div>
         </div>
+
+        <div class="battle-log"></div>
       </section>
     </main>
   </body>
