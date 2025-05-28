@@ -3,11 +3,11 @@ import ejs, { name } from "ejs";
 import path from "path";
 import session from "express-session";
 
-import { connect,connectIfNeeded, insertData, getTrainerWithPokemons, addTeam, removeFromTeam, deleteHardcodedPokemon, getAllPokemon, getAllTypes, PokemonCollection, client, getPokemonCaughtByTrainer, getFirstEvolutionPokemon } from "./database";
+import { connect, connectIfNeeded, insertData, getTrainerWithPokemons, addTeam, removeFromTeam, deleteHardcodedPokemon, getAllPokemon, getAllTypes, PokemonCollection, client, getPokemonCaughtByTrainer, getFirstEvolutionPokemon } from "./database";
 import { Pokemons } from "./types";
 
 
-import { connect, getTrainerWithPokemons, addTeam, removeFromTeam, login, userCollection, preloadPokemonData } from "./database";
+import { login, userCollection, preloadPokemonData } from "./database";
 import { User } from "./types";
 import dotenv from "dotenv"
 import bcrypt from "bcrypt"
@@ -151,7 +151,7 @@ app.post("/aanmelden", async (req, res) => {
 
 
 
-app.get("/challenge", async (req:any, res: any) => {
+app.get("/challenge", async (req: any, res: any) => {
   try {
     console.log("🚀 /challenge route gestart");
     await connectIfNeeded();
