@@ -44,7 +44,7 @@ export default function pokedexRoute() {
             (pokemon as any).nextEvolutions = evolutions.map(evo => ({
                 name: evo.name,
                 image: evo.sprites.front_default,
-                stats: caughtPokemon.includes(evo.name)
+                stats: caughtPokemon.some(p => p.name === evo.name)
                     ? {
                         hp: evo.base_stats.hp,
                         attack: evo.base_stats.attack,
