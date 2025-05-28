@@ -6,7 +6,7 @@ import { connect,connectIfNeeded, insertData, getTrainerWithPokemons, addTeam, r
 import { Pokemons } from "./types";
 
 
-import { connect, getTrainerWithPokemons, addTeam, removeFromTeam, login, userCollection, preloadPokemonData } from "./database";
+import { login, userCollection, preloadPokemonData } from "./database";
 import { User } from "./types";
 import dotenv from "dotenv"
 import bcrypt from "bcrypt"
