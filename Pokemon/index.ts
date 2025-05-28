@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import ejs, { name } from "ejs";
 import path from "path";
+import session from "express-session";
 
 import { connect,connectIfNeeded, insertData, getTrainerWithPokemons, addTeam, removeFromTeam, deleteHardcodedPokemon, getAllPokemon, getAllTypes, PokemonCollection, client, getPokemonCaughtByTrainer, getFirstEvolutionPokemon } from "./database";
 import { Pokemons } from "./types";
@@ -21,6 +22,8 @@ import catchRoute from "./routes/catch";
 import quizeRout from "./routes/quize";
 import quizePointsRoute from "./routes/quizePoints";
 import pokedexRoute from "./routes/pokedex";
+import newGameRoute from "./routes/newGame";
+import teamRoute from "./routes/team";
 
 
 
@@ -33,11 +36,19 @@ app.set("view engine", "ejs");
 app.set('views', path.join(__dirname, "views"));
 app.use(express.static("Pokemon/public"));
 app.set("port", 3000);
+app.use(session({
+  secret: "supper-unsafe-secret",
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
 
 app.use(catchRoute());
 app.use(quizeRout());
 app.use(quizePointsRoute());
 app.use(pokedexRoute());
+app.use(newGameRoute());
+app.use(teamRoute());
 
 async function startServer() {
   try {
@@ -55,10 +66,6 @@ async function startServer() {
 app.get("/", (req, res) => {
   res.render("index.ejs");
 });
-app.get("/new-game", (req, res) => {
-  res.render("new-game.ejs");
-});
-
 
 app.get("/battler", (req, res) => {
   res.render("battler.ejs");
@@ -143,35 +150,6 @@ app.post("/aanmelden", async (req, res) => {
 });
 
 
-app.get("/team", async (req, res) => {
-  const id = "680f94f80e253abbc6683d8c";
-  const result = await getTrainerWithPokemons(id);
-  if (result) {
-    const { trainer, team } = result;
-    res.render("team", {
-      trainer: trainer,
-      team: team
-    });
-  }
-});
-
-app.post('/team/add', async (req, res) => {
-  const pokemonId = req.body.pokemonId;
-  const trainerId = "680f94f80e253abbc6683d8c"
-  await addTeam(pokemonId, trainerId);
-
-  res.redirect("/team");
-
-});
-
-app.post("/team/remove", async (req, res) => {
-  const pokemonId = req.body.pokemonId;
-  const trainerId = "680f94f80e253abbc6683d8c";
-
-  await removeFromTeam(pokemonId, trainerId);
-
-  res.redirect("/team");
-});
 
 app.get("/challenge", async (req:any, res: any) => {
   try {

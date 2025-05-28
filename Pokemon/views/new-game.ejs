@@ -101,8 +101,8 @@
         </div>
       </div>
 
-      <h2>Choose an element</h2>
-      <div id="pokemon-element">
+      <h2>Kies een Pokémon</h2>
+      <!-- <div id="pokemon-element">
         <form>
           <select id="starter-pokemon">
             <option value="">-- Select an Element --</option>
@@ -112,18 +112,20 @@
             <option value="Electric">Electric</option>
           </select>
         </form>
-      </div>
-      <section class="pokemon-list">
-        <div class="pokemon-grid" id="pokemon-grid"></div>
-      </section>
-
+      </div> -->
+        <div class="pokemon-grid" id="pokemon-grid">
+          <% starterPokemons.forEach(pokemon => { %>
+            <div class="pokemon-card" onclick="selectedPokemon('<%= pokemon._id %>', '<%= pokemon.name %>')">
+              <img src="<%= pokemon.img %>" alt="<%= pokemon.name %>">
+              <p><%= pokemon.name %></p>
+            </div>
+         <% }); %>
+        </div>
       <div id="name-section" style="display: none">
-        <h3>Name your Pokémon:</h3>
-        <input type="text" id="pokemon-name" placeholder="Enter a name" />
-        <button onclick="savePokemonName()">Confirm Name</button>
+        <h3>Pokémon bijnaam:</h3>
+        <input type="text" id="pokemon-name" placeholder="Geef je pokemon een naam" />
       </div>
-
-      <button onclick="saveTrainer()">Confirm Selection</button>
+      <button type="button" onclick="saveTrainer()">Confirm Selection</button>
       <h3 id="output"></h3>
     </main>
   </body>
